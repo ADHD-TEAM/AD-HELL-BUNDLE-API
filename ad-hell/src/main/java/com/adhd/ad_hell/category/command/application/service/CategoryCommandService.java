@@ -47,6 +47,9 @@ public class CategoryCommandService {
 
   @Transactional
   public void deleteCategory(Long categoryId) {
-    categoryRepository.deleteById(categoryId);
+    Category category = categoryRepository.findById(categoryId)
+                                          .orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_FOUND));
+
+    category.deactivateRecursively();
   }
 }

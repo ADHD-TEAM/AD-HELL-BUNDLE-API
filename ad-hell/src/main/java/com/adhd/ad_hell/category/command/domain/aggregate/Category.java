@@ -1,22 +1,32 @@
 package com.adhd.ad_hell.category.command.domain.aggregate;
 
+import static jakarta.persistence.CascadeType.ALL;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE category SET status = 'DEACTIVATE' where id = ?")
 public class Category {
 
     @Id
@@ -27,8 +37,12 @@ public class Category {
     @JoinColumn(name = "parent_id")
     private Category parent;
 
+    @OneToMany(mappedBy = "parent")
+    private List<Category> children = new ArrayList<>();
+
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
     private CategoryStatus status;
 
     @Builder
@@ -48,7 +62,10 @@ public class Category {
         }
     }
 
-    public void changeStatus(CategoryStatus status) {
-        this.status = status;
+    public void deactivateRecursively() {
+        this.status = CategoryStatus.DEACTIVATE;
+        for (Category child : children) {
+            child.deactivateRecursively();
+        }
     }
 }

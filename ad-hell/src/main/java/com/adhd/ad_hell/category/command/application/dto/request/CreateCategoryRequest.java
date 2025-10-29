@@ -10,5 +10,4 @@ public class CreateCategoryRequest {
   private final Long parentId;
   private final String name;
   private final String description;
-  private final CategoryStatus status;
 }
