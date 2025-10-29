@@ -36,9 +36,17 @@ public class CategoryCommandService {
     categoryRepository.save(newCategory);
   }
 
+  @Transactional
   public void updateCategory(Long categoryId, UpdateCategoryRequest req) {
+
+    Category category = categoryRepository.findById(categoryId)
+                                          .orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_FOUND));
+
+    category.updateInfo(req.getName(), req.getDescription());
   }
 
+  @Transactional
   public void deleteCategory(Long categoryId) {
+    categoryRepository.deleteById(categoryId);
   }
 }

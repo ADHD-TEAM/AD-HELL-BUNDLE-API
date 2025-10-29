@@ -38,4 +38,17 @@ public class Category {
         this.description = description;
         this.status = status;
     }
+
+    public void updateInfo(String name, String description) {
+        if (name != null && !name.isBlank()) {
+            this.name = name;
+        }
+        if (description != null) {
+            this.description = description;
+        }
+    }
+
+    public void changeStatus(CategoryStatus status) {
+        this.status = status;
+    }
 }

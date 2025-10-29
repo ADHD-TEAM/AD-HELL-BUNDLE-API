@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class UpdateCategoryRequest {
-  private final Long parentId;
   private final String name;
   private final String description;
-  private final CategoryStatus status;
 }
