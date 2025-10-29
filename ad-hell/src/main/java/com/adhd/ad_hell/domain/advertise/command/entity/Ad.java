@@ -2,11 +2,8 @@ package com.adhd.ad_hell.domain.advertise.command.entity;
 
 
 import com.adhd.ad_hell.common.BaseTimeEntity;
-import com.adhd.ad_hell.domain.user.command.entity.UserStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
