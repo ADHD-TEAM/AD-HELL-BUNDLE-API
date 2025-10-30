@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE category SET status = 'DEACTIVATE' where id = ?")
+@SQLDelete(sql = "UPDATE category SET status = 'DELETE' where id = ?")
 public class Category {
 
     @Id
@@ -59,7 +59,7 @@ public class Category {
     }
 
     public void deactivateRecursively() {
-        this.status = CategoryStatus.DEACTIVATE;
+        this.status = CategoryStatus.DELETE;
         for (Category child : children) {
             child.deactivateRecursively();
         }
