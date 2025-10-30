@@ -42,8 +42,7 @@
           c.name,
           c.description,
           c.status,
-          c.parent_id AS parentId,
-          p.name AS parentName
+          c.parent_id AS parentId
     FROM category c
     WHERE c.id = #{categoryId}
     AND c.status = 'ACTIVATE'

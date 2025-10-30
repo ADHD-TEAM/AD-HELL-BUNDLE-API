@@ -1,0 +1,56 @@
+package com.adhd.ad_hell.domain.reward.command.application.service;
+
+import com.adhd.ad_hell.domain.category.query.service.provider.CategoryProvider;
+import com.adhd.ad_hell.domain.reward.command.application.dto.request.CreateRewardRequest;
+import com.adhd.ad_hell.domain.reward.command.application.dto.request.UpdateRewardRequest;
+import com.adhd.ad_hell.domain.reward.command.domain.aggregate.Reward;
+import com.adhd.ad_hell.domain.reward.command.domain.aggregate.RewardStatus;
+import com.adhd.ad_hell.domain.reward.command.domain.repository.RewardRepository;
+import com.adhd.ad_hell.exception.BusinessException;
+import com.adhd.ad_hell.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class RewardCommandService {
+
+  private final RewardRepository rewardRepository;
+  private final CategoryProvider categoryProvider;
+
+  @Transactional
+  public void createReward(CreateRewardRequest req) {
+    Reward reward = Reward.builder()
+        .category(categoryProvider.getCategoryEntityById(req.getCategoryId()))
+        .name(req.getName())
+        .description(req.getDescription())
+        .pointCost(req.getPointCost())
+        .stock(req.getStock())
+        .status(RewardStatus.ACTIVATE)
+        .build();
+
+    rewardRepository.save(reward);
+  }
+
+  @Transactional
+  public void updateReward(Long rewardId, UpdateRewardRequest req) {
+    Reward reward = rewardRepository.findById(rewardId)
+                                    .orElseThrow(()-> new BusinessException(ErrorCode.REWARD_NOT_FOUND));
+
+    reward.updateInfo(req.getName(), req.getDescription(), req.getPointCost(), req.getStock());
+  }
+
+  @Transactional
+  public void toggleStatusReward(Long rewardId) {
+    Reward reward = rewardRepository.findById(rewardId)
+                                    .orElseThrow(()-> new BusinessException(ErrorCode.REWARD_NOT_FOUND));
+
+    reward.toggleStatus();
+  }
+
+  @Transactional
+  public void deleteReward(Long rewardId) {
+    rewardRepository.deleteById(rewardId);
+  }
+}
