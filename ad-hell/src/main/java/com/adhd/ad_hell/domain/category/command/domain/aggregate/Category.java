@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Getter
@@ -49,10 +50,10 @@ public class Category {
     }
 
     public void updateInfo(String name, String description) {
-        if (name != null && !name.isBlank()) {
+        if (StringUtils.hasText(name)) {
             this.name = name;
         }
-        if (description != null) {
+        if (StringUtils.hasText(description)) {
             this.description = description;
         }
     }
