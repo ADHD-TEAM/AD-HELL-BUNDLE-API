@@ -1,6 +1,6 @@
-package com.adhd.ad_hell.category.command.domain.repository;
+package com.adhd.ad_hell.domain.category.command.domain.repository;
 
-import com.adhd.ad_hell.category.command.domain.aggregate.Category;
+import com.adhd.ad_hell.domain.category.command.domain.aggregate.Category;
 import java.util.Optional;
 
 public interface CategoryRepository {

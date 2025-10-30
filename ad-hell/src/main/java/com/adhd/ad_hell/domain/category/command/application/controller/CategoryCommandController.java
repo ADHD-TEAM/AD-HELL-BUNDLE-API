@@ -1,8 +1,8 @@
-package com.adhd.ad_hell.category.command.application.controller;
+package com.adhd.ad_hell.domain.category.command.application.controller;
 
-import com.adhd.ad_hell.category.command.application.dto.request.CreateCategoryRequest;
-import com.adhd.ad_hell.category.command.application.dto.request.UpdateCategoryRequest;
-import com.adhd.ad_hell.category.command.application.service.CategoryCommandService;
+import com.adhd.ad_hell.domain.category.command.application.dto.request.CreateCategoryRequest;
+import com.adhd.ad_hell.domain.category.command.application.dto.request.UpdateCategoryRequest;
+import com.adhd.ad_hell.domain.category.command.application.service.CategoryCommandService;
 import com.adhd.ad_hell.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

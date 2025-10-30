@@ -1,8 +1,8 @@
-package com.adhd.ad_hell.category.query.service;
+package com.adhd.ad_hell.domain.category.query.service;
 
-import com.adhd.ad_hell.category.query.dto.response.CategoryDetailResponse;
-import com.adhd.ad_hell.category.query.dto.response.CategoryTreeResponse;
-import com.adhd.ad_hell.category.query.mapper.CategoryMapper;
+import com.adhd.ad_hell.domain.category.query.dto.response.CategoryDetailResponse;
+import com.adhd.ad_hell.domain.category.query.dto.response.CategoryTreeResponse;
+import com.adhd.ad_hell.domain.category.query.mapper.CategoryMapper;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
 import java.util.ArrayList;

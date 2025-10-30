@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.adhd.ad_hell.category.query.mapper.CategoryMapper">
+<mapper namespace="com.adhd.ad_hell.domain.category.query.mapper.CategoryMapper">
 
   <select id="findAllCategories"
-    resultType="com.adhd.ad_hell.category.query.dto.response.CategoryTreeResponse">
+    resultType="com.adhd.ad_hell.domain.category.query.dto.response.CategoryTreeResponse">
     SELECT
           c.id,
           c.name,
@@ -21,7 +21,7 @@
   </select>
 
   <select id="findCategoryById"
-    resultType="com.adhd.ad_hell.category.query.dto.response.CategoryDetailResponse">
+    resultType="com.adhd.ad_hell.domain.category.query.dto.response.CategoryDetailResponse">
     SELECT
           c.id,
           c.name,

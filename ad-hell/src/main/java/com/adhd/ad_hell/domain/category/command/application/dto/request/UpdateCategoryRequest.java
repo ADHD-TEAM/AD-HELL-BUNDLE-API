@@ -1,6 +1,5 @@
-package com.adhd.ad_hell.category.command.application.dto.request;
+package com.adhd.ad_hell.domain.category.command.application.dto.request;
 
-import com.adhd.ad_hell.category.command.domain.aggregate.CategoryStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

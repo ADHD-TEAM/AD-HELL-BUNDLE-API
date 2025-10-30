@@ -1,6 +1,4 @@
-package com.adhd.ad_hell.category.command.domain.aggregate;
-
-import static jakarta.persistence.CascadeType.ALL;
+package com.adhd.ad_hell.domain.category.command.domain.aggregate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,12 +13,9 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.SQLDelete;
 
 @Entity

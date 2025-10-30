@@ -1,8 +1,8 @@
-package com.adhd.ad_hell.category.query.controller;
+package com.adhd.ad_hell.domain.category.query.controller;
 
-import com.adhd.ad_hell.category.query.dto.response.CategoryDetailResponse;
-import com.adhd.ad_hell.category.query.dto.response.CategoryTreeResponse;
-import com.adhd.ad_hell.category.query.service.CategoryQueryService;
+import com.adhd.ad_hell.domain.category.query.dto.response.CategoryDetailResponse;
+import com.adhd.ad_hell.domain.category.query.dto.response.CategoryTreeResponse;
+import com.adhd.ad_hell.domain.category.query.service.CategoryQueryService;
 import com.adhd.ad_hell.common.dto.ApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

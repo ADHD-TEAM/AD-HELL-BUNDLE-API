@@ -1,7 +1,7 @@
-package com.adhd.ad_hell.category.query.mapper;
+package com.adhd.ad_hell.domain.category.query.mapper;
 
-import com.adhd.ad_hell.category.query.dto.response.CategoryDetailResponse;
-import com.adhd.ad_hell.category.query.dto.response.CategoryTreeResponse;
+import com.adhd.ad_hell.domain.category.query.dto.response.CategoryDetailResponse;
+import com.adhd.ad_hell.domain.category.query.dto.response.CategoryTreeResponse;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

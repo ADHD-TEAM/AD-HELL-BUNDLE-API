@@ -1,10 +1,10 @@
-package com.adhd.ad_hell.category.command.application.service;
+package com.adhd.ad_hell.domain.category.command.application.service;
 
-import com.adhd.ad_hell.category.command.application.dto.request.CreateCategoryRequest;
-import com.adhd.ad_hell.category.command.application.dto.request.UpdateCategoryRequest;
-import com.adhd.ad_hell.category.command.domain.aggregate.Category;
-import com.adhd.ad_hell.category.command.domain.aggregate.CategoryStatus;
-import com.adhd.ad_hell.category.command.domain.repository.CategoryRepository;
+import com.adhd.ad_hell.domain.category.command.application.dto.request.CreateCategoryRequest;
+import com.adhd.ad_hell.domain.category.command.application.dto.request.UpdateCategoryRequest;
+import com.adhd.ad_hell.domain.category.command.domain.aggregate.Category;
+import com.adhd.ad_hell.domain.category.command.domain.aggregate.CategoryStatus;
+import com.adhd.ad_hell.domain.category.command.domain.repository.CategoryRepository;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
