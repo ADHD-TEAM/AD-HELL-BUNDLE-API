@@ -34,4 +34,18 @@
     WHERE c.id = #{categoryId}
     AND c.status = 'ACTIVATE'
   </select>
+
+  <select id="getCategoryEntityById"
+    resultType="com.adhd.ad_hell.domain.category.command.domain.aggregate.Category">
+    SELECT
+          c.id,
+          c.name,
+          c.description,
+          c.status,
+          c.parent_id AS parentId,
+          p.name AS parentName
+    FROM category c
+    WHERE c.id = #{categoryId}
+    AND c.status = 'ACTIVATE'
+  </select>
 </mapper>

@@ -20,6 +20,7 @@ public class CategoryQueryService {
 
   private final CategoryMapper categoryMapper;
 
+  @Transactional(readOnly = true)
   public CategoryDetailResponse getCategoryDetail(Long categoryId) {
     CategoryDetailResponse result = categoryMapper.findCategoryById(categoryId);
     if (result == null) {
@@ -28,6 +29,7 @@ public class CategoryQueryService {
     return result;
   }
 
+  @Transactional(readOnly = true)
   public List<CategoryTreeResponse> getCategoryTree(String keyword) {
     List<CategoryTreeResponse> all = categoryMapper.findAllCategories(keyword);
 
