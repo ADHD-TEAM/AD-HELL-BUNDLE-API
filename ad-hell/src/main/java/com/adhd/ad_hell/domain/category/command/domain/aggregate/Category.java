@@ -62,10 +62,10 @@ public class Category {
         }
     }
 
-    public void deactivateRecursively() {
+    public void deleteRecursively() {
         this.status = CategoryStatus.DELETE;
         for (Category child : children) {
-            child.deactivateRecursively();
+            child.deleteRecursively();
         }
     }
 }
