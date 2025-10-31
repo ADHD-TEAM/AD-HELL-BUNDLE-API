@@ -1,5 +1,6 @@
 package com.adhd.ad_hell.domain.reward.query.dto.response;
 
+import com.adhd.ad_hell.domain.reward.command.domain.aggregate.RewardStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ public class RewardDto {
   private String description;
   private Integer pointCost;
   private Integer stock;
-  private String status;
+  private RewardStatus status;
 
   private Long categoryId;
   private String categoryName;

@@ -19,7 +19,7 @@
     FROM reward r
     LEFT JOIN category c ON r.category_id = c.id
     LEFT JOIN category pc ON c.parent_id = pc.id
-    WHERE r.status = 'ACTIVATE'
+    WHERE r.status != 'DELETE'
     AND c.status = 'ACTIVATE'
     AND r.id = #{rewardId}
   </select>
@@ -39,7 +39,7 @@
     FROM reward r
     LEFT JOIN category c ON r.category_id = c.id
     LEFT JOIN category pc ON c.parent_id = pc.id
-    WHERE r.status = 'ACTIVATE'
+    WHERE r.status != 'DELETE'
     AND c.status = 'ACTIVATE'
     AND (r.name LIKE CONCAT('%', #{keyword}, '%') OR #{keyword} IS NULL)
   </select>
