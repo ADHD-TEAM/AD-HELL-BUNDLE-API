@@ -13,7 +13,15 @@ public enum ErrorCode {
   EXAMPLE_NOT_FOUND("10001", "예제 메세지입니다.", HttpStatus.NOT_FOUND),
 
   // 카테고리 관련 에러코드
-  CATEGORY_NOT_FOUND("30001", "카테고리를 찾지 못했습니다.", HttpStatus.NOT_FOUND);
+  CATEGORY_NOT_FOUND("30001", "카테고리를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+
+  // 게시판 관련 에러코드
+    BOARD_NOT_FOUND("40001", "게시판을 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+
+  //파일 관련 에러코드
+    FILE_EMPTY("50001", "업로드된 파일이 비어 있습니다.", HttpStatus.NOT_FOUND),
+    FILE_STORE_FAILED("50002", "파일 저장에 실패했습니다.", HttpStatus.NOT_FOUND);
+
 
   private final String code;
   private final String message;
