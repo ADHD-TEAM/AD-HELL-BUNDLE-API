@@ -9,4 +9,12 @@ public class BusinessException extends RuntimeException {
     super(errorCode.getMessage());
     this.errorCode = errorCode;
   }
+
+
+
+    // cause(원인 예외)까지 전달할 수 있는 오버로드 생성자 추가
+    public BusinessException(ErrorCode errorCode, Throwable cause) {
+        super(errorCode.getMessage(), cause);
+        this.errorCode = errorCode;
+    }
 }

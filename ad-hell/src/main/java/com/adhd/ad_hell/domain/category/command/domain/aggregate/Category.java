@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,11 +18,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE category SET status = 'DEACTIVATE' where id = ?")
+@SQLDelete(sql = "UPDATE category SET status = 'DELETE' where id = ?")
 public class Category {
 
     @Id
@@ -29,7 +31,10 @@ public class Category {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(
+        name = "parent_id",
+        foreignKey = @ForeignKey(name = "fk_category_parent")
+    )
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
@@ -49,18 +54,18 @@ public class Category {
     }
 
     public void updateInfo(String name, String description) {
-        if (name != null && !name.isBlank()) {
+        if (StringUtils.hasText(name)) {
             this.name = name;
         }
-        if (description != null) {
+        if (StringUtils.hasText(description)) {
             this.description = description;
         }
     }
 
-    public void deactivateRecursively() {
-        this.status = CategoryStatus.DEACTIVATE;
+    public void deleteRecursively() {
+        this.status = CategoryStatus.DELETE;
         for (Category child : children) {
-            child.deactivateRecursively();
+            child.deleteRecursively();
         }
     }
 }

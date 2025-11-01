@@ -50,6 +50,6 @@ public class CategoryCommandService {
     Category category = categoryRepository.findById(categoryId)
                                           .orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_FOUND));
 
-    category.deactivateRecursively();
+    category.deleteRecursively();
   }
 }
