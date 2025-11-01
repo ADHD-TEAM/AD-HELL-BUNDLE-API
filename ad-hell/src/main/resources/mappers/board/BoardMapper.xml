@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.adhd.ad_hell.domain.board.query.mapper.BoardMapper">
+
+    <!-- 게시글 목록 조회 -->
+    <select id="findAllBoards"
+            parameterType="com.adhd.ad_hell.domain.board.query.dto.request.BoardSearchRequest"
+            resultType="com.adhd.ad_hell.domain.board.query.dto.response.BoardSummaryResponse">
+
+        SELECT
+        b.board_id      AS id,
+        b.board_title   AS title,
+        b.board_status  AS status,
+        b.view_count    AS viewCount,
+        c.name          AS categoryName,
+        u.nickname      AS writerName,
+        b.created_at    AS createdAt
+        FROM board b
+        JOIN category c ON c.id = b.category_id
+        JOIN user_info u     ON u.user_id     = b.user_id
+
+        <where>
+            <if test="request.keyword != null and request.keyword != ''">
+                AND (LOWER(b.board_title) LIKE CONCAT('%', LOWER(#{request.keyword}), '%')
+                OR  LOWER(b.board_content) LIKE CONCAT('%', LOWER(#{request.keyword}), '%'))
+            </if>
+            <if test="request.status != null and request.status != ''">
+                AND b.status = #{request.status}
+            </if>
+            <if test="request.categoryId != null">
+                AND b.category_id = #{request.categoryId}
+            </if>
+        </where>
+
+        <choose>
+            <when test="request.sortBy == 'title'">
+                ORDER BY b.board_title
+            </when>
+            <when test="request.sortBy == 'viewCount'">
+                ORDER BY b.view_count
+            </when>
+            <otherwise>
+                ORDER BY b.created_at
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="request.direction.toUpperCase() == 'ASC'">ASC</when>
+            <otherwise>DESC</otherwise>
+        </choose>
+
+        LIMIT #{request.limit} OFFSET #{request.offset}
+    </select>
+
+    <!-- 총 개수 -->
+    <select id="countAllBoards"
+            parameterType="com.adhd.ad_hell.domain.board.query.dto.request.BoardSearchRequest"
+            resultType="long">
+        SELECT COUNT(1)
+        FROM board b
+        <where>
+            <if test="request.keyword != null and request.keyword != ''">
+                AND (LOWER(b.board_title) LIKE CONCAT('%', LOWER(#{request.keyword}), '%')
+                OR  LOWER(b.board_content) LIKE CONCAT('%', LOWER(#{request.keyword}), '%'))
+            </if>
+            <if test="request.status != null and request.status != ''">
+                AND b.status = #{request.status}
+            </if>
+            <if test="request.categoryId != null">
+                AND b.category_id = #{request.categoryId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 상세 조회 -->
+    <select id="findBoardDetailById" parameterType="long"
+            resultType="com.adhd.ad_hell.domain.board.query.dto.response.BoardDetailResponse">
+        SELECT
+            b.board_id      AS id,
+            b.board_title   AS title,
+            b.board_content AS content,
+            b.image_url     AS imageUrl,
+            b.board_status  AS status,
+            b.view_count    AS viewCount,
+            c.id            AS categoryId,
+            c.name          AS categoryName,
+            u.user_id       AS writerId,
+            u.nickname      AS writerName,
+            b.created_at    AS createdAt,
+            b.updated_at    AS updatedAt
+        FROM board b
+                 JOIN category c ON c.id = b.category_id
+                 JOIN user_info u     ON u.user_id     = b.user_id
+        WHERE b.board_id = #{boardId}
+    </select>
+
+    <!--    조회 수 증가-->
+    <update id="increaseViewCount" parameterType="long">
+        UPDATE board
+        SET view_count = view_count + 1
+        WHERE board_id = #{boardId}
+    </update>
+
+</mapper>
