@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +30,10 @@ public class Reward extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "category_id")
+  @JoinColumn(
+      name = "category_id",
+      foreignKey = @ForeignKey(name = "fk_reward_category")
+  )
   private Category category;
 
   private String name;

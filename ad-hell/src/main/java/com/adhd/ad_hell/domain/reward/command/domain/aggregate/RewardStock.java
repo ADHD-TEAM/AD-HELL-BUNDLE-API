@@ -32,7 +32,11 @@ public class RewardStock extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "reward_id", nullable = false, foreignKey = @ForeignKey(name = "fk_reward_stock_reward"))
+  @JoinColumn(
+      name = "reward_id",
+      nullable = false,
+      foreignKey = @ForeignKey(name = "fk_reward_stock_reward")
+  )
   private Reward reward;
 
   @Column(name = "pin_number", nullable = false, unique = true, length = 50)
