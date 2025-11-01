@@ -2,6 +2,8 @@ package com.adhd.ad_hell.domain.user.command.entity;
 
 
 import com.adhd.ad_hell.common.BaseTimeEntity;
+import com.adhd.ad_hell.domain.user.command.dto.request.AdminModifyRequest;
+import com.adhd.ad_hell.domain.user.command.dto.request.UserModifyRequest;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserSignUpRequest;
 
 
@@ -11,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -44,6 +48,7 @@ public class User extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private UserStatus status = UserStatus.ACTIVATE;
 
     private LocalDateTime deactivatedAt;
@@ -51,6 +56,43 @@ public class User extends BaseTimeEntity {
     private LocalDateTime deletedAt;
 
     @Column(nullable = false)
+    @Builder.Default
     private Long amount = 0L;
 
+    public User(Role roleType,  String loginId, String password, String nickname, String email) {
+        this.roleType = roleType;
+        this.loginId = loginId;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+    }
+    public void modifyByUserInfo(UserModifyRequest userModifyRequest) {
+        this.nickname = userModifyRequest.getNickname();
+    }
+
+    public void modify(AdminModifyRequest request, PasswordEncoder passwordEncoder) {
+        if(StringUtils.hasText(request.getNickname())) {
+            this.nickname = request.getNickname();
+        }
+
+        if(StringUtils.hasText(request.getEmail())) {
+            this.email = request.getEmail();
+        }
+
+        if(StringUtils.hasText(request.getPassword())) {
+            this.password = passwordEncoder.encode(request.getPassword());
+
+        }
+        status = request.getStatus();
+    }
+
+    public void patchStatus(UserStatus status) {
+        this.status = status;
+        // 상태 변경시 시간 기록
+        if (status == UserStatus.DEACTIVATE) {
+            this.deactivatedAt = LocalDateTime.now();
+        } else if (status == UserStatus.DELETE) {
+            this.deletedAt = LocalDateTime.now();
+        }
+    }
 }

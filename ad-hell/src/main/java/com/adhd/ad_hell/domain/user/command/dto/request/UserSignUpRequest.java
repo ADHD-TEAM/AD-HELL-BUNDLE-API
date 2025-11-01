@@ -1,5 +1,6 @@
 package com.adhd.ad_hell.domain.user.command.dto.request;
 
+import com.adhd.ad_hell.domain.user.command.entity.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -29,5 +30,5 @@ public class UserSignUpRequest {
     @NotBlank(message="이메일를 입력해주세요.")
     private String email;
 
-
+    private Role role;
 }

@@ -2,10 +2,12 @@ package com.adhd.ad_hell.domain.auth.command.controller;
 
 import com.adhd.ad_hell.common.ApiEndpoint;
 import com.adhd.ad_hell.common.dto.ApiResponse;
+import com.adhd.ad_hell.common.dto.CustomUserDetails;
 import com.adhd.ad_hell.domain.auth.command.dto.request.LoginRequest;
 import com.adhd.ad_hell.domain.auth.command.dto.response.TokenResponse;
 import com.adhd.ad_hell.domain.auth.command.service.AuthCommandService;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserSignUpRequest;
+import com.adhd.ad_hell.domain.user.command.entity.Role;
 import com.adhd.ad_hell.domain.user.command.service.UserCommandService;
 import com.adhd.ad_hell.domain.user.command.service.UserCommandServiceImpl;
 import jakarta.validation.Valid;
@@ -13,12 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -34,12 +34,13 @@ public class AuthCommandController {
      * @param userSignUpRequest
      * @return
      */
-    @PostMapping("/signUp")
+    @PostMapping("/signUp/{role}")
     public ResponseEntity<ApiResponse<Void>> signUp(
-            @Validated @RequestBody UserSignUpRequest userSignUpRequest
+            @Validated @RequestBody UserSignUpRequest userSignUpRequest,
+            @PathVariable Role role
     ) {
         log.info("[AuthCommandController/signUp] 회원가입 | {}", userSignUpRequest);
-        userCommandService.singUp(userSignUpRequest);
+        userCommandService.singUp(userSignUpRequest, role);
 
         log.info("[AuthCommandController/signUp] 회원가입 성공 | {}", userSignUpRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -67,9 +68,11 @@ public class AuthCommandController {
      * @return
      */
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logout() {
+    public ResponseEntity<ApiResponse<Void>> logout(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
         log.info("[AuthCommandController/login] logout |");
-        // authCommandService.logout()
+        authCommandService.logout(customUserDetails);
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }

@@ -2,6 +2,7 @@ package com.adhd.ad_hell.domain.user.command.service;
 
 import com.adhd.ad_hell.common.dto.CustomUserDetails;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserIsAvailableRequest;
+import com.adhd.ad_hell.domain.user.command.dto.request.UserModifyRequest;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserSignUpRequest;
 import com.adhd.ad_hell.domain.user.command.dto.response.UserDetailResponse;
 import com.adhd.ad_hell.domain.user.command.dto.response.UserIsAvailableResponse;
@@ -44,11 +45,19 @@ public class UserCommandServiceImpl implements UserCommandService {
      */
     @Override
     @Transactional
-    public void singUp(UserSignUpRequest userSignUpRequest) {
+    public void singUp(UserSignUpRequest userSignUpRequest, Role role) {
         log.debug("[UserCommandController/singUp] 회원가입 | {}", userSignUpRequest);
+
+        log.debug("[UserCommandController/singUp] 사용할 수 있는 아이디인지 확인 | {}", userSignUpRequest);
+        Boolean exist = userCommandRepository.existsByloginId(userSignUpRequest.getLoginId());
+        if (exist) {
+            log.error("[UserCommandController/singUp] 사용할 수 없음");
+            throw new BusinessException(ErrorCode.LOGIN_ID_ALREADY_EXISTS);
+        }
+
         // 사용할 수 있는 닉네임인지 확인
         log.debug("[UserCommandController/singUp] 사용할 수 있는 닉네임인지 확인 | {}", userSignUpRequest);
-        Boolean exist = userCommandRepository.existsByNickname(userSignUpRequest.getNickname());
+        exist = userCommandRepository.existsByNickname(userSignUpRequest.getNickname());
         if (exist) {
             log.error("[UserCommandController/singUp] 사용할 수 없음");
             throw new BusinessException(ErrorCode.NICKNAME_ALREADY_EXISTS);
@@ -57,13 +66,11 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 회원가입
         log.debug("[UserCommandController/singUp] 회원가입 | {}");
         User signUpUser = User.builder()
-                .roleType(Role.USER)
+                .roleType(role)
                 .loginId(userSignUpRequest.getLoginId())
                 .password(passwordEncoder.encode(userSignUpRequest.getPassword()))
                 .nickname(userSignUpRequest.getNickname())
                 .email(userSignUpRequest.getEmail())
-                .status(UserStatus.ACTIVATE)
-                .amount(0L)
                 .build();
 
         userCommandRepository.save(signUpUser);
@@ -75,25 +82,48 @@ public class UserCommandServiceImpl implements UserCommandService {
      * @return
      */
     @Override
+    @Transactional
     public UserDetailResponse getUserDetail(CustomUserDetails userDetails) {
         log.debug("[UserCommandController/getUserDetail] 마이페이지 회원정보 조회 |");
-        Optional<User> user = Optional.ofNullable(
-                userCommandRepository.findByLoginId(userDetails.getLoginId())
-        ).orElseThrow(() ->
-                new BusinessException(ErrorCode.USER_NOT_FOUND));
+        User findUser = userCommandRepository.findByLoginId(userDetails.getLoginId())
+                .orElseThrow(() ->new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        // 나중에 role Type 필요할 경우 사용하기
-        User getUser = user.get();
         log.debug("[UserCommandController/getUserDetail] 마이페이지 회원정보 조회");
         return UserDetailResponse.builder()
-                .loginId(getUser.getLoginId())
-                .nickname(getUser.getNickname())
-                .email(getUser.getEmail())
-                .status(getUser.getStatus())
-                .createdAt(getUser.getCreatedAt())
-                .deactivatedAt(getUser.getDeactivatedAt())
-                .amount(getUser.getAmount())
+                .loginId(findUser.getLoginId())
+                .nickname(findUser.getNickname())
+                .email(findUser.getEmail())
+                .status(findUser.getStatus())
+                .createdAt(findUser.getCreatedAt())
+                .deactivatedAt(findUser.getDeactivatedAt())
+                .amount(findUser.getAmount())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void modifyByUserInfo(CustomUserDetails userDetails , UserModifyRequest userModifyRequest) {
+        log.debug("[UserCommandController/modifyByUserInfo] 회원정보 수정 |");
+
+        User findUser = userCommandRepository.findByLoginId(userDetails.getLoginId())
+                .orElseThrow(() ->new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        findUser.modifyByUserInfo(userModifyRequest);
+        userCommandRepository.save(findUser);
+
+    }
+
+    @Override
+    @Transactional
+    public void withdrawByUserInfo(CustomUserDetails userDetails) {
+        log.debug("[UserCommandController/withdrawByUserInfo] 회원탈퇴 |");
+
+        User findUser = userCommandRepository.findByLoginId(userDetails.getLoginId())
+                .orElseThrow(() ->new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        findUser.patchStatus(UserStatus.DELETE);
+        userCommandRepository.save(findUser);
+
     }
 
 }
