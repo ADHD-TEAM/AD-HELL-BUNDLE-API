@@ -69,4 +69,12 @@ public class Reward extends BaseTimeEntity {
   public void toggleStatus() {
     this.status = this.status.toggle();
   }
+
+  public void incrementStock() {
+    this.stock += 1;
+  }
+
+  public void decrementStock() {
+    this.stock -= 1;
+  }
 }
