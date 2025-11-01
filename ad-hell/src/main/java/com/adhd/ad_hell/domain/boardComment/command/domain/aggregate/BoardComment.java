@@ -1,4 +1,4 @@
-package com.adhd.ad_hell.boardComment.command.domain.aggregate;
+package com.adhd.ad_hell.domain.boardComment.command.domain.aggregate;
 
 
 import com.adhd.ad_hell.common.BaseTimeEntity;

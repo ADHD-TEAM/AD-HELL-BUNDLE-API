@@ -41,6 +41,8 @@ public class BoardCommandService {
         // DTO to Entity
         Board newBoard = modelMapper.map(boardCreateRequest, Board.class);
 
+        //writer, category 연관관계 생성 필요
+
         // DB에 메타데이터(URL)만 저장 (baseUrl  + 파일명)
         // 실제 파일은 파일시스템에 있고 DB에는 어디서 불러올지 경로만 기록 하는 것
 //        newBoard.changeBoardImageUrl(imageProperties.getBaseUrl() + newFileName);

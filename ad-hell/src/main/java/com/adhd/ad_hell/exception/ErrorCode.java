@@ -20,8 +20,10 @@ public enum ErrorCode {
 
   //파일 관련 에러코드
     FILE_EMPTY("50001", "업로드된 파일이 비어 있습니다.", HttpStatus.NOT_FOUND),
-    FILE_STORE_FAILED("50002", "파일 저장에 실패했습니다.", HttpStatus.NOT_FOUND);
+    FILE_STORE_FAILED("50002", "파일 저장에 실패했습니다.", HttpStatus.NOT_FOUND),
 
+  //회원 관련 에러코드
+    USER_NOT_FOUND("60001", "업로드된 파일이 비어 있습니다.", HttpStatus.NOT_FOUND);
 
   private final String code;
   private final String message;
