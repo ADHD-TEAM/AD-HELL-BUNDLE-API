@@ -30,6 +30,7 @@ public class InquiryCommandService {
     public void createInquiry(InquiryCreateRequest req) {
 
         // FK 조회 (없으면 비즈니스 예외)
+        //
         User user = userRepository.findById(req.getUserId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         Category category = categoryRepository.findById(req.getCategoryId())
