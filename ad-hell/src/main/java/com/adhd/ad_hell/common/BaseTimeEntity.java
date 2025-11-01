@@ -22,4 +22,7 @@ public abstract class BaseTimeEntity {
   @Column(name = "updated_at", nullable = false)
   protected LocalDateTime updatedAt;
 
+
+
+
 }
