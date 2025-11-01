@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,13 +32,15 @@ public class CategoryQueryService {
   public List<CategoryTreeResponse> getCategoryTree(String keyword) {
     List<CategoryTreeResponse> all = categoryMapper.findAllCategories(keyword);
 
-    Map<Long, CategoryTreeResponse> map = new HashMap<>();
-    List<CategoryTreeResponse> roots = new ArrayList<>();
+//    Map<Long, CategoryTreeResponse> map =
+//    all.stream().collect(Collectors.toMap(CategoryTreeResponse::getId, c -> c));
 
+    Map<Long, CategoryTreeResponse> map = new HashMap<>();
     for (CategoryTreeResponse c : all) {
       map.put(c.getId(), c);
     }
 
+    List<CategoryTreeResponse> roots = new ArrayList<>();
     for (CategoryTreeResponse c : all) {
       if (c.getParentId() == null) {
         roots.add(c);

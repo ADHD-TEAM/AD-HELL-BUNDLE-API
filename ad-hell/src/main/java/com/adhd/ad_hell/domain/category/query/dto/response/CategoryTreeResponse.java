@@ -17,7 +17,5 @@ public class CategoryTreeResponse {
   private String description;
   private String status;
   private Long parentId;
-
-  @Builder.Default
   private List<CategoryTreeResponse> children = new ArrayList<>();
 }
