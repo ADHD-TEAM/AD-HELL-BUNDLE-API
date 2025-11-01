@@ -1,5 +1,6 @@
 package com.adhd.ad_hell.domain.user.command.entity;
 
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
