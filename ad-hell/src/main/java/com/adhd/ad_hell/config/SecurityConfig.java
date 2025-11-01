@@ -63,6 +63,7 @@ public class SecurityConfig {
                             // admin
                             auth.requestMatchers(endpoint.getEndpointStatus(), endpoint.getPath())
                                     .hasAnyRole(Role.ADMIN.name());
+                                    //.permitAll();
                         }
                     }
                 }

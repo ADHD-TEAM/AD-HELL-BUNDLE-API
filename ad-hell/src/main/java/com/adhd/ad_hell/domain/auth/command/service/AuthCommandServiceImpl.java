@@ -1,5 +1,6 @@
 package com.adhd.ad_hell.domain.auth.command.service;
 
+import com.adhd.ad_hell.common.dto.CustomUserDetails;
 import com.adhd.ad_hell.domain.auth.command.dto.request.LoginRequest;
 import com.adhd.ad_hell.domain.auth.command.dto.response.TokenResponse;
 import com.adhd.ad_hell.domain.auth.command.entity.RefreshToken;
@@ -80,11 +81,12 @@ public class AuthCommandServiceImpl implements AuthCommandService {
                 .build();
     }
 
-
-
-
-
-
+    @Override
+    @Transactional
+    public void logout(CustomUserDetails customUserDetails) {
+        // refresh token 제거
+        refreshTokenRepository.deleteById(customUserDetails.getLoginId());
+    }
 
 
 }
