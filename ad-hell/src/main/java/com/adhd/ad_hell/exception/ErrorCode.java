@@ -24,11 +24,14 @@ public enum ErrorCode {
   REWARD_STOCK_INVALID_STATUS("40011", "이미 사용되었거나 만료된 경품입니다.", HttpStatus.BAD_REQUEST),
 
   // 게시판 관련 에러코드
-  BOARD_NOT_FOUND("40001", "게시판을 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+  BOARD_NOT_FOUND("70001", "게시판을 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+    // 문의 관련 에러코드
+    INQUIRY_NOT_FOUND("80001", "문의를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+
 
   //파일 관련 에러코드
   FILE_EMPTY("50001", "업로드된 파일이 비어 있습니다.", HttpStatus.NOT_FOUND),
-  FILE_STORE_FAILED("50002", "파일 저장에 실패했습니다.", HttpStatus.NOT_FOUND),
+    FILE_STORE_FAILED("50002", "파일 저장에 실패했습니다.", HttpStatus.NOT_FOUND),
 
   ;
   private final String code;

@@ -31,9 +31,6 @@ public class Inquiry extends BaseTimeEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "response")
-    private String response;
-
     @Column(name = "answerd_at")
     private LocalDateTime answerdAt;
 
@@ -45,6 +42,20 @@ public class Inquiry extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    // 관리자 답변 (nullable)
+    @Column(name = "response")
+    private String response;
+
+    @Column(name = "answered_at")
+    private LocalDateTime answeredAt;
+
+    /** 관리자 답변/수정 */
+    public void answer(String response) {
+        this.response = response;
+        this.answeredAt = LocalDateTime.now();
+    }
+
+    // 연관 관계 주입
     public void linkUser(User user) {
         this.user = user;
     }
@@ -52,4 +63,9 @@ public class Inquiry extends BaseTimeEntity {
     public void linkCategory(Category category) {
         this.category = category;
     }
+
+
+
+
+
 }
