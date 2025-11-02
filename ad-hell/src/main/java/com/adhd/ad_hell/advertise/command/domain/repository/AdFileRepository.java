@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AdFileRepository {
     AdFile save(AdFile ad);
-    List<AdFile> findByAdFile_AdId(Long adId);
+    List<AdFile> findByAd_AdId(Long adId);
     Optional<AdFile> findById(Long fileId);
     void deleteById(Long fileId);
 }
