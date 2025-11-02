@@ -6,6 +6,8 @@ import com.adhd.ad_hell.domain.board.command.domain.aggregate.Board;
 import com.adhd.ad_hell.domain.board.command.domain.repository.BoardRepository;
 import com.adhd.ad_hell.domain.category.command.domain.aggregate.Category;
 import com.adhd.ad_hell.domain.category.command.domain.repository.CategoryRepository;
+import com.adhd.ad_hell.domain.user.command.repository.UserCommandRepository;
+import com.adhd.ad_hell.domain.user.command.service.UserCommandService;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
 import lombok.*;
@@ -22,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardCommandService {
 
     private final BoardRepository boardRepository;
-//    private final UserRepository userRepository;
+    private final UserCommandRepository userCommandRepository;
     private final CategoryRepository categoryRepository;
     private final FileStorage fileStorage;
     private final ModelMapper modelMapper;
@@ -45,6 +47,7 @@ public class BoardCommandService {
 
         // DB에 메타데이터(URL)만 저장 (baseUrl  + 파일명)
         // 실제 파일은 파일시스템에 있고 DB에는 어디서 불러올지 경로만 기록 하는 것
+
 //        newBoard.changeBoardImageUrl(imageProperties.getBaseUrl() + newFileName);
 
         // 저장

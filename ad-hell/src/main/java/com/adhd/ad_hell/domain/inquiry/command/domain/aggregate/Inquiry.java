@@ -52,15 +52,4 @@ public class Inquiry extends BaseTimeEntity {
     public void linkCategory(Category category) {
         this.category = category;
     }
-
-
-    // 관리자 답변 등록용 도메인 메서드
-//    public void answerd(String response) {
-//        this.response = response;
-//        this.answerdAt = LocalDateTime.now();
-//    }
-
-
-
-
 }
