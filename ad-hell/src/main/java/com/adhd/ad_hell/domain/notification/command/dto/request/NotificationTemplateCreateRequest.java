@@ -1,6 +1,6 @@
 package com.adhd.ad_hell.domain.notification.command.dto.request;
 
-import com.adhd.ad_hell.domain.notification.command.entity.NotificationTemplateKind;
+import com.adhd.ad_hell.domain.notification.entity.enums.NotificationTemplateKind;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

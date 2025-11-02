@@ -1,6 +1,6 @@
 package com.adhd.ad_hell.domain.notification.query.dto.response;
 
-import com.adhd.ad_hell.domain.notification.command.entity.Notification;
+import com.adhd.ad_hell.domain.notification.entity.Notification;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;

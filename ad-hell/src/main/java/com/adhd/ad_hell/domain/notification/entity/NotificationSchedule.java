@@ -1,6 +1,8 @@
-package com.adhd.ad_hell.domain.notification.command.entity;
+package com.adhd.ad_hell.domain.notification.entity;
 
 import com.adhd.ad_hell.common.BaseTimeEntity;
+import com.adhd.ad_hell.domain.notification.entity.enums.NotificationScheduleStatus;
+import com.adhd.ad_hell.domain.notification.entity.enums.YnType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

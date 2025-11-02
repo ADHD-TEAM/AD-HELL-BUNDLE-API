@@ -1,4 +1,4 @@
-package com.adhd.ad_hell.domain.notification.command.entity;
+package com.adhd.ad_hell.domain.notification.entity.enums;
 
 public enum YnType {
     Y,

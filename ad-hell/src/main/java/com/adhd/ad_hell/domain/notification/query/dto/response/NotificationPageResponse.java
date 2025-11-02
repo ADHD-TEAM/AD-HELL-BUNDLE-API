@@ -1,7 +1,7 @@
 package com.adhd.ad_hell.domain.notification.query.dto.response;
 
 import com.adhd.ad_hell.common.dto.Pagination;
-import com.adhd.ad_hell.domain.notification.command.entity.Notification;
+import com.adhd.ad_hell.domain.notification.entity.Notification;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Builder;
