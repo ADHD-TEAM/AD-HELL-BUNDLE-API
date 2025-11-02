@@ -26,8 +26,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AdCommandService {
 
-    private final AdFileRepository AdFileRepository;
-    private final AdRepository AdRepository;
+    private final AdFileRepository adFileRepository;
+    private final AdRepository adRepository;
     private final FileStorage fileStorage;
 
     @Value("${ad.adfile-url}")
@@ -40,19 +40,26 @@ public class AdCommandService {
         // 파일을 먼저 저장하고 실패 시 DB 작업을 수행하지 않음
         final String newFileName = fileStorage.store(adContent);
 
+        // 1) 연관 Ad 조회 (요청에서 adId를 받는다고 가정)
+        Ad ad = adRepository.findById(adCreateRequest.getAdId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND));
+
+
         // DTO to Entity
-        AdFile newAd = AdFile.builder()
+        AdFile newAdFile = AdFile.builder()
                 .fileTitle(adCreateRequest.getFileTitle())
                 .fileType(adCreateRequest.getFileType())
                 .filePath(adCreateRequest.getFilePath())
                 .build();
 
-
         // 저장 된 이미지를 요청할 url 설정
-        newAd.changeAdUrl(AdFile_URL + newFileName);
+        newAdFile.changeAdUrl(AdFile_URL + newFileName);
+
+        // 3) 연관관계 편의 메서드 사용
+        ad.addFile(newAdFile);
 
         // Entity 저장
-        AdFile saved = AdFileRepository.save(newAd);
+        AdFile saved = adFileRepository.save(newAdFile);
 
         // 로직 롤백 될 경우 새 파일 제거 -> 롤백 보상
         // TransactionSynchronizationManager : 스프링 트랜잭션이 라이프사이클 이벤트에
@@ -77,11 +84,11 @@ public class AdCommandService {
     public void updateAdWithFiles(Long adId, AdUpdateRequest req, List<MultipartFile> newFiles) {
 
         // 1) Ad 조회
-        Ad ad = AdRepository.findById(adId)
+        Ad ad = adRepository.findById(adId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND));
 
         // 2) 기존 파일 엔티티 & 물리 파일명 확보 (커밋 후 삭제 대상)
-        List<AdFile> oldEntities = AdFileRepository.findByAdFile_AdId(adId);
+        List<AdFile> oldEntities = adFileRepository.findByAd_AdId(adId);
         List<String> oldFileNames = oldEntities.stream()
                 .map(AdFile::getFileTitle)
                 .filter(Objects::nonNull)
@@ -104,12 +111,11 @@ public class AdCommandService {
 
         // 4) 광고의 나머지 필드 업데이트
         ad.updateAd(
-                req.getAdName(),
-                req.getAdPrice(),
-                req.getAdDescription(),
-                req.getCategoryCode(),
-                req.getAdStock(),
-                AdStatus.valueOf(req.getStatus())
+                req.getTitle(),
+                req.getLike_count(),
+                req.getBookmark_count(),
+                req.getComment_count(),
+                req.getView_count()
         );
 
         // 5) 트랜잭션 종료 훅(커밋/롤백)에서 물리 파일 정리
@@ -121,10 +127,8 @@ public class AdCommandService {
                 @Override
                 public void afterCompletion(int status) {
                     if (status == STATUS_COMMITTED) {
-                        // ✅ 커밋: 기존 물리 파일 삭제
                         for (String old : finalsOld) fileStorage.deleteQuietly(old);
                     } else {
-                        // ❌ 롤백: 이번에 저장한 새 물리 파일 삭제(되돌리기)
                         for (String nv : finalsNew) fileStorage.deleteQuietly(nv);
                     }
                 }
@@ -132,17 +136,11 @@ public class AdCommandService {
         }
     }
 
-    private String extractFileName(String url) {
-        if (url == null) return null;
-        int idx = url.lastIndexOf('/');
-        return (idx >= 0 && idx < url.length() - 1) ? url.substring(idx + 1) : url;
-    }
-
     /* 상품 삭제 (soft delete)
      * Entity 에 @SQLDelete 를 통해 삭제 메소드 요청 시 상태값 변경으로 설정 */
     @Transactional
     public void deleteAd(Long AdCode) {
-        AdRepository.deleteById(AdCode);
+        adRepository.deleteById(AdCode);
     }
 
 }
