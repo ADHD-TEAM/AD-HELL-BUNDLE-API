@@ -1,4 +1,4 @@
-package com.adhd.ad_hell.domain.advertise.command.entity;
+package com.adhd.ad_hell.advertise.command.domain.aggregate;
 
 import com.adhd.ad_hell.common.BaseTimeEntity;
 import jakarta.persistence.*;
