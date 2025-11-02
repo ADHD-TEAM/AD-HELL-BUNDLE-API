@@ -1,6 +1,5 @@
 package com.adhd.ad_hell.domain.user.command.service;
 
-import com.adhd.ad_hell.domain.inquiry.command.application.service.UserRepository;
 import com.adhd.ad_hell.domain.user.command.dto.request.AdminModifyRequest;
 import com.adhd.ad_hell.domain.user.command.entity.User;
 import com.adhd.ad_hell.domain.user.command.entity.UserStatus;

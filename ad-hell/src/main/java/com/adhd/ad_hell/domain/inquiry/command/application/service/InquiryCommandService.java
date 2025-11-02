@@ -4,6 +4,7 @@ package com.adhd.ad_hell.domain.inquiry.command.application.service;
 import com.adhd.ad_hell.domain.category.command.domain.aggregate.Category;
 import com.adhd.ad_hell.domain.category.command.domain.repository.CategoryRepository;
 import com.adhd.ad_hell.domain.user.command.entity.User;
+import com.adhd.ad_hell.domain.user.command.repository.UserCommandRepository;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
 import com.adhd.ad_hell.domain.inquiry.command.application.dto.request.InquiryCreateRequest;
@@ -21,8 +22,7 @@ public class InquiryCommandService {
     private final InquiryRepository inquiryRepository;
     private final ModelMapper modelMapper;
     private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
-
+    private final UserCommandRepository userCommandRepository;
     /**
      * 문의 등록
      */
@@ -31,7 +31,7 @@ public class InquiryCommandService {
 
         // FK 조회 (없으면 비즈니스 예외)
         //
-        User user = userRepository.findById(req.getUserId())
+        User user = userCommandRepository.findById(req.getUserId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         Category category = categoryRepository.findById(req.getCategoryId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_FOUND));

@@ -2,7 +2,6 @@ package com.adhd.ad_hell.domain.auth.command.controller;
 
 import com.adhd.ad_hell.common.ApiEndpoint;
 import com.adhd.ad_hell.common.dto.ApiResponse;
-import com.adhd.ad_hell.common.dto.CustomUserDetails;
 import com.adhd.ad_hell.domain.auth.command.dto.request.LoginRequest;
 import com.adhd.ad_hell.domain.auth.command.dto.response.TokenResponse;
 import com.adhd.ad_hell.domain.auth.command.service.AuthCommandService;
@@ -34,13 +33,12 @@ public class AuthCommandController {
      * @param userSignUpRequest
      * @return
      */
-    @PostMapping("/signUp/{role}")
+    @PostMapping("/signUp")
     public ResponseEntity<ApiResponse<Void>> signUp(
-            @Validated @RequestBody UserSignUpRequest userSignUpRequest,
-            @PathVariable Role role
+            @Validated @RequestBody UserSignUpRequest userSignUpRequest
     ) {
         log.info("[AuthCommandController/signUp] 회원가입 | {}", userSignUpRequest);
-        userCommandService.singUp(userSignUpRequest, role);
+        userCommandService.singUp(userSignUpRequest);
 
         log.info("[AuthCommandController/signUp] 회원가입 성공 | {}", userSignUpRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -68,11 +66,9 @@ public class AuthCommandController {
      * @return
      */
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logout(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ) {
+    public ResponseEntity<ApiResponse<Void>> logout() {
         log.info("[AuthCommandController/login] logout |");
-        authCommandService.logout(customUserDetails);
+        // authCommandService.logout()
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }
