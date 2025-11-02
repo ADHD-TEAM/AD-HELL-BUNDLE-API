@@ -27,8 +27,11 @@ public enum ApiEndpoint {
     ADMIN_USER_MODIFY(HttpMethod.PUT,"/api/admins/**", Role.ADMIN),
     ADMIN_USER_PATCH(HttpMethod.PATCH,"/api/admins/**", Role.ADMIN),
 
-
-
+    ALL_GET(HttpMethod.GET, "/api/**", null),
+    ALL_POST(HttpMethod.POST, "/api/**", null),
+    ALL_PUT(HttpMethod.PUT, "/api/**", null),
+    ALL_PATCH(HttpMethod.PATCH, "/api/**", null),
+    ALL_DELETE(HttpMethod.DELETE, "/api/**", null),
 
 
     ;
