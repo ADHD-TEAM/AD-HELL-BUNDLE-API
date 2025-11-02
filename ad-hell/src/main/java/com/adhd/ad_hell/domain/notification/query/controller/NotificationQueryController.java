@@ -4,7 +4,7 @@ import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.domain.notification.query.dto.response.NotificationPageResponse;
 import com.adhd.ad_hell.domain.notification.query.dto.response.NotificationTemplatePageResponse;
 import com.adhd.ad_hell.domain.notification.query.service.NotificationQueryService;
-import com.adhd.ad_hell.domain.notification.sse.NotificationSseEmitters;
+import com.adhd.ad_hell.domain.notification.command.infrastructure.sse.NotificationSseEmitters;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

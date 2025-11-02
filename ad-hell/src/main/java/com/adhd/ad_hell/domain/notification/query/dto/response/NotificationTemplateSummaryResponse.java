@@ -1,10 +1,11 @@
 package com.adhd.ad_hell.domain.notification.query.dto.response;
 
-import com.adhd.ad_hell.domain.notification.entity.NotificationTemplate;
-import com.adhd.ad_hell.domain.notification.entity.enums.NotificationTemplateKind;
-import java.time.LocalDateTime;
+import com.adhd.ad_hell.domain.notification.command.domain.aggregate.NotificationTemplate;
+import com.adhd.ad_hell.domain.notification.command.domain.aggregate.enums.NotificationTemplateKind;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
