@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adhd.ad_hell.domain.advertise.query.mapper.AdMapper">
+
+    <select id="selectAdById" resultType="com.adhd.ad_hell.domain.advertise.query.dto.response.AdDto">
+        SELECT
+        a.ad_id,
+        a.title,
+        a.view_count,
+        a.like_count,
+        a.bookmark_count,
+        a.comment_count,
+        a.created_at,
+        a.updated_at,
+
+        b.user_id AS "user.user_id",
+        c.category_id AS "category.id",
+        c.name AS "category.name"
+
+        FROM ad a
+        JOIN user b ON a.user_id = b.user_id
+        JOIN category c ON a.category_id = c.category_id
+
+        WHERE a.ad_id = #{adId}
+        AND status = 'ACTIVATE'
+    </select>
+
+    <select id="selectAds"
+            resultType="com.adhd.ad_hell.domain.advertise.query.dto.response.AdDto">
+        SELECT
+        a.ad_id,
+        a.title,
+        a.view_count,
+        a.like_count,
+        a.bookmark_count,
+        a.comment_count,
+        a.created_at,
+        a.updated_at,
+
+        b.user_id AS "user.user_id",
+        c.category_id AS "category.id",
+        c.name AS "category.name"
+
+        FROM ad a
+        JOIN user b ON a.user_id = b.user_id
+        JOIN category c ON a.category_id = c.category_id
+
+        WHERE a.ad_id = #{adId}
+        AND status = 'ACTIVATE'
+        <if test="categoryId != null">
+            AND a.category_id = #{ id }
+        </if>
+        <if test="title != null">
+            AND a.title LIKE CONCAT('%', #{ title }, '%')
+        </if>
+        ORDER BY a.ad_id DESC
+        LIMIT #{ limit } OFFSET #{ offset }
+    </select>
+
+    <select id="countAds" resultType="com.adhd.ad_hell.domain.advertise.query.dto.response.AdDto">
+        SELECT COUNT(*)
+        FROM ad a
+        WHERE status = 'USABLE'
+        <if test="adId != null">
+            AND a.ad_id = #{ adId }
+        </if>
+        <if test="adName != null">
+            AND a.ad_name LIKE CONCAT('%', #{ adName }, '%')
+        </if>
+    </select>
+
+</mapper>
