@@ -106,4 +106,8 @@ public class User extends BaseTimeEntity {
                 .deletedAt(userDTO.getDeletedAt())
                 .build();
     }
+
+    public void earnPoint(Long point) {
+      this.amount += point;
+    }
 }
