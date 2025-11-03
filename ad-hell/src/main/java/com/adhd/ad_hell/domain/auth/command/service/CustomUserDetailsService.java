@@ -28,7 +28,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         return new CustomUserDetails(
-                user.getLoginId()
+                user.getUserId()
+                , user.getLoginId()
                 , user.getPassword()
                 , user.getRoleType()
         );
