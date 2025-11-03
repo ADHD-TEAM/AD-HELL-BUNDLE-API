@@ -22,7 +22,7 @@ public class BoardComment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private BigInteger Id;
+    private Long Id;    // ← BigDecimal/BigInteger → Long 으로 변경
 
     @Column(name = "comment_content", nullable = false)
     private String content;

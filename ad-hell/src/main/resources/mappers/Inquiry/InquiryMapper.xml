@@ -9,11 +9,11 @@
         i.inquiry_id AS id,
         i.user_id AS userId,
         i.category_id AS categoryId,
-        c.category_name AS categoryName,
+        c.name AS categoryName,
         i.title AS title,
         CASE
-        WHEN CHAR_LENGTH(i.contents) <= 100 THEN i.contents
-        ELSE CONCAT(SUBSTRING(i.contents, 1, 100), '...')
+            WHEN CHAR_LENGTH(i.contents) &lt;= 100 THEN i.contents
+            ELSE CONCAT(SUBSTRING(i.contents, 1, 100), '...')
         END AS contentsSnippet,
         CASE WHEN i.response IS NULL OR TRIM(i.response) = '' THEN 'N' ELSE 'Y' END AS answered,
         i.answered_at AS answeredAt,
@@ -24,7 +24,7 @@
         i.inquiry_id AS id,
         i.user_id AS userId,
         i.category_id AS categoryId,
-        c.category_name AS categoryName,
+        c.name AS categoryName,
         i.title AS title,
         i.contents AS contents,
         i.response AS response,
@@ -35,11 +35,12 @@
 
     <sql id="fromJoin">
         FROM inquiry i
-        JOIN category c ON c.category_id = i.category_id
+        JOIN category c ON c.id = i.category_id
     </sql>
 
-    <sql id="commonWhere">
-        <where>
+    <!-- 공통 필터: 앞에 WHERE가 있으면 AND로, 없으면 각 쿼리에서 WHERE 1=1 후 포함 -->
+    <sql id="commonFilters">
+        <trim prefix="AND" prefixOverrides="AND |OR ">
             <if test="req.categoryId != null">
                 AND i.category_id = #{req.categoryId}
             </if>
@@ -50,24 +51,24 @@
                 )
             </if>
             <choose>
-                <when test="req.answeredSafe() == 'Y'">
+                <when test="req.answeredSafe == 'Y'">
                     AND i.response IS NOT NULL AND TRIM(i.response) &lt;&gt; ''
                 </when>
-                <when test="req.answeredSafe() == 'N'">
+                <when test="req.answeredSafe == 'N'">
                     AND (i.response IS NULL OR TRIM(i.response) = '')
                 </when>
             </choose>
-        </where>
+        </trim>
     </sql>
 
     <sql id="orderBy">
         ORDER BY
         <choose>
-            <when test="req.sortBySafe() == 'answeredAt'"> i.answered_at </when>
-            <when test="req.sortBySafe() == 'title'"> i.title </when>
+            <when test="req.sortBySafe == 'answeredAt'"> i.answered_at </when>
+            <when test="req.sortBySafe == 'title'"> i.title </when>
             <otherwise> i.created_at </otherwise>
         </choose>
-        ${req.directionSafe()}
+        ${req.directionSafe}
     </sql>
 
     <!-- 회원 목록 -->
@@ -75,7 +76,7 @@
         SELECT <include refid="summaryColumns"/>
         <include refid="fromJoin"/>
         WHERE i.user_id = #{req.userId}
-        <include refid="commonWhere"/>
+        <include refid="commonFilters"/>
         <include refid="orderBy"/>
         LIMIT #{req.size} OFFSET #{req.offset}
     </select>
@@ -84,7 +85,7 @@
         SELECT COUNT(1)
         <include refid="fromJoin"/>
         WHERE i.user_id = #{req.userId}
-        <include refid="commonWhere"/>
+        <include refid="commonFilters"/>
     </select>
 
     <select id="findMyInquiryById" resultType="com.adhd.ad_hell.domain.inquiry.query.dto.response.InquiryDetailResponse">
@@ -98,7 +99,8 @@
     <select id="findAdminInquiries" resultType="com.adhd.ad_hell.domain.inquiry.query.dto.response.InquirySummaryResponse">
         SELECT <include refid="summaryColumns"/>
         <include refid="fromJoin"/>
-        <include refid="commonWhere"/>
+        WHERE 1=1
+        <include refid="commonFilters"/>
         <include refid="orderBy"/>
         LIMIT #{req.size} OFFSET #{req.offset}
     </select>
@@ -106,7 +108,8 @@
     <select id="countAdminInquiries" resultType="int">
         SELECT COUNT(1)
         <include refid="fromJoin"/>
-        <include refid="commonWhere"/>
+        WHERE 1=1
+        <include refid="commonFilters"/>
     </select>
 
     <select id="findAdminInquiryById" resultType="com.adhd.ad_hell.domain.inquiry.query.dto.response.InquiryDetailResponse">

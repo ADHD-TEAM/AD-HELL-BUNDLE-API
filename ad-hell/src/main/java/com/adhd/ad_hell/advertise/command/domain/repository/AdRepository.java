@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface AdRepository {
     Ad save(Ad ad);
     // AdFile.ad.adId 경로에 맞게 메서드명 수정
-    List<AdFile> findByAd_AdId(Long adId);
-    Optional<Ad> findById(Long adId);
+    // List<AdFile> findByAd_AdId(Long adId);
+    Optional<Ad> findByAdId(Long adId);
     void deleteById(Long adId);
 }
