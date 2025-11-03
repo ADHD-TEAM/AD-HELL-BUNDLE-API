@@ -1,4 +1,3 @@
-// ad-hell/src/main/java/com/adhd/ad_hell/domain/notification/event/NotificationCreatedEvent.java
 package com.adhd.ad_hell.domain.notification.command.domain.event;
 
 import java.time.LocalDateTime;
