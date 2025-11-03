@@ -9,7 +9,6 @@ import com.adhd.ad_hell.exception.ErrorCode;
 import com.adhd.ad_hell.advertise.command.application.dto.request.AdCreateRequest;
 import com.adhd.ad_hell.advertise.command.application.dto.request.AdUpdateRequest;
 import com.adhd.ad_hell.advertise.command.domain.aggregate.Ad;
-import com.adhd.ad_hell.advertise.command.domain.aggregate.AdStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,7 +40,7 @@ public class AdCommandService {
         final String newFileName = fileStorage.store(adContent);
 
         // 1) 연관 Ad 조회 (요청에서 adId를 받는다고 가정)
-        Ad ad = adRepository.findById(adCreateRequest.getAdId())
+        Ad ad = adRepository.findByAdId(adCreateRequest.getAdId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND));
 
 
@@ -84,7 +83,7 @@ public class AdCommandService {
     public void updateAdWithFiles(Long adId, AdUpdateRequest req, List<MultipartFile> newFiles) {
 
         // 1) Ad 조회
-        Ad ad = adRepository.findById(adId)
+        Ad ad = adRepository.findByAdId(adId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND));
 
         // 2) 기존 파일 엔티티 & 물리 파일명 확보 (커밋 후 삭제 대상)

@@ -24,7 +24,15 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+    jjwtVersion = '0.12.6' // or '0.12.7' 로 통일해서 사용
+}
+
 dependencies {
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    // IntelliJ에서 Application으로 바로 실행할 때 runtimeOnly가 누락되는 경우가 있어 implementation으로 잡는 걸 권장
+    implementation "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}" // JSON 직렬화용
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
