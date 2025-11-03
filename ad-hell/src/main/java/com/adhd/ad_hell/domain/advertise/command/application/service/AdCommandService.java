@@ -1,15 +1,15 @@
-package com.adhd.ad_hell.advertise.command.application.service;
+package com.adhd.ad_hell.domain.advertise.command.application.service;
 
-import com.adhd.ad_hell.advertise.command.domain.aggregate.AdFile;
-import com.adhd.ad_hell.advertise.command.domain.repository.AdFileRepository;
-import com.adhd.ad_hell.advertise.command.domain.repository.AdRepository;
+import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdFile;
+import com.adhd.ad_hell.domain.advertise.command.domain.repository.AdFileRepository;
+import com.adhd.ad_hell.domain.advertise.command.domain.repository.AdRepository;
 import com.adhd.ad_hell.common.storage.FileStorage;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
-import com.adhd.ad_hell.advertise.command.application.dto.request.AdCreateRequest;
-import com.adhd.ad_hell.advertise.command.application.dto.request.AdUpdateRequest;
-import com.adhd.ad_hell.advertise.command.domain.aggregate.Ad;
-import com.adhd.ad_hell.advertise.command.domain.aggregate.AdStatus;
+import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdCreateRequest;
+import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdUpdateRequest;
+import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.Ad;
+import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
