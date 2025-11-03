@@ -1,6 +1,5 @@
 package com.adhd.ad_hell.domain.user.batch;
 
-import com.adhd.ad_hell.config.BatchCommonConfig;
 import com.adhd.ad_hell.domain.user.command.entity.User;
 import com.adhd.ad_hell.domain.user.command.repository.UserCommandRepository;
 import com.adhd.ad_hell.domain.user.query.dto.UserDTO;
@@ -26,13 +25,13 @@ import java.util.List;
 @EnableBatchProcessing
 public class DeleteStatusBatchConfig {
 
-    private final BatchCommonConfig batchCommonConfig;
+    private final JobRepository jobRepository;
+    private final PlatformTransactionManager transactionManager;
     private final UserMapper userMapper;
     private final UserCommandRepository userCommandRepository;
 
     @Bean
     public Job deleteStatusUserBatchJob() {
-        JobRepository jobRepository = batchCommonConfig.batchJobRepository();
         return new JobBuilder("deleteStatusUserBatchJob" , jobRepository)
                 .start(deleteStatusUserBatchStep())
                 .build();
@@ -40,9 +39,6 @@ public class DeleteStatusBatchConfig {
 
     @Bean
     public Step deleteStatusUserBatchStep() {
-        JobRepository jobRepository = batchCommonConfig.batchJobRepository();
-        PlatformTransactionManager transactionManager = batchCommonConfig.batchTransactionManager();
-
         return new StepBuilder("deleteStatusUserBatchStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
 
