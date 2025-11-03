@@ -9,7 +9,6 @@ import com.adhd.ad_hell.exception.ErrorCode;
 import com.adhd.ad_hell.advertise.command.application.dto.request.AdCreateRequest;
 import com.adhd.ad_hell.advertise.command.application.dto.request.AdUpdateRequest;
 import com.adhd.ad_hell.advertise.command.domain.aggregate.Ad;
-import com.adhd.ad_hell.advertise.command.domain.aggregate.AdStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -33,7 +33,13 @@ public enum ErrorCode {
   FILE_EMPTY("50001", "업로드된 파일이 비어 있습니다.", HttpStatus.NOT_FOUND),
     FILE_STORE_FAILED("50002", "파일 저장에 실패했습니다.", HttpStatus.NOT_FOUND),
 
-  ;
+    AD_NOT_FOUND("60001","광고를 찾을수 없습니다." , HttpStatus.NOT_FOUND ),
+    FILE_DIR_CREATE_FAILED("80001","파일 저장소를 만드는데 실패했습니다." ,HttpStatus.BAD_REQUEST ),
+    FILE_NAME_NOT_PRESENT("90001","파일 이름이 입력되지 않았습니다." ,HttpStatus.BAD_REQUEST ),
+    FILE_EXTENSION_NOT_ALLOWED("1000001","해당 파일 확장자는 지원하지 않습니다." ,HttpStatus.UNAUTHORIZED ),
+    FILE_SAVE_IO_ERROR("110001","파일 저장에 실패했습니다." ,HttpStatus.INTERNAL_SERVER_ERROR ),
+    FILE_DELETE_IO_ERROR("120001","파일 삭제에 실패했습니다." ,HttpStatus.INTERNAL_SERVER_ERROR ),
+    FILE_PATH_TRAVERSAL_DETECTED("130001","파일 경로에 이상이 있습니다." ,HttpStatus.NOT_FOUND ),;
   private final String code;
   private final String message;
   private final HttpStatusCode httpStatusCode;
