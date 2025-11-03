@@ -1,6 +1,5 @@
 package com.adhd.ad_hell.domain.notification.query.dto.response;
 
-import com.adhd.ad_hell.domain.notification.command.domain.aggregate.NotificationTemplate;
 import com.adhd.ad_hell.domain.notification.command.domain.aggregate.enums.NotificationTemplateKind;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,14 +15,4 @@ public class NotificationTemplateSummaryResponse {
     private final String templateTitle;
     private final String templateBody;
     private final LocalDateTime createdAt;
-
-    public static NotificationTemplateSummaryResponse from(NotificationTemplate template) {
-        return NotificationTemplateSummaryResponse.builder()
-                .templateId(template.getId())
-                .templateKind(template.getTemplateKind())
-                .templateTitle(template.getTemplateTitle())
-                .templateBody(template.getTemplateBody())
-                .createdAt(template.getCreatedAt())
-                .build();
-    }
 }
