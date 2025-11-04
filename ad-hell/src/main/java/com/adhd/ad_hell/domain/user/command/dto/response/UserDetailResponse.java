@@ -17,7 +17,6 @@ public class UserDetailResponse {
     private UserStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime deactivatedAt;
-    private Long amount;
-
+    private Integer amount;
 
 }

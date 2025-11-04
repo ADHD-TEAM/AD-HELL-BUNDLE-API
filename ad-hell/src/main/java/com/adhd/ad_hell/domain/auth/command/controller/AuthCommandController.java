@@ -2,7 +2,10 @@ package com.adhd.ad_hell.domain.auth.command.controller;
 
 import com.adhd.ad_hell.common.ApiEndpoint;
 import com.adhd.ad_hell.common.dto.ApiResponse;
+import com.adhd.ad_hell.domain.auth.command.dto.request.ExistVerificationCodeRequest;
 import com.adhd.ad_hell.domain.auth.command.dto.request.LoginRequest;
+import com.adhd.ad_hell.domain.auth.command.dto.request.SendEmailVerifyUserRequest;
+import com.adhd.ad_hell.domain.auth.command.dto.response.ExistVerificationCodeResponse;
 import com.adhd.ad_hell.domain.auth.command.dto.response.TokenResponse;
 import com.adhd.ad_hell.domain.auth.command.service.AuthCommandService;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserSignUpRequest;
@@ -74,8 +77,33 @@ public class AuthCommandController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
+    /**
+     * 본인인증 - 이메일로 인증번호 보내기
+     * @param request
+     * @return
+     */
+    @PostMapping("/email/send-code")
+    public ResponseEntity<ApiResponse<?>> sendVerificationCode(
+            @RequestBody SendEmailVerifyUserRequest request) {
+        log.info("[AuthCommandController/sendVerificationCode] 본인인증 - 이메일로 인증번호 보내기 |");
+        authCommandService.sendEmail(request);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
 
+    /**
+     * 인증번호가 같은지 확인
+     * @param request
+     * @return
+     */
+    @PostMapping("/verifi-code")
+    public ResponseEntity<ApiResponse<ExistVerificationCodeResponse>> existVerificationCode(
+            @RequestBody ExistVerificationCodeRequest request) {
 
+        log.info("[AuthCommandController/existVerificationCode] 인증번호가 같은지 확인");
+        ExistVerificationCodeResponse response = authCommandService.existVerificationCode(request);
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
 
 
 }

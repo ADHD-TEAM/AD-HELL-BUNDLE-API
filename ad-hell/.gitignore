@@ -28,14 +28,17 @@ out/
 
 ### NetBeans ###
 /nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 
 ### VS Code ###
 .vscode/
 
 ### Settings ###
 **/src/main/resources/application-prod.yml
+
+# 환경변수 파일
+/env
 .env

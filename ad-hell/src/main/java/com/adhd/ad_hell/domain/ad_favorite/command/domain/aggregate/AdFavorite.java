@@ -1,7 +1,7 @@
 package com.adhd.ad_hell.domain.ad_favorite.command.domain.aggregate;
 
-import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.Ad;
 import com.adhd.ad_hell.common.BaseTimeEntity;
+import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.Ad;
 import com.adhd.ad_hell.domain.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
