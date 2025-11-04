@@ -2,8 +2,10 @@ package com.adhd.ad_hell.domain.auth.command.service;
 
 import com.adhd.ad_hell.EmailVerificationCode;
 import com.adhd.ad_hell.common.dto.CustomUserDetails;
+import com.adhd.ad_hell.domain.auth.command.dto.request.ExistVerificationCodeRequest;
 import com.adhd.ad_hell.domain.auth.command.dto.request.LoginRequest;
 import com.adhd.ad_hell.domain.auth.command.dto.request.SendEmailVerifyUserRequest;
+import com.adhd.ad_hell.domain.auth.command.dto.response.ExistVerificationCodeResponse;
 import com.adhd.ad_hell.domain.auth.command.dto.response.TokenResponse;
 import com.adhd.ad_hell.domain.auth.command.entity.RefreshToken;
 import com.adhd.ad_hell.domain.auth.command.repository.RefreshTokenRepository;
@@ -93,9 +95,9 @@ public class AuthCommandServiceImpl implements AuthCommandService {
 
     @Override
     @Transactional
-    public void logout(CustomUserDetails customUserDetails) {
+    public void logout(CustomUserDetails request) {
         // refresh token 제거
-        refreshTokenRepository.deleteById(customUserDetails.getLoginId());
+        refreshTokenRepository.deleteById(request.getLoginId());
     }
 
     @Override
@@ -124,5 +126,16 @@ public class AuthCommandServiceImpl implements AuthCommandService {
 
     }
 
+    @Override
+    public ExistVerificationCodeResponse existVerificationCode(
+            ExistVerificationCodeRequest request) {
+        log.info("[AuthCommandServiceImpl/sendEmail] 인증번호 있는지 확인");
+        // 레디스에서 email로 key값과 value 값이 있는
+         Boolean exist = authRedisService.existVerificationCode(
+                 request.getEmail(), request.getVerificationCode());
+        log.info("[AuthCommandServiceImpl/sendEmail] 인증번호 exist={}", exist);
+        return ExistVerificationCodeResponse.builder()
+                .exist(exist).build();
+    }
 
 }
