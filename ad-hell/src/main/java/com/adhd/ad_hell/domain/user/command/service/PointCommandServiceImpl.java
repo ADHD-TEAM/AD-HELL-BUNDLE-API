@@ -28,7 +28,7 @@ public class PointCommandServiceImpl implements PointCommandService {
 
     Long userId = securityUtil.getLoginUserInfo().getUserId();
 
-    User user = userCommandRepository.findByIdForUpdate(userId)
+    User user = userCommandRepository.findByUserId(userId)
                                      .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
     user.earnPoint(request.getPoint());
