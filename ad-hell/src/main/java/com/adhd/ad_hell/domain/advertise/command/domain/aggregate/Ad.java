@@ -2,9 +2,9 @@ package com.adhd.ad_hell.domain.advertise.command.domain.aggregate;
 
 
 import com.adhd.ad_hell.common.BaseTimeEntity;
+import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdCreateRequest;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="ad")
 public class Ad extends BaseTimeEntity {
 
@@ -71,6 +72,35 @@ public class Ad extends BaseTimeEntity {
         this.bookmark_count = bookmark_count;
         this.comment_count = comment_count;
         this.view_count = view_count;
+    }
+
+    /* ====== 빌더 ====== */
+    @Builder
+    private Ad(Long userId, Long categoryId, String title,
+               AdStatus status,int like_count,int bookmark_count,
+               int comment_count,int view_count) {
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.title = title;
+        this.status = status;
+        this.like_count = 0;
+        this.bookmark_count = 0;
+        this.comment_count = 0;
+        this.view_count = 0;
+    }
+
+    /* ====== DTO → Entity 변환 ====== */
+    public static Ad fromCreateDto(AdCreateRequest dto) {
+        return Ad.builder()
+                .userId(dto.getUserId())
+                .categoryId(dto.getCategoryId())
+                .title(dto.getTitle())
+                .status(dto.getStatus())
+                .like_count(dto.getLike_count())
+                .bookmark_count(dto.getBookmark_count())
+                .comment_count(dto.getComment_count())
+                .view_count(dto.getView_count())
+                .build();
     }
 
 
