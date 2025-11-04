@@ -1,58 +1,42 @@
 package com.adhd.ad_hell.domain.advertise.command.application.controller;
 
-import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdCreateRequest;
 import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdUpdateRequest;
-import com.adhd.ad_hell.domain.advertise.command.application.dto.response.AdCommandResponse;
 import com.adhd.ad_hell.domain.advertise.command.application.service.AdCommandService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+// ... existing code ...
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/adFiles")
+@RequestMapping("/ads")
 public class AdCommandController {
 
     private final AdCommandService adCommandService;
 
-    // 광고 생성: JSON + 파일(multipart/form-data)
-    @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity<ApiResponse<AdCommandResponse>> createAd(
-            @RequestPart AdCreateRequest adCreateRequest,
-            @RequestPart MultipartFile adContent
-    ) {
-        Long adId = adCommandService.createAdFile(adCreateRequest, adContent);
-        AdCommandResponse response = AdCommandResponse.builder()
-                .adId(adId)
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(ApiResponse.success(response));
+    /* 광고 생성 (JSON 데이터만) */
+    @PostMapping(value = "/create", consumes = "application/json")
+    public ResponseEntity<Map<String, Object>> createAd(@RequestBody AdCreateRequest req) {
+        Long adId = adCommandService.createAd(req);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of("adId", adId));
     }
 
-    // 광고 수정: 파일 전체 교체 전략(JSON + 다중 파일)
-    @PutMapping(value = "/{adId}", consumes = "multipart/form-data")
-    public ResponseEntity<ApiResponse<Void>> updateAd(
-            @PathVariable Long adId,
-            @RequestPart AdUpdateRequest adUpdateRequest,
-            @RequestPart(required = false) List<MultipartFile> newFiles
-    ) {
-        adCommandService.updateAdFile(adId, adUpdateRequest, newFiles);
-        return ResponseEntity.ok(ApiResponse.success(null));
+    // ... existing code ..
+    @PostMapping(value = "/delete", consumes = "application/json")
+    public ResponseEntity<Map<String, Object>> deleteAd(@RequestBody AdCreateRequest req) {
+        adCommandService.deleteAd(req);
+        return ResponseEntity.noContent().build();
     }
 
-    // 광고 삭제(soft delete 또는 설정에 따름)
-    @DeleteMapping("/{adId}")
-    public ResponseEntity<ApiResponse<Void>> deleteAd(
-            @PathVariable Long adId
-    ) {
-        adCommandService.deleteAd(adId);
-        return ResponseEntity.ok(ApiResponse.success(null));
+
+    @PostMapping(value = "/update", consumes = "application/json")
+    public ResponseEntity<Map<String, Object>> updateAd(@RequestBody AdUpdateRequest req) {
+        adCommandService.updateAd(req);
+        return ResponseEntity.noContent().build();
     }
 }

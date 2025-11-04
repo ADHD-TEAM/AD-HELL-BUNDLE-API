@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class AdCommandResponse {
-    private Long adId;
+public class AdFileCommandResponse {
+    private Long fileId;
 }
