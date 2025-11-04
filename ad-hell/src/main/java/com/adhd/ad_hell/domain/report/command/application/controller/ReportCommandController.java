@@ -2,8 +2,7 @@ package com.adhd.ad_hell.domain.report.command.application.controller;
 
 import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.domain.report.command.application.dto.request.CreateReportRequest;
-import com.adhd.ad_hell.domain.report.command.application.service.RewardCommandService;
-import com.adhd.ad_hell.domain.reward.command.application.dto.request.CreateRewardRequest;
+import com.adhd.ad_hell.domain.report.command.application.service.ReportCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/reports")
 public class ReportCommandController {
 
-  private final RewardCommandService rewardCommandService;
+  private final ReportCommandService reportCommandService;
 
   @PostMapping
   public ResponseEntity<ApiResponse<Void>> createReport(
       @RequestBody CreateReportRequest req
   ) {
-    rewardCommandService.createReport(req);
+    reportCommandService.createReport(req);
     return ResponseEntity
         .status(HttpStatus.CREATED)
         .body(ApiResponse.success(null));

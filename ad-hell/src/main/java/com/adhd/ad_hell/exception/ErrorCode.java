@@ -3,6 +3,7 @@ package com.adhd.ad_hell.exception;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
@@ -56,7 +57,12 @@ public enum ErrorCode {
     NOTI_TIME_NOT_ALLOWED("100004","예약 발송 시각은 현재 이후여야 합니다." ,HttpStatus.UNAUTHORIZED ),
     NOTI_SENDTYPE_PRESENT("100005", "발송 대상 타입은 필수입니다.", HttpStatus.BAD_REQUEST ),
     NOTI_CUSTOM_PRESENT("100006", "CUSTOM 발송은 대상 회원 목록이 필요합니다.", HttpStatus.BAD_REQUEST ),
-    NOTI_SENDTYPE_NOT_ALLOWED("100007","지원하지 않는 발송 타입입니다: " ,HttpStatus.UNAUTHORIZED );
+    NOTI_SENDTYPE_NOT_ALLOWED("100007","지원하지 않는 발송 타입입니다: " ,HttpStatus.UNAUTHORIZED ),
+
+    // 포인트 관련 에러코드
+    POINT_HISTORY_NOT_FOUND("120001", "포인트 이력이 존재하지 않습니다.", HttpStatus.NOT_FOUND ),
+    POINT_NOT_ENOUGH("120002", "포인트가 충분하지 않습니다.", HttpStatus.BAD_REQUEST ),
+    POINT_DECREASE_FAILED("120003", "포인트 감소 실패", HttpStatus.NOT_MODIFIED );
   private final String code;
   private final String message;
   private final HttpStatusCode httpStatusCode;
