@@ -27,4 +27,5 @@ public class ReportCommandController {
         .status(HttpStatus.CREATED)
         .body(ApiResponse.success(null));
   }
+
 }

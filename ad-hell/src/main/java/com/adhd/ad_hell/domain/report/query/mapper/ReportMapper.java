@@ -11,4 +11,6 @@ public interface ReportMapper {
   ReportDetailResponse findReportById(Long reportId);
 
   List<ReportResponse> findReportList();
+
+  List<ReportResponse> findReportsByUserId(Long userId);
 }

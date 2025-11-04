@@ -4,16 +4,12 @@ import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.domain.report.query.dto.response.ReportDetailResponse;
 import com.adhd.ad_hell.domain.report.query.dto.response.ReportResponse;
 import com.adhd.ad_hell.domain.report.query.service.ReportQueryService;
-import com.adhd.ad_hell.domain.reward.query.dto.response.RewardDetailResponse;
-import com.adhd.ad_hell.domain.reward.query.dto.response.RewardResponse;
-import com.adhd.ad_hell.domain.reward.query.service.RewardQueryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,7 +20,7 @@ public class ReportQueryController {
   private final ReportQueryService reportQueryService;
 
   @GetMapping("/{reportId}")
-  public ResponseEntity<ApiResponse<ReportDetailResponse>> getRewardDetails(
+  public ResponseEntity<ApiResponse<ReportDetailResponse>> getReportDetails(
       @PathVariable Long reportId
   ) {
     ReportDetailResponse response = reportQueryService.getReportDetail(reportId);
@@ -32,8 +28,22 @@ public class ReportQueryController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<ReportResponse>>> getRewards() {
+  public ResponseEntity<ApiResponse<List<ReportResponse>>> getReports() {
     List<ReportResponse> list = reportQueryService.getReportList();
     return ResponseEntity.ok(ApiResponse.success(list));
+  }
+
+  @GetMapping("/me")
+  public ResponseEntity<List<ReportResponse>> getMyReports() {
+    List<ReportResponse> reports = reportQueryService.getMyReports();
+    return ResponseEntity.ok(reports);
+  }
+
+  @GetMapping("/me/{reportId}")
+  public ResponseEntity<ApiResponse<ReportDetailResponse>> getMyReportDetail(
+      @PathVariable Long reportId
+  ) {
+    ReportDetailResponse detail = reportQueryService.getMyReportDetail(reportId);
+    return ResponseEntity.ok(ApiResponse.success(detail));
   }
 }
