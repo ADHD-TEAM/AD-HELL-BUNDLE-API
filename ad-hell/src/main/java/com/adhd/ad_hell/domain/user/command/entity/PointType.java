@@ -1,5 +1,8 @@
 package com.adhd.ad_hell.domain.user.command.entity;
 
 public enum PointType {
-  VIEW, CHANGE
+  VIEW,
+  EARN,
+  USE,
+  COMPENSATION
 }

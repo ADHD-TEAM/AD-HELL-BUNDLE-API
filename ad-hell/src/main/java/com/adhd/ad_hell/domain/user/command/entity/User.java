@@ -8,6 +8,8 @@ import com.adhd.ad_hell.domain.user.command.dto.request.UserSignUpRequest;
 
 
 import com.adhd.ad_hell.domain.user.query.dto.UserDTO;
+import com.adhd.ad_hell.exception.BusinessException;
+import com.adhd.ad_hell.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -58,7 +60,7 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Builder.Default
-    private Long amount = 0L;
+    private Integer amount = 0;
 
     public User(Role roleType,  String loginId, String password, String nickname, String email) {
         this.roleType = roleType;
@@ -107,7 +109,12 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
-    public void earnPoint(Long point) {
+    public void earnPoint(Integer point) {
       this.amount += point;
+    }
+
+    public void decreasePoint(Integer point) {
+      if (amount < point) throw new BusinessException(ErrorCode.POINT_NOT_ENOUGH);
+      this.amount -= point;
     }
 }

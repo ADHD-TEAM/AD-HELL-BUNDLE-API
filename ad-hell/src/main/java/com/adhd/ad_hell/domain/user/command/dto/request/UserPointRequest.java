@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class UserPointRequest {
-  private Long point;
+  private Integer point;
 }

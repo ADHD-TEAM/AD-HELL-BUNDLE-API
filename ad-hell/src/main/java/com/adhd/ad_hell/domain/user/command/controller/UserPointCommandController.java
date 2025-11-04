@@ -21,8 +21,7 @@ public class UserPointCommandController {
   private final PointCommandService pointCommandService;
 
   @PostMapping("/point")
-  public ResponseEntity<ApiResponse<UserPointResponse>> isAvailable(
-      @RequestBody UserPointRequest userPointRequest) {
+  public ResponseEntity<ApiResponse<UserPointResponse>> earnPoint(@RequestBody UserPointRequest userPointRequest) {
     UserPointResponse response = pointCommandService.earnPoints(userPointRequest);
     return ResponseEntity.ok(ApiResponse.success(response));
   }

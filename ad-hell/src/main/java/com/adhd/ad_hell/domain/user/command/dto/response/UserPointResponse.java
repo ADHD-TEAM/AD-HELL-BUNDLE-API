@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserPointResponse {
-  private Long amount;
+  private Integer amount;
+  private String message;
 }

@@ -24,23 +24,28 @@ public class PointCommandServiceImpl implements PointCommandService {
 
   @Transactional
   @Override
-  public UserPointResponse earnPoints(UserPointRequest userPointRequest) {
-    User findUser = userCommandRepository.findByIdForUpdate(
-        securityUtil.getLoginUserInfo().getUserId()
-    ).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+  public UserPointResponse earnPoints(UserPointRequest request) {
 
-    findUser.earnPoint(userPointRequest.getPoint());
+    Long userId = securityUtil.getLoginUserInfo().getUserId();
 
-    PointHistory pointHistory = PointHistory.builder()
-        .user(findUser)
-        .changeAmount(userPointRequest.getPoint().intValue())
-        .pointType(PointType.VIEW)
-        .build();
+    User user = userCommandRepository.findByIdForUpdate(userId)
+                                     .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-    pointCommandRepository.save(pointHistory);
+    user.earnPoint(request.getPoint());
+
+    PointHistory history = PointHistory.builder()
+                                       .user(user)
+                                       .changeAmount(request.getPoint())
+                                       .balance(user.getAmount())
+                                       .type(PointType.VIEW)
+                                       .description("포인트 적립 (광고 시청)")
+                                       .build();
+
+    pointCommandRepository.save(history);
 
     return UserPointResponse.builder()
-        .amount(findUser.getAmount())
+                            .amount(user.getAmount())
+                            .message("포인트가 적립되었습니다.")
                             .build();
   }
 }
