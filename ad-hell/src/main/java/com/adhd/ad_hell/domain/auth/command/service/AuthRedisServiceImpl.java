@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -32,11 +33,14 @@ public class AuthRedisServiceImpl implements AuthRedisService {
 
     // 인증번호 확인
     @Override
-    public Boolean getValidateCode(String email) {
-        log.info("[AuthRedisServiceImpl/getValidateCode]  email={} ", email);
+    public Boolean existVerificationCode(String email, String code) {
         String key = "email:verity:" + email;
-        Boolean exist = redisTemplate.hasKey(key);
-        log.info("[AuthRedisServiceImpl/getValidateCode]  exist={} ", exist);
-        return Boolean.TRUE.equals(exist);
+        String originCode = redisTemplate.opsForValue().get(key).toString();
+
+        log.info("[AuthRedisServiceImpl/getValidateCode]  email={} ", email);
+        log.info("[AuthRedisServiceImpl/getValidateCode]  originCode={} ", originCode);
+
+        // 레디스에 있는 인증코드와 받은 코드가 같은지 확인
+        return Objects.equals(originCode, code);
     }
 }
