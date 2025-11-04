@@ -26,6 +26,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.adhd.ad_hell.exception.ErrorCode.*;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -51,9 +53,9 @@ public class NotificationCommandService {
     @Transactional
     public void markRead(Long userId, Long notificationId) {
         var n = notificationRepo.findById(notificationId)
-                .orElseThrow(() -> new IllegalArgumentException("알림이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(NOTI_NOT_FOUND.getMessage()));
         if (!Objects.equals(n.getUserId(), userId)) {
-            throw new IllegalStateException("본인 알림만 읽음 처리할 수 있습니다.");
+            throw new IllegalStateException(NOTI_UNAUTHORIZED.getMessage());
         }
         if (n.getReadYn() == YnType.N) n.markRead();
 
@@ -69,7 +71,7 @@ public class NotificationCommandService {
     @Transactional
     public NotificationDispatchResponse sendNotification(Long templateId, NotificationSendRequest request) {
         var template = templateRepo.findById(templateId)
-                .orElseThrow(() -> new IllegalArgumentException("템플릿이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(NOTI_TEMPLATE_NOT_FOUND.getMessage()));
 
         // 1) 대상자 집합 계산
         Set<Long> recipients = resolveRecipients(request);
@@ -131,11 +133,11 @@ public class NotificationCommandService {
     @Transactional
     public NotificationScheduleResponse reserveNotification(Long templateId, NotificationScheduleRequest request) {
         if (request.getScheduledAt() == null || !request.getScheduledAt().isAfter(LocalDateTime.now())) {
-            throw new IllegalArgumentException("예약 발송 시각은 현재 이후여야 합니다.");
+            throw new IllegalArgumentException(NOTI_TIME_NOT_ALLOWED.getMessage());
         }
 
         var template = templateRepo.findById(templateId)
-                .orElseThrow(() -> new IllegalArgumentException("템플릿이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(NOTI_TEMPLATE_NOT_FOUND.getMessage()));
 
         NotificationSchedule schedule = NotificationSchedule.builder()
                 .template(template)
@@ -178,7 +180,7 @@ public class NotificationCommandService {
     @Transactional
     public NotificationTemplateResponse updateTemplate(Long templateId, NotificationTemplateUpdateRequest request) {
         NotificationTemplate t = templateRepo.findById(templateId)
-                .orElseThrow(() -> new IllegalArgumentException("템플릿이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(NOTI_TEMPLATE_NOT_FOUND.getMessage()));
 
         t.update(request.getTemplateKind(), request.getTemplateTitle(), request.getTemplateBody());
 
@@ -193,7 +195,7 @@ public class NotificationCommandService {
     @Transactional
     public void deleteTemplate(Long templateId) {
         NotificationTemplate t = templateRepo.findById(templateId)
-                .orElseThrow(() -> new IllegalArgumentException("템플릿이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(NOTI_TEMPLATE_NOT_FOUND.getMessage()));
         t.delete(); // soft delete (deletedYn = Y)
     }
 
@@ -201,12 +203,12 @@ public class NotificationCommandService {
 
     private Set<Long> resolveRecipients(NotificationSendRequest req) {
         NotificationSendRequest.TargetType type = req.getTargetType();
-        if (type == null) throw new IllegalArgumentException("발송 대상 타입은 필수입니다.");
+        if (type == null) throw new IllegalArgumentException(NOTI_SENDTYPE_PRESENT.getMessage());
 
         switch (type) {
             case CUSTOM -> {
                 if (req.getTargetMemberIds() == null || req.getTargetMemberIds().isEmpty()) {
-                    throw new IllegalArgumentException("CUSTOM 발송은 대상 회원 목록이 필요합니다.");
+                    throw new IllegalArgumentException(NOTI_CUSTOM_PRESENT.getMessage());
                 }
                 return new HashSet<>(req.getTargetMemberIds());
             }
@@ -217,7 +219,7 @@ public class NotificationCommandService {
                 // 시스템에 등록된(푸시 설정 저장소가 알고 있는) 모든 회원
                 return new HashSet<>(pushPref.findAllKnownMembers());
             }
-            default -> throw new IllegalArgumentException("지원하지 않는 발송 타입입니다: " + type);
+            default -> throw new IllegalArgumentException(NOTI_SENDTYPE_NOT_ALLOWED.getMessage() + type);
         }
     }
 
