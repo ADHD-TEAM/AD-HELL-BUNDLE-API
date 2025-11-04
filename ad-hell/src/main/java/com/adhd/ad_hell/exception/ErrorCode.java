@@ -24,22 +24,39 @@ public enum ErrorCode {
   REWARD_STOCK_INVALID_STATUS("40011", "이미 사용되었거나 만료된 경품입니다.", HttpStatus.BAD_REQUEST),
 
   // 게시판 관련 에러코드
-  BOARD_NOT_FOUND("70001", "게시판을 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+  BOARD_NOT_FOUND("60001", "게시판을 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+    // 게시글 관련 에러코드
+    COMMENT_NOT_FOUND("70001", "게시글을 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+    // 공지사항 관련 에러코드
+    ANNOUNCEMENT_NOT_FOUND("80001", "공지사항을 찾지 못했습니다.", HttpStatus.NOT_FOUND),
     // 문의 관련 에러코드
-    INQUIRY_NOT_FOUND("80001", "문의를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+    INQUIRY_NOT_FOUND("90001", "문의를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
 
 
-  //파일 관련 에러코드
+
+    //광고 관련 에러코드
+    AD_NOT_FOUND("60001", "광고를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
+
+    //파일 관련 에러코드
   FILE_EMPTY("50001", "업로드된 파일이 비어 있습니다.", HttpStatus.NOT_FOUND),
     FILE_STORE_FAILED("50002", "파일 저장에 실패했습니다.", HttpStatus.NOT_FOUND),
 
-    AD_NOT_FOUND("60001","광고를 찾을수 없습니다." , HttpStatus.NOT_FOUND ),
-    FILE_DIR_CREATE_FAILED("80001","파일 저장소를 만드는데 실패했습니다." ,HttpStatus.BAD_REQUEST ),
-    FILE_NAME_NOT_PRESENT("90001","파일 이름이 입력되지 않았습니다." ,HttpStatus.BAD_REQUEST ),
-    FILE_EXTENSION_NOT_ALLOWED("1000001","해당 파일 확장자는 지원하지 않습니다." ,HttpStatus.UNAUTHORIZED ),
-    FILE_SAVE_IO_ERROR("110001","파일 저장에 실패했습니다." ,HttpStatus.INTERNAL_SERVER_ERROR ),
-    FILE_DELETE_IO_ERROR("120001","파일 삭제에 실패했습니다." ,HttpStatus.INTERNAL_SERVER_ERROR ),
-    FILE_PATH_TRAVERSAL_DETECTED("130001","파일 경로에 이상이 있습니다." ,HttpStatus.NOT_FOUND ),;
+    FILE_DIR_CREATE_FAILED("50003","파일 저장소를 만드는데 실패했습니다." ,HttpStatus.BAD_REQUEST ),
+    FILE_NAME_NOT_PRESENT("50004","파일 이름이 입력되지 않았습니다." ,HttpStatus.BAD_REQUEST ),
+    FILE_EXTENSION_NOT_ALLOWED("50005","해당 파일 확장자는 지원하지 않습니다." ,HttpStatus.UNAUTHORIZED ),
+    FILE_SAVE_IO_ERROR("50006","파일 저장에 실패했습니다." ,HttpStatus.INTERNAL_SERVER_ERROR ),
+    FILE_DELETE_IO_ERROR("50007","파일 삭제에 실패했습니다." ,HttpStatus.INTERNAL_SERVER_ERROR ),
+    FILE_PATH_TRAVERSAL_DETECTED("50008","파일 경로에 이상이 있습니다." ,HttpStatus.NOT_FOUND ),
+
+
+    // 알림 관련 에러코드
+    NOTI_NOT_FOUND("100001","알림이 존재하지 않습니다." ,HttpStatus.NOT_FOUND ),
+    NOTI_UNAUTHORIZED("100002","본인 알림만 읽음 처리할 수 있습니다." ,HttpStatus.BAD_REQUEST ),
+    NOTI_TEMPLATE_NOT_FOUND("100003","템플릿이 존재하지 않습니다." ,HttpStatus.NOT_FOUND),
+    NOTI_TIME_NOT_ALLOWED("100004","예약 발송 시각은 현재 이후여야 합니다." ,HttpStatus.UNAUTHORIZED ),
+    NOTI_SENDTYPE_PRESENT("100005", "발송 대상 타입은 필수입니다.", HttpStatus.BAD_REQUEST ),
+    NOTI_CUSTOM_PRESENT("100006", "CUSTOM 발송은 대상 회원 목록이 필요합니다.", HttpStatus.BAD_REQUEST ),
+    NOTI_SENDTYPE_NOT_ALLOWED("100007","지원하지 않는 발송 타입입니다: " ,HttpStatus.UNAUTHORIZED );
   private final String code;
   private final String message;
   private final HttpStatusCode httpStatusCode;
