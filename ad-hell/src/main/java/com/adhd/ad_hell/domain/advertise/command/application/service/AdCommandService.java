@@ -33,9 +33,9 @@ public class AdCommandService {
     @Value("${ad.adfile-url}")
     private String AdFile_URL;
 
-    /* 상품 등록 */
+    /* 광고 파일 등록 */
     @Transactional
-    public Long createAd(AdCreateRequest adCreateRequest, MultipartFile adContent) {
+    public Long createAdFile(AdCreateRequest adCreateRequest, MultipartFile adContent) {
 
         // 파일을 먼저 저장하고 실패 시 DB 작업을 수행하지 않음
         final String newFileName = fileStorage.store(adContent);
@@ -81,7 +81,7 @@ public class AdCommandService {
     }
 
     @Transactional
-    public void updateAdWithFiles(Long adId, AdUpdateRequest req, List<MultipartFile> newFiles) {
+    public void updateAdFile(Long adId, AdUpdateRequest req, List<MultipartFile> newFiles) {
 
         // 1) Ad 조회
         Ad ad = adRepository.findByAdId(adId)

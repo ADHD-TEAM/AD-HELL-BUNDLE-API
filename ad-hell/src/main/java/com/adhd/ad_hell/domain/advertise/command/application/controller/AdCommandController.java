@@ -26,7 +26,7 @@ public class AdCommandController {
             @RequestPart AdCreateRequest adCreateRequest,
             @RequestPart MultipartFile adContent
     ) {
-        Long adId = adCommandService.createAd(adCreateRequest, adContent);
+        Long adId = adCommandService.createAdFile(adCreateRequest, adContent);
         AdCommandResponse response = AdCommandResponse.builder()
                 .adId(adId)
                 .build();
@@ -43,7 +43,7 @@ public class AdCommandController {
             @RequestPart AdUpdateRequest adUpdateRequest,
             @RequestPart(required = false) List<MultipartFile> newFiles
     ) {
-        adCommandService.updateAdWithFiles(adId, adUpdateRequest, newFiles);
+        adCommandService.updateAdFile(adId, adUpdateRequest, newFiles);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
