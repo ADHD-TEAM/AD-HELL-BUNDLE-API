@@ -50,6 +50,30 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // 3. method, url 기준 인증/인가 설정
             .authorizeHttpRequests(auth -> {
+
+                /* SSE 테스트 */
+
+                // [A] SSE 테스트를 위한 예외 허용 (테스트용)
+                // 정적 리소스 & 테스트 페이지
+                auth.requestMatchers(
+                        "/",              // 루트
+                        "/index.html",
+                        "/sse-test.html", // 우리가 만들 테스트 페이지
+                        "/static/**",
+                        "/css/**",
+                        "/js/**",
+                        "/images/**",
+                        "/favicon.ico"
+                ).permitAll();
+
+                // SSE 구독 엔드포인트도 일단 모두 허용 (테스트용)
+                auth.requestMatchers(
+                        HttpMethod.GET,
+                        "/api/users/*/notifications/stream"
+                ).permitAll();
+
+                /* SSE 테스트 */
+
                 for(ApiEndpoint endpoint : ApiEndpoint.values()) {
                     if (endpoint.getRole() == null) {
                         // 회원가입, 로그인, 로그아웃
