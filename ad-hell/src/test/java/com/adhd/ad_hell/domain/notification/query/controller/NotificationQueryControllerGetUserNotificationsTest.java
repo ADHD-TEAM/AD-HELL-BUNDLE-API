@@ -8,6 +8,7 @@ import com.adhd.ad_hell.domain.notification.query.service.NotificationQueryServi
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -16,12 +17,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(NotificationQueryController.class)
+@AutoConfigureMockMvc(addFilters = false) // 테스트용 Security 필터 끄기
 class NotificationQueryControllerGetUserNotificationsTest {
 
     @Autowired
@@ -39,6 +42,8 @@ class NotificationQueryControllerGetUserNotificationsTest {
     void getUserNotifications_success() throws Exception {
         // given
         Long userId = 100L;
+        int page = 0;
+        int size = 10;
 
         NotificationSummaryResponse n1 = NotificationSummaryResponse.builder()
                 .notificationId(1L)
@@ -57,7 +62,7 @@ class NotificationQueryControllerGetUserNotificationsTest {
                 .build();
 
         Pagination pagination = Pagination.builder()
-                .currentPage(0)
+                .currentPage(page)
                 .totalPages(1)
                 .totalItems(2L)
                 .build();
@@ -67,13 +72,14 @@ class NotificationQueryControllerGetUserNotificationsTest {
                 .pagination(pagination)
                 .build();
 
-        given(queryService.getUserNotifications(eq(userId), anyInt(), any()))
+        // page, size 값까지 명확히 검증하기 위해 eq(...) 사용
+        given(queryService.getUserNotifications(eq(userId), eq(page), eq(size)))
                 .willReturn(pageResponse);
 
         // when & then
         mockMvc.perform(get("/api/users/{userId}/notifications", userId)
-                        .param("page", "0")
-                        .param("size", "10")
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 // ApiResponse<T> 의 data 안에 NotificationPageResponse 가 들어간다고 가정
@@ -85,6 +91,10 @@ class NotificationQueryControllerGetUserNotificationsTest {
                 .andExpect(jsonPath("$.data.pagination.currentPage").value(0))
                 .andExpect(jsonPath("$.data.pagination.totalPages").value(1))
                 .andExpect(jsonPath("$.data.pagination.totalItems").value(2));
+
+        // 서비스가 기대한 인자로 1번 호출됐는지도 확인
+        then(queryService).should()
+                .getUserNotifications(eq(userId), eq(page), eq(size));
     }
 
     @Test
@@ -101,6 +111,7 @@ class NotificationQueryControllerGetUserNotificationsTest {
         mockMvc.perform(get("/api/users/{userId}/notifications/unread-count", userId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                // ApiResponse<Long> 의 data 에 숫자만 들어간다고 가정
                 .andExpect(jsonPath("$.data").value((int) unread)); // long -> int 캐스팅 주의
     }
 }
