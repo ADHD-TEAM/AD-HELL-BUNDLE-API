@@ -1,4 +1,4 @@
-package com.adhd.ad_hell.common.uitl;
+package com.adhd.ad_hell.common.util;
 
 import com.adhd.ad_hell.common.dto.CustomUserDetails;
 import com.adhd.ad_hell.common.dto.LoginUserInfo;
