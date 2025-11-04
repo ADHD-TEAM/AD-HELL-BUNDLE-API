@@ -21,7 +21,7 @@
             n.notification_id,
             n.notification_title,
             n.notification_body,
-            CASE WHEN n.is_read = 'Y' THEN TRUE ELSE FALSE END AS read,
+            CASE WHEN n.is_read = 'Y' THEN TRUE ELSE FALSE END AS is_read_flag,
             n.created_at
         FROM notification n
         WHERE n.user_id = #{userId}
