@@ -28,4 +28,16 @@
           r.created_at
     FROM report r
   </select>
+
+  <select id="findReportsByUserId"
+    resultType="com.adhd.ad_hell.domain.report.query.dto.response.ReportResponse">
+    SELECT
+          r.id,
+          r.category_id,
+          r.reporter_id,
+          r.status,
+          r.created_at
+    FROM report r
+    WHERE r.reporter_id = #{userId}
+  </select>
 </mapper>
