@@ -45,7 +45,7 @@ public enum ApiEndpoint {
     REWARD_STOCK_POST(HttpMethod.POST, "/api/rewards/*/stocks", Role.ADMIN),
     REWARD_STOCK_EXCHANGE(HttpMethod.POST, "/api/rewards/*/exchange", Role.USER),
     REWARD_STOCK_DETAIL(HttpMethod.GET, "/api/rewards/*/stock", Role.ADMIN),
-    REWARD_LIST(HttpMethod.GET, "/api/rewards", Role.USER),
+    REWARD_LIST(HttpMethod.GET, "/api/rewards", null),
     REWARD_DETAIL(HttpMethod.GET, "/api/rewards/**", Role.USER),
 
     // POINT
