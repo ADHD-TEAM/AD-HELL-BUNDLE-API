@@ -187,5 +187,187 @@ class NotificationCommandServiceSendNotificationTest {
         assertEquals(0, response.getRecipientCount());
         assertNull(response.getNotificationId(), "대상이 없으면 대표 notificationId는 null 이어야 한다.");
     }
-}
 
+    // ========================= 여기서부터 추가 분기 테스트 =========================
+
+    @Test
+    @DisplayName("템플릿이 존재하지 않으면 IllegalArgumentException 을 던진다")
+    void sendNotificationTemplateNotFound() {
+        // given
+        Long templateId = 999L;
+
+        when(templateRepo.findById(templateId)).thenReturn(Optional.empty());
+
+        NotificationSendRequest request = NotificationSendRequest.builder()
+                .targetType(NotificationSendRequest.TargetType.PUSH_ENABLED)
+                .build();
+
+        // when & then
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> sut.sendNotification(templateId, request)
+        );
+
+        assertEquals("템플릿이 존재하지 않습니다.", ex.getMessage());
+        verify(templateRepo).findById(templateId);
+        verifyNoMoreInteractions(templateRepo);
+        verifyNoInteractions(notificationRepo, pushPref, publisher);
+    }
+
+    @Test
+    @DisplayName("targetType 이 null이면 IllegalArgumentException(발송 대상 타입은 필수입니다.) 을 던진다")
+    void sendNotificationTargetTypeNull() {
+        // given
+        Long templateId = 1L;
+
+        NotificationTemplate template = NotificationTemplate.builder()
+                .templateKind(NotificationTemplateKind.NORMAL)
+                .templateTitle("공지")
+                .templateBody("내용")
+                .deletedYn(YnType.no())
+                .build();
+
+        when(templateRepo.findById(templateId)).thenReturn(Optional.of(template));
+
+        NotificationSendRequest request = NotificationSendRequest.builder()
+                .targetType(null)     // resolveRecipients 에서 예외
+                .build();
+
+        // when & then
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> sut.sendNotification(templateId, request)
+        );
+
+        assertEquals("발송 대상 타입은 필수입니다.", ex.getMessage());
+        verify(templateRepo).findById(templateId);
+        verifyNoMoreInteractions(templateRepo);
+        verifyNoInteractions(notificationRepo, pushPref, publisher);
+    }
+
+    @Test
+    @DisplayName("CUSTOM 타입인데 대상 회원 목록이 비어있으면 IllegalArgumentException(CUSTOM 발송은 대상 회원 목록이 필요) 을 던진다")
+    void sendNotificationCustomWithoutTargets() {
+        // given
+        Long templateId = 1L;
+
+        NotificationTemplate template = NotificationTemplate.builder()
+                .templateKind(NotificationTemplateKind.NORMAL)
+                .templateTitle("공지")
+                .templateBody("내용")
+                .deletedYn(YnType.no())
+                .build();
+
+        when(templateRepo.findById(templateId)).thenReturn(Optional.of(template));
+
+        NotificationSendRequest request = NotificationSendRequest.builder()
+                .targetType(NotificationSendRequest.TargetType.CUSTOM)
+                .targetMemberIds(Collections.emptyList())    // 비어있음
+                .build();
+
+        // when & then
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> sut.sendNotification(templateId, request)
+        );
+
+        assertEquals("CUSTOM 발송은 대상 회원 목록이 필요합니다.", ex.getMessage());
+        verify(templateRepo).findById(templateId);
+        verifyNoMoreInteractions(templateRepo);
+        verifyNoInteractions(notificationRepo, pushPref, publisher);
+    }
+
+    @Test
+    @DisplayName("ALL 타입이면 PushPreferencePort.findAllKnownMembers() 를 사용해 모든 known 멤버에게 발송한다")
+    void sendNotificationAllTargetType() {
+        // given
+        Long templateId = 1L;
+
+        NotificationTemplate template = NotificationTemplate.builder()
+                .templateKind(NotificationTemplateKind.NORMAL)
+                .templateTitle("전체 공지")
+                .templateBody("전체 공지 내용")
+                .deletedYn(YnType.no())
+                .build();
+
+        when(templateRepo.findById(templateId)).thenReturn(Optional.of(template));
+
+        Set<Long> allMembers = new HashSet<>(Arrays.asList(10L, 20L, 30L));
+        when(pushPref.findAllKnownMembers()).thenReturn(allMembers);
+
+        ArgumentCaptor<List<Notification>> saveAllCaptor = ArgumentCaptor.forClass(List.class);
+        when(notificationRepo.saveAll(saveAllCaptor.capture()))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        NotificationSendRequest request = NotificationSendRequest.builder()
+                .targetType(NotificationSendRequest.TargetType.ALL)
+                .build();
+
+        TransactionSynchronizationManager.initSynchronization();
+        NotificationDispatchResponse response;
+        try {
+            // when
+            response = sut.sendNotification(templateId, request);
+        } finally {
+            // afterCommit 은 굳이 호출하지 않아도 됨 (이 테스트에선 발행 여부까지는 안 보므로)
+            TransactionSynchronizationManager.clearSynchronization();
+        }
+
+        // then
+        verify(templateRepo).findById(templateId);
+        verify(pushPref).findAllKnownMembers();
+        verify(notificationRepo).saveAll(anyList());
+
+        List<Notification> saved = saveAllCaptor.getValue();
+        assertEquals(3, saved.size());
+        assertTrue(saved.stream().allMatch(n -> allMembers.contains(n.getUserId())));
+        assertEquals("전체 공지", saved.get(0).getNotificationTitle());
+        assertEquals("전체 공지 내용", saved.get(0).getNotificationBody());
+
+        assertEquals(3, response.getRecipientCount());
+        // 대표 ID(null이어도 상관 없음 – JPA가 실제 환경에서 채워줌)
+    }
+
+    @Test
+    @DisplayName("variables 가 null 인 경우 mergeVariables 에서 원본 제목/본문이 그대로 사용된다")
+    void sendNotificationVariablesNull() {
+        // given
+        Long templateId = 1L;
+
+        NotificationTemplate template = NotificationTemplate.builder()
+                .templateKind(NotificationTemplateKind.NORMAL)
+                .templateTitle("{{name}}님, 공지입니다")
+                .templateBody("안녕하세요 {{name}}님")
+                .deletedYn(YnType.no())
+                .build();
+
+        when(templateRepo.findById(templateId)).thenReturn(Optional.of(template));
+
+        Set<Long> members = new HashSet<>(List.of(1L));
+        when(pushPref.findAllEnabled()).thenReturn(members);
+
+        ArgumentCaptor<List<Notification>> saveAllCaptor = ArgumentCaptor.forClass(List.class);
+        when(notificationRepo.saveAll(saveAllCaptor.capture()))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        NotificationSendRequest request = NotificationSendRequest.builder()
+                .targetType(NotificationSendRequest.TargetType.PUSH_ENABLED)
+                .variables(null)   // mergeVariables 에서 vars == null 분기
+                .build();
+
+        TransactionSynchronizationManager.initSynchronization();
+        try {
+            sut.sendNotification(templateId, request);
+        } finally {
+            TransactionSynchronizationManager.clearSynchronization();
+        }
+
+        List<Notification> saved = saveAllCaptor.getValue();
+        assertEquals(1, saved.size());
+        Notification n = saved.get(0);
+
+        // variables 가 null 이면 {{name}} 치환 없이 원본 문자열이 간다
+        assertEquals("{{name}}님, 공지입니다", n.getNotificationTitle());
+        assertEquals("안녕하세요 {{name}}님", n.getNotificationBody());
+    }
+}
