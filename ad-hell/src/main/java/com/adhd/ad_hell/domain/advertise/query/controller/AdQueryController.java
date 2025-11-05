@@ -33,9 +33,4 @@ public class AdQueryController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-
-
-
-
-
 }

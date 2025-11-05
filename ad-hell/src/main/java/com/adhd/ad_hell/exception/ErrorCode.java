@@ -67,7 +67,9 @@ public enum ErrorCode {
     // 신고 관련 에러코드
     REPORT_NOT_FOUND("130001", "신고 목록이 존재하지 않습니다.", HttpStatus.NOT_FOUND ),
 
-    ACCESS_DENIED("990001", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN ),;
+    ACCESS_DENIED("990001", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN ),
+    // 댓글 관련 에러 코드
+    AD_COMMENT_NOT_FOUND("140000","댓글이 존재 하지않습니다", HttpStatus.NOT_FOUND);
   private final String code;
   private final String message;
   private final HttpStatusCode httpStatusCode;

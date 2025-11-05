@@ -21,9 +21,12 @@ public class AdQueryService {
 
     private final AdMapper adMapper;
 
-//    광고 상세 조회
+    // 광고 상세 조회
     @Transactional(readOnly = true)
     public AdDetailResponse getAd(Long adId) {
+        // 조회수 증가
+        adMapper.incrementViewCount(adId);
+
         AdDto ad = Optional.ofNullable(
                 adMapper.selectAdById(adId))
                         .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND))
