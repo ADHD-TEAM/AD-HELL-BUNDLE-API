@@ -18,7 +18,7 @@ public class AdFile {
 
     // 수정한 부분
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable = false)  // FK 컬럼명 유지
+    @JoinColumn(name = "board_id")  // FK 컬럼명 유지
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,31 +26,30 @@ public class AdFile {
     private Ad ad;
     private Long rewardId;
 
-    @Column(nullable = false, length = 200)
-    private String fileTitle;
     @Enumerated(EnumType.STRING)
     private FileType fileType;
     private String filePath;
-    private String fileUrl;
+    private String fileName;
+    private String originFileName;
 
     @Builder
-    private AdFile(String fileTitle,
-                   FileType fileType, String filePath) {
-        this.fileTitle = fileTitle;
+    private AdFile(String fileName, FileType fileType, String filePath) {
+        this.fileName = fileName;
         this.fileType = fileType;
         this.filePath = filePath;
     }
 
-    public static AdFile of(String adUrl, String fileName) {
+    public static AdFile of(String fileName, String originFileName, String filePath) {
         AdFile f = new AdFile();
-        f.fileUrl = adUrl;
-        f.fileTitle = fileName;
+        f.fileName = fileName;
+        f.originFileName = originFileName;
+        f.filePath = filePath;
         return f;
     }
 
 
-    public void changeAdUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
+    public void changeAdUrl(String filePath) {
+        this.filePath = filePath;
     }
 
 }
