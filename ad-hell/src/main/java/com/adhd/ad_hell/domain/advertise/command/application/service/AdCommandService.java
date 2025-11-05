@@ -32,7 +32,6 @@ public class AdCommandService {
         adRepository.deleteById(req.getAdId());
     }
 
-    /** 광고 수정 (메타데이터) */
     @Transactional
     public void updateAd(AdUpdateRequest req) {
         Ad ad = adRepository.findById(req.getAdId())
