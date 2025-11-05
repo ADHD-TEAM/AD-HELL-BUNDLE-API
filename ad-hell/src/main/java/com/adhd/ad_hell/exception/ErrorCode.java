@@ -38,6 +38,9 @@ public enum ErrorCode {
     // 문의 관련 에러코드
     INQUIRY_NOT_FOUND("90001", "문의를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
 
+    // 즐겨찾기 관련 에러코드
+    AD_FAVORITE_ALREADY_EXISTS("100002", "이미 즐겨찾기한 광고입니다.", HttpStatus.CONFLICT),
+    AD_FAVORITE_NOT_FOUND("100003", "즐겨찾기 내역이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
 
 
     //광고 관련 에러코드

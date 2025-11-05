@@ -1,19 +1,16 @@
-package com.adhd.ad_hell.domain.announcement.query.dto.request;
+package com.adhd.ad_hell.domain.ad_favorite.query.dto.request;
 
-import lombok.*;
+import lombok.Getter;
+
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class AnnouncementSearchRequest {
+public class AdFavoriteSearchRequest {
+    private  Long userId;
+    private  Integer page = 1;
+    private  Integer size = 20;
+    private  String keyword;
 
-    //  검색 조건
-    private Integer page = 1;     // 요청 페이지 (null이면 기본값)
-    private Integer size = 20;     // 페이지당 항목 수 (null이면 기본값)
-    private String keyword;   // 제목 + 내용 LIKE 검색용 키워드
-    private String status;    // 게시 상태 (Y/N/null)
-
+    // -----------------------------
     // 보정 메서드 (잘못된 입력 방어)
     // -------------------------------
 
