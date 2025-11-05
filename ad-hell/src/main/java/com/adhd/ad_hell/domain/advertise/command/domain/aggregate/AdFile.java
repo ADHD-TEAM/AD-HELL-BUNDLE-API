@@ -1,5 +1,6 @@
 package com.adhd.ad_hell.domain.advertise.command.domain.aggregate;
 
+import com.adhd.ad_hell.domain.board.command.domain.aggregate.Board;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +14,12 @@ public class AdFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fileId;
-    private Long boardId;
+
+
+    // 수정한 부분
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id", nullable = false)  // FK 컬럼명 유지
+    private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ad_id")

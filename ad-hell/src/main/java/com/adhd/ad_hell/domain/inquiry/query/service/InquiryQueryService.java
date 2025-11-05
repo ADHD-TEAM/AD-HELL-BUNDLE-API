@@ -3,6 +3,7 @@ package com.adhd.ad_hell.domain.inquiry.query.service;
 import com.adhd.ad_hell.common.dto.Pagination;
 import com.adhd.ad_hell.domain.inquiry.query.dto.request.InquirySearchRequest;
 import com.adhd.ad_hell.domain.inquiry.query.dto.response.InquiryDetailResponse;
+import com.adhd.ad_hell.domain.inquiry.query.dto.response.InquiryListResponse;
 import com.adhd.ad_hell.domain.inquiry.query.dto.response.InquirySummaryResponse;
 import com.adhd.ad_hell.domain.inquiry.query.mapper.InquiryMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,51 +20,52 @@ public class InquiryQueryService {
 
     private final InquiryMapper inquiryMapper;
 
-    // 회원 - 내 문의 목록 조회
-    // 회원이 요청시 본인 글 전체를 조회하고 기본적으로 20개씩 페이징 됨.
-    // 검색 조건이 들어오면 필터링으로 검색 시작.
-    public List<InquirySummaryResponse> getMyInquiries(InquirySearchRequest req) {
-        return inquiryMapper.findMyInquiries(req);
-    }
-
-    // 회원 - 내 문의 목록 페이징 정보 계산
-    // DB에 Count 쿼리를 날려서 조건에 맞는 데이터가 몇 개인지 구하는 것.(총 게시글 수)를 구함
-    // 전체 아이템 수 / 한페이지에 보여줄 개수로 나눠 총 페이지 수 계산.
-    public Pagination getMyPagination(InquirySearchRequest req) {
+    /** 회원 - 내 문의 목록 (검색/필터/페이징) */
+    public InquiryListResponse getMyInquiries(InquirySearchRequest req) {
+        List<InquirySummaryResponse> list = inquiryMapper.findMyInquiries(req);
         long totalItems = inquiryMapper.countMyInquiries(req);
-        int totalPages = (int) Math.ceil((double) totalItems / req.getSize());
 
-        // 공통 Pagination DTO
-        return Pagination.builder()
-                .currentPage(req.getPage())
-                .totalPages(totalPages)
+        int page = req.getPage();
+        int size = req.getSize();
+
+        Pagination pagination = Pagination.builder()
+                .currentPage(page)
+                .totalPages((int) Math.ceil((double) totalItems / size))
                 .totalItems(totalItems)
+                .build();
+
+        return InquiryListResponse.builder()
+                .inquiries(list)
+                .pagination(pagination)
                 .build();
     }
 
-    // 회원 - 내 문의 상세 조회
-    // 본인 글만 조회되도록 UserId + id를 함께 전달 함
+    /** 회원 - 내 문의 상세 (userId 스코프 보장) */
     public InquiryDetailResponse getMyInquiryById(Long userId, Long id) {
         return inquiryMapper.findMyInquiryById(userId, id);
     }
 
-    // 관리자 - 전체 문의 목록 조회 ( 검색 / 필터 / 정렬은 통일 규칙)
-    public List<InquirySummaryResponse> getAdminInquiries(InquirySearchRequest req) {
-        return inquiryMapper.findAdminInquiries(req);
-    }
-
-    // 관리자 - 전체 문의 목록 페이징 정보
-    public Pagination getAdminPagination(InquirySearchRequest req) {
+    /** 관리자 - 전체 문의 목록 (검색/필터/페이징) */
+    public InquiryListResponse getAdminInquiries(InquirySearchRequest req) {
+        List<InquirySummaryResponse> list = inquiryMapper.findAdminInquiries(req);
         long totalItems = inquiryMapper.countAdminInquiries(req);
-        int totalPages = (int) Math.ceil((double) totalItems / req.getSize());
-        return Pagination.builder()
-                .currentPage(req.getPage())
-                .totalPages(totalPages)
+
+        int page = req.getPage();
+        int size = req.getSize();
+
+        Pagination pagination = Pagination.builder()
+                .currentPage(page)
+                .totalPages((int) Math.ceil((double) totalItems / size))
                 .totalItems(totalItems)
                 .build();
+
+        return InquiryListResponse.builder()
+                .inquiries(list)
+                .pagination(pagination)
+                .build();
     }
-    // 관리자 - 문의 상세 조회
-    // 단건 조회 - 관리자니까 userId 제한 없이 id로만 조회
+
+    /** 관리자 - 문의 상세 */
     public InquiryDetailResponse getAdminInquiryById(Long id) {
         return inquiryMapper.findAdminInquiryById(id);
     }
