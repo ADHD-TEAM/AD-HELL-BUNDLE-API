@@ -27,6 +27,16 @@
           r.status,
           r.created_at
     FROM report r
+    <where>
+      <if test="categoryId != null">
+        AND r.category_id = #{categoryId}
+      </if>
+      <if test="status != null">
+        AND r.status = #{status}
+      </if>
+    </where>
+    ORDER BY r.id DESC
+    LIMIT #{ limit } OFFSET #{ offset }
   </select>
 
   <select id="findReportsByUserId"
@@ -38,6 +48,39 @@
           r.status,
           r.created_at
     FROM report r
-    WHERE r.reporter_id = #{userId}
+    WHERE r.reporter_id = #{ userId }
+    <if test="categoryId != null">
+      AND r.category_id = #{ categoryId }
+    </if>
+    <if test="status != null">
+      AND r.status = #{ status }
+    </if>
+    ORDER BY r.id DESC
+    LIMIT #{ limit } OFFSET #{ offset }
+  </select>
+
+  <select id="countReports" resultType="long">
+    SELECT COUNT(*)
+    FROM report r
+    <where>
+      <if test="categoryId != null">
+        AND r.category_id = #{categoryId}
+      </if>
+      <if test="status != null">
+        AND r.status = #{status}
+      </if>
+    </where>
+  </select>
+
+  <select id="countMyReports" resultType="long">
+    SELECT COUNT(*)
+    FROM report r
+    WHERE r.reporter_id = #{ userId }
+    <if test="categoryId != null">
+      AND r.category_id = #{ categoryId }
+    </if>
+    <if test="status != null">
+      AND r.status = #{ status }
+    </if>
   </select>
 </mapper>
