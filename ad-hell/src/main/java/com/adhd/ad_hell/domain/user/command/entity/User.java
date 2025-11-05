@@ -88,6 +88,7 @@ public class User extends BaseTimeEntity {
 
         }
         status = request.getStatus();
+        roleType = request.getRole();
     }
 
     public void patchStatus(UserStatus status) {

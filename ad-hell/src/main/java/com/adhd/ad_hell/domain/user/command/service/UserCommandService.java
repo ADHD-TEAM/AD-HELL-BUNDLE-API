@@ -14,7 +14,7 @@ public interface UserCommandService {
     // 사용여부
     UserIsAvailableResponse isAvailable(UserIsAvailableRequest userIsAvailableRequest);
     // 회원가입
-    void singUp(UserSignUpRequest userSignUpRequest, Role role);
+    void singUp(UserSignUpRequest userSignUpRequest);
     // 마이페이지
     UserDetailResponse getUserDetail(CustomUserDetails userDetails);
     // 회원정보 수정

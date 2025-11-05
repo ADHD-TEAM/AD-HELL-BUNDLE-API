@@ -45,7 +45,7 @@ public class UserCommandServiceImpl implements UserCommandService {
      */
     @Override
     @Transactional
-    public void singUp(UserSignUpRequest userSignUpRequest, Role role) {
+    public void singUp(UserSignUpRequest userSignUpRequest) {
         log.debug("[UserCommandController/singUp] 회원가입 | {}", userSignUpRequest);
 
         log.debug("[UserCommandController/singUp] 사용할 수 있는 아이디인지 확인 | {}", userSignUpRequest);
@@ -66,7 +66,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 회원가입
         log.debug("[UserCommandController/singUp] 회원가입 | {}");
         User signUpUser = User.builder()
-                .roleType(role)
+                .roleType(Role.USER)
                 .loginId(userSignUpRequest.getLoginId())
                 .password(passwordEncoder.encode(userSignUpRequest.getPassword()))
                 .nickname(userSignUpRequest.getNickname())

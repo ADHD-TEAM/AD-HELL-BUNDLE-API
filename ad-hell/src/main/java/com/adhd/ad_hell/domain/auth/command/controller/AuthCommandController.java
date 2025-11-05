@@ -39,13 +39,12 @@ public class AuthCommandController {
      * @param userSignUpRequest
      * @return
      */
-    @PostMapping("/signUp/{type}")
+    @PostMapping("/signUp")
     public ResponseEntity<ApiResponse<Void>> signUp(
             @Validated @RequestBody UserSignUpRequest userSignUpRequest
-            , @PathVariable Role type
     ) {
         log.info("[AuthCommandController/signUp] 회원가입 | {}", userSignUpRequest);
-        userCommandService.singUp(userSignUpRequest,type);
+        userCommandService.singUp(userSignUpRequest);
 
         log.info("[AuthCommandController/signUp] 회원가입 성공 | {}", userSignUpRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
