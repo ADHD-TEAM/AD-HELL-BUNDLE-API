@@ -5,6 +5,7 @@ import com.adhd.ad_hell.domain.user.command.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,5 +100,35 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
+    }
+
+    /**
+     * 토큰으로 토큰 남은 유효시간 가져오기
+     * @param accessToken
+     * @return
+     */
+    public long getRemainingTime(String accessToken) {
+        Claims claims = Jwts.parser()
+                .verifyWith(secretKey) //문자열 key 반환
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody();
+
+        Date expiration = claims.getExpiration();
+        long now = System.currentTimeMillis();
+        return expiration.getTime() - now;
+    }
+
+    /**
+     * 헤더에서 access token 가져오기
+     * @param request
+     * @return
+     */
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 }

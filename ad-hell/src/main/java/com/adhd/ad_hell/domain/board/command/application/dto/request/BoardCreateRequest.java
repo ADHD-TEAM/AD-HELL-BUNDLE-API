@@ -24,4 +24,7 @@ public class BoardCreateRequest {
     @NotNull
     private final Long categoryId;
 
+    @NotBlank
+    private final String status;
+
 }

@@ -4,6 +4,7 @@ import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.common.dto.Pagination;
 import com.adhd.ad_hell.domain.board_comment.query.dto.request.BoardCommentSearchRequest;
 import com.adhd.ad_hell.domain.board_comment.query.dto.response.BoardCommentDetailResponse;
+import com.adhd.ad_hell.domain.board_comment.query.dto.response.BoardCommentListResponse;
 import com.adhd.ad_hell.domain.board_comment.query.dto.response.BoardCommentSummaryResponse;
 import com.adhd.ad_hell.domain.board_comment.query.mapper.BoardCommentMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,34 +18,33 @@ public class BoardCommentQueryService {
 
     private final BoardCommentMapper boardCommentMapper;
 
-    /** 게시판 내 댓글 목록 */
-    public ApiResponse<List<BoardCommentSummaryResponse>> findAllBoardComments(BoardCommentSearchRequest req) {
-        int page = req.getPage() != null ? req.getPage() : 1;
-        int size = req.getSize() != null ? req.getSize() : 20;
+    /** 게시판 내 댓글 목록 (검색 + 페이징) */
+    public BoardCommentListResponse findAllBoardComments(BoardCommentSearchRequest request) {
+        // 1) 목록
+        List<BoardCommentSummaryResponse> comments = boardCommentMapper.findAllBoardComments(request);
 
-        req = BoardCommentSearchRequest.builder()
-                .page(page)
-                .size(size)
-                .boardId(req.getBoardId())
-                .keyword(req.getKeyword())
+        // 2) 전체 건수
+        long totalItems = boardCommentMapper.countComments(request);
+
+        // 3) DTO에서 기본값(page=1, size=20) 보장 → 단순 대입
+        int page = request.getPage();
+        int size = request.getSize();
+
+        // 4) 응답
+        return BoardCommentListResponse.builder()
+                .comments(comments)
+                .pagination(Pagination.builder()
+                        .currentPage(page)
+                        .totalPages((int) Math.ceil((double) totalItems / size))
+                        .totalItems(totalItems)
+                        .build())
                 .build();
-
-        List<BoardCommentSummaryResponse> comments = boardCommentMapper.findAllBoardComments(req);
-        long total = boardCommentMapper.countComments(req);
-
-        Pagination pagination = Pagination.builder()
-                .currentPage(page)
-                .totalPages((int) Math.ceil((double) total / size))
-                .totalItems(total)
-                .build();
-
-        return ApiResponse.success(comments, pagination);
     }
 
     /** 내 댓글 조회 */
     public ApiResponse<List<BoardCommentSummaryResponse>> findMyComments(BoardCommentSearchRequest req) {
-        int page = req.getPage() != null ? req.getPage() : 1;
-        int size = req.getSize() != null ? req.getSize() : 20;
+        int page = req.getPage();
+        int size = req.getSize();
 
         req = BoardCommentSearchRequest.builder()
                 .page(page)

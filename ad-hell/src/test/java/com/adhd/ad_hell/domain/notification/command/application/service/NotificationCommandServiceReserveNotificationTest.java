@@ -93,9 +93,6 @@ class NotificationCommandServiceReserveNotificationTest {
         assertEquals(YnType.no(), savedSchedule.getDeletedYn(), "예약은 삭제되지 않은 상태(YnType.N) 이어야 한다.");
 
         // 3) 응답 DTO 검증
-        // unit test 환경에서는 id 가 null 이라서 scheduleId 는 null 일 수 있음 (실 DB 에선 생성됨)
-        // 필요하다면 null 이 아닌지만 체크하는 정도로 끝내도 됨
-        // assertNull(response.getScheduleId());
         assertEquals(NotificationScheduleStatus.SCHEDULED, response.getScheduleStatus());
         assertEquals(scheduledAt, response.getScheduledAt());
         assertNull(response.getSentAt(), "응답의 sentAt 도 null 이어야 한다.");
@@ -140,5 +137,30 @@ class NotificationCommandServiceReserveNotificationTest {
 
         assertEquals("예약 발송 시각은 현재 이후여야 합니다.", ex.getMessage());
         verifyNoInteractions(templateRepo, scheduleRepo);
+    }
+
+    @Test
+    @DisplayName("예약 시각은 유효하지만 템플릿이 존재하지 않으면 IllegalArgumentException(템플릿이 존재하지 않습니다.) 을 던진다")
+    void reserveNotificationTemplateNotFound() {
+        // --- given ---
+        Long templateId = 999L;
+        LocalDateTime scheduledAt = LocalDateTime.now().plusHours(1);
+
+        NotificationScheduleRequest request = NotificationScheduleRequest.builder()
+                .scheduledAt(scheduledAt)
+                .build();
+
+        when(templateRepo.findById(templateId)).thenReturn(Optional.empty());
+
+        // --- when & then ---
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> sut.reserveNotification(templateId, request)
+        );
+
+        assertEquals("템플릿이 존재하지 않습니다.", ex.getMessage());
+
+        verify(templateRepo, times(1)).findById(templateId);
+        verifyNoInteractions(scheduleRepo);
     }
 }

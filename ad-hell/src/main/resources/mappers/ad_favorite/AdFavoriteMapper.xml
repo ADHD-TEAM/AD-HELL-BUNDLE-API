@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.adhd.ad_hell.domain.ad_favorite.query.mapper.AdFavoriteMapper">
+
+    <!-- 공통 결과 매핑: Mapper는 DTO로 반환 -->
+    <resultMap id="AdFavoriteResultMap" type="com.adhd.ad_hell.domain.ad_favorite.query.dto.response.AdFavoriteDTO">
+        <id     property="id"        column="id"/>
+        <result property="userId"    column="userId"/>
+        <result property="adId"      column="adId"/>
+        <result property="adTitle"   column="adTitle"/>
+        <result property="adName"    column="adName"/>
+        <result property="imageUrl"  column="imageUrl"/>
+        <result property="createdAt" column="createdAt"/>
+        <result property="updatedAt" column="updatedAt"/>
+    </resultMap>
+
+    <!-- 정렬 화이트리스트(인젝션 방지) -->
+    <sql id="OrderByClause">
+        ORDER BY
+        <choose>
+            <when test="req.sortBy == 'createdAt'"> f.created_at </when>
+            <when test="req.sortBy == 'updatedAt'"> f.updated_at </when>
+            <when test="req.sortBy == 'adTitle'">   a.title      </when>
+            <when test="req.sortBy == 'adName'">    a.name       </when>
+            <otherwise>                              f.created_at </otherwise>
+        </choose>
+        <choose>
+            <when test="req.direction == 'ASC'"> ASC </when>
+            <otherwise> DESC </otherwise>
+        </choose>
+    </sql>
+
+    <!-- 즐겨찾기 목록 (페이징/검색/정렬) -->
+    <select id="findFavorites" resultMap="AdFavoriteResultMap">
+        SELECT
+        f.fav_id      AS id,
+        f.user_id     AS userId,
+        a.ad_id       AS adId,
+        a.title       AS adTitle,
+        a.name        AS adName,
+        a.image_url   AS imageUrl,
+        f.created_at  AS createdAt,
+        f.updated_at  AS updatedAt
+        FROM ad_favorite f
+        JOIN ad a ON a.ad_id = f.ad_id
+        <where>
+            <if test="req.userId != null">
+                AND f.user_id = #{req.userId}
+            </if>
+            <if test="req.keyword != null and req.keyword != ''">
+                AND (
+                a.title LIKE CONCAT('%', #{req.keyword}, '%')
+                OR a.name LIKE CONCAT('%', #{req.keyword}, '%')
+                )
+            </if>
+        </where>
+        <include refid="OrderByClause"/>
+        LIMIT #{req.limit} OFFSET #{req.offset}
+    </select>
+
+    <!-- 총 건수 (페이징 계산용) -->
+    <select id="countFavorites" resultType="long">
+        SELECT COUNT(1)
+        FROM ad_favorite f
+        JOIN ad a ON a.ad_id = f.ad_id
+        <where>
+            <if test="req.userId != null">
+                AND f.user_id = #{req.userId}
+            </if>
+            <if test="req.keyword != null and req.keyword != ''">
+                AND (
+                a.title LIKE CONCAT('%', #{req.keyword}, '%')
+                OR a.name LIKE CONCAT('%', #{req.keyword}, '%')
+                )
+            </if>
+        </where>
+    </select>
+
+    <!-- 단건 상세 -->
+    <select id="findFavoriteById" resultMap="AdFavoriteResultMap">
+        SELECT
+            f.fav_id      AS id,
+            f.user_id     AS userId,
+            a.ad_id       AS adId,
+            a.title       AS adTitle,
+            a.name        AS adName,
+            a.image_url   AS imageUrl,
+            f.created_at  AS createdAt,
+            f.updated_at  AS updatedAt
+        FROM ad_favorite f
+                 JOIN ad a ON a.ad_id = f.ad_id
+        WHERE f.fav_id = #{favoriteId}
+    </select>
+
+    <!-- 존재 여부 -->
+    <select id="existsFavorite" resultType="boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM ad_favorite
+            WHERE user_id = #{userId}
+              AND ad_id   = #{adId}
+        )
+    </select>
+
+</mapper>

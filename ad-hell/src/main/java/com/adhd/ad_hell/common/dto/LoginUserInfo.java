@@ -13,5 +13,6 @@ import javax.annotation.processing.Generated;
 public class LoginUserInfo {
 
     private Long userId;
+    private String loginId;
     private Role role;
 }
