@@ -1,7 +1,5 @@
 package com.adhd.ad_hell.domain.reward.query.mapper;
 
-import com.adhd.ad_hell.domain.reward.query.dto.response.RewardDto;
-import com.adhd.ad_hell.domain.reward.query.dto.response.RewardResponse;
 import com.adhd.ad_hell.domain.reward.query.dto.response.RewardStockResponse;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;

@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.adhd.ad_hell.domain.reward.query.mapper.RewardMapper">
   <select id="findRewardById"
-    resultType="com.adhd.ad_hell.domain.reward.query.dto.response.RewardDto">
+    resultType="com.adhd.ad_hell.domain.reward.query.dto.RewardDto">
     SELECT
           r.id,
           r.name,
@@ -25,7 +25,7 @@
   </select>
 
   <select id="findRewards"
-    resultType="com.adhd.ad_hell.domain.reward.query.dto.response.RewardDto">
+    resultType="com.adhd.ad_hell.domain.reward.query.dto.RewardDto">
     SELECT
           r.id,
           r.name,
@@ -41,6 +41,27 @@
     LEFT JOIN category pc ON c.parent_id = pc.id
     WHERE r.status != 'DELETE'
     AND c.status = 'ACTIVATE'
-    AND (r.name LIKE CONCAT('%', #{keyword}, '%') OR #{keyword} IS NULL)
+    <if test="categoryId != null">
+      AND r.category_id = #{categoryId}
+    </if>
+    <if test="name != null and name != ''">
+      AND r.name LIKE CONCAT('%', #{name}, '%')
+    </if>
+    ORDER BY r.id DESC
+    LIMIT #{ limit } OFFSET #{ offset }
+  </select>
+  <select id="countRewards" resultType="long">
+    SELECT COUNT(*)
+    FROM reward r
+    LEFT JOIN category c ON r.category_id = c.id
+    LEFT JOIN category pc ON c.parent_id = pc.id
+    WHERE r.status != 'DELETE'
+    AND c.status = 'ACTIVATE'
+    <if test="categoryId != null">
+      AND r.category_id = #{ categoryId }
+    </if>
+    <if test="name != null and name != ''">
+      AND r.name LIKE CONCAT('%', #{name}, '%')
+    </if>
   </select>
 </mapper>
