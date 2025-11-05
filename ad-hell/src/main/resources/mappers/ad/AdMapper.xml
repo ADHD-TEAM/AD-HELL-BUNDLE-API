@@ -71,4 +71,19 @@
         </if>
     </select>
 
+    <!-- 조회수 증가 -->
+    <update id="incrementViewCount" parameterType="long">
+        UPDATE ad
+        SET view_count = COALESCE(view_count, 0) + 1
+        WHERE ad_id = #{adId}
+    </update>
+
+    <!-- 댓글수 감소 (0 미만 방지) -->
+    <update id="decrementCommentCount" parameterType="long">
+        UPDATE ad
+        SET comment_count = GREATEST(COALESCE(comment_count, 0) - 1, 0)
+        WHERE ad_id = #{adId}
+    </update>
+
+
 </mapper>

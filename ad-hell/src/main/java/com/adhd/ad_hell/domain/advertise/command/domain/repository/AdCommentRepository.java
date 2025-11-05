@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface AdCommentRepository {
     AdComment save(AdComment adComment);
-    Optional<AdComment> findById(Long adComment);
-    void deleteById(Long adComment);
-    Boolean existsById(Long adComment);
+    Optional<AdComment> findById(Long adCommentId);
+    void deleteById(Long adCommentId);
+    boolean existsById(Long adCommentIs);
 }

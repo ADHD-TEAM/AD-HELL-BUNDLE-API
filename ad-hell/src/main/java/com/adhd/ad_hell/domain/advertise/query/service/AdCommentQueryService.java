@@ -55,20 +55,32 @@ public class AdCommentQueryService {
     // 내 광고 댓글 목록 조회 (페이징)
     @Transactional(readOnly = true)
     public AdCommentListResponse getMyComments(AdCommentSearchRequest request) {
-        List<AdCommentDto> comments = adCommentMapper.selectMyComments(request);
+        List<AdCommentDto> comments = adCommentMapper.selectMyCommentsByUserId(request);
         long totalItems = adCommentMapper.countMyComments(request);
 
         int page = request.getPage();
         int size = request.getSize();
 
         return AdCommentListResponse.builder()
-                .comments(comments)
+                .adComments(comments)
                 .pagination(Pagination.builder()
                         .currentPage(page)
                         .totalPages((int) Math.ceil((double) totalItems / size))
                         .totalItems(totalItems)
                         .build())
                 .build();
-
     }
+
+    // 댓글수 증가 (댓글 생성 후 호출)
+    @Transactional
+    public void increaseCommentCount(Long adId) {
+        adCommentMapper.incrementCommentCount(adId);
+    }
+
+    // 댓글수 감소 (댓글 삭제 후 호출)
+    @Transactional
+    public void decreaseCommentCount(Long adId) {
+        adCommentMapper.decrementCommentCount(adId);
+    }
+
 }

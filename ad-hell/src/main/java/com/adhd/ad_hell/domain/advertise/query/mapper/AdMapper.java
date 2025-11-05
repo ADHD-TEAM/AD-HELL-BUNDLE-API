@@ -9,6 +9,9 @@ import java.util.List;
 @Mapper
 public interface AdMapper {
 
+    /* 조회수 증가 */
+    void incrementViewCount(Long adId);
+
     //광고 조회
     AdDto selectAdById(Long adId);
     /* 검색&페이징 적용한 상품 목록 조회 */
