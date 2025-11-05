@@ -1,8 +1,9 @@
 package com.adhd.ad_hell.domain.reward.query.controller;
 
 import com.adhd.ad_hell.common.dto.ApiResponse;
+import com.adhd.ad_hell.domain.reward.query.dto.request.RewardSearchRequest;
 import com.adhd.ad_hell.domain.reward.query.dto.response.RewardDetailResponse;
-import com.adhd.ad_hell.domain.reward.query.dto.response.RewardResponse;
+import com.adhd.ad_hell.domain.reward.query.dto.response.RewardListResponse;
 import com.adhd.ad_hell.domain.reward.query.dto.response.RewardStockResponse;
 import com.adhd.ad_hell.domain.reward.query.service.RewardQueryService;
 import com.adhd.ad_hell.domain.reward.query.service.RewardStockQueryService;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,10 +32,10 @@ public class RewardQueryController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<RewardResponse>>> getRewards(
-      @RequestParam(required = false) String keyword
+  public ResponseEntity<ApiResponse<RewardListResponse>> getRewards(
+      RewardSearchRequest request
   ) {
-    List<RewardResponse> list = rewardQueryService.getRewardList(keyword);
+    RewardListResponse list = rewardQueryService.getRewardList(request);
     return ResponseEntity.ok(ApiResponse.success(list));
   }
 
