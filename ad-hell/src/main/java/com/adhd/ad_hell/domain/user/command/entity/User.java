@@ -2,6 +2,7 @@ package com.adhd.ad_hell.domain.user.command.entity;
 
 
 import com.adhd.ad_hell.common.BaseTimeEntity;
+import com.adhd.ad_hell.domain.auth.command.dto.request.ResetPasswordRequest;
 import com.adhd.ad_hell.domain.user.command.dto.request.AdminModifyRequest;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserModifyRequest;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserSignUpRequest;
@@ -97,6 +98,10 @@ public class User extends BaseTimeEntity {
         } else if (status == UserStatus.DELETE) {
             this.deletedAt = LocalDateTime.now();
         }
+    }
+
+    public void patchPassword(ResetPasswordRequest passwordRequest, PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(passwordRequest.getPassword());
     }
 
     public static User formUser(UserDTO userDTO) {

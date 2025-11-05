@@ -2,16 +2,18 @@ package com.adhd.ad_hell.domain.auth.command.controller;
 
 import com.adhd.ad_hell.common.ApiEndpoint;
 import com.adhd.ad_hell.common.dto.ApiResponse;
-import com.adhd.ad_hell.domain.auth.command.dto.request.ExistVerificationCodeRequest;
-import com.adhd.ad_hell.domain.auth.command.dto.request.LoginRequest;
-import com.adhd.ad_hell.domain.auth.command.dto.request.SendEmailVerifyUserRequest;
+import com.adhd.ad_hell.domain.auth.command.dto.request.*;
 import com.adhd.ad_hell.domain.auth.command.dto.response.ExistVerificationCodeResponse;
+import com.adhd.ad_hell.domain.auth.command.dto.response.FindUserInfoResponse;
 import com.adhd.ad_hell.domain.auth.command.dto.response.TokenResponse;
 import com.adhd.ad_hell.domain.auth.command.service.AuthCommandService;
 import com.adhd.ad_hell.domain.user.command.dto.request.UserSignUpRequest;
 import com.adhd.ad_hell.domain.user.command.entity.Role;
 import com.adhd.ad_hell.domain.user.command.service.UserCommandService;
 import com.adhd.ad_hell.domain.user.command.service.UserCommandServiceImpl;
+import com.adhd.ad_hell.exception.ErrorCode;
+import com.adhd.ad_hell.jwt.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class AuthCommandController {
 
     private final UserCommandService userCommandService;
     private final AuthCommandService authCommandService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * 회원가입
@@ -66,13 +69,31 @@ public class AuthCommandController {
     }
 
     /**
+     * 토큰 재발급
+     * @param request
+     * @return
+     */
+    @PostMapping("/token-reissue")
+    public ResponseEntity<ApiResponse<TokenResponse>> tokenReissue(
+            @RequestBody TokenRequest request) {
+        log.info("[AuthCommandController/tokenReissue] 리프레쉬 토큰 재발급");
+
+
+        TokenResponse response = authCommandService.tokenReissue(request);
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+
+    /**
      * 로그아웃
      * @return
      */
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logout() {
+    public ResponseEntity<ApiResponse<Void>> logout(HttpServletRequest request) {
         log.info("[AuthCommandController/login] logout |");
-        // authCommandService.logout()
+        String accessToken = jwtTokenProvider.resolveToken(request);
+        authCommandService.logout(accessToken);
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }
@@ -86,7 +107,7 @@ public class AuthCommandController {
     public ResponseEntity<ApiResponse<?>> sendVerificationCode(
             @RequestBody SendEmailVerifyUserRequest request) {
         log.info("[AuthCommandController/sendVerificationCode] 본인인증 - 이메일로 인증번호 보내기 |");
-        authCommandService.sendEmail(request);
+        authCommandService.sendVerificationCode(request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
@@ -95,7 +116,7 @@ public class AuthCommandController {
      * @param request
      * @return
      */
-    @PostMapping("/verifi-code")
+    @PostMapping("/chek/verifi-code")
     public ResponseEntity<ApiResponse<ExistVerificationCodeResponse>> existVerificationCode(
             @RequestBody ExistVerificationCodeRequest request) {
 
@@ -104,6 +125,46 @@ public class AuthCommandController {
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+    /**
+     * 아이디/비밀번호 찾기
+     * @param request
+     * @return
+     */
+    @PostMapping("/chek/find-user")
+    public ResponseEntity<ApiResponse<FindUserInfoResponse>> finduserInfo(
+            @RequestBody ExistVerificationCodeRequest request) {
+        log.info("[AuthCommandController/finduserInfo] 아이디/비밀번호 찾기");
+
+        // 인증번호가 같은지 확인
+        ExistVerificationCodeResponse existCode = authCommandService.existVerificationCode(request);
+        if(Boolean.FALSE.equals(existCode.getExist())) {
+            log.info("[AuthCommandController/finduserInfo] 아이디/비밀번호 찾기 - 인증번호 다름 ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.failure(ErrorCode.VERIFI_CODE_DIFFERENT.getCode()
+                            , ErrorCode.VERIFI_CODE_DIFFERENT.getMessage()));
+        }
+
+        log.info("[AuthCommandController/finduserInfo] 인증번호 {} 아이디/비밀번호 찾기  ",  existCode.getExist());
+        FindUserInfoResponse response = authCommandService.getUserInfo(request.getEmail(), request.getLoginId());
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    /**
+     * 비밀번호 재설정
+     * @param request
+     * @return
+     */
+    @PatchMapping("/chek/reset-password")
+    public ResponseEntity<ApiResponse<?>> resetPassword(
+            @Valid @RequestBody ResetPasswordRequest request) {
+        log.info("[AuthCommandController/resetPassword] 비밀번호 재설정 ");
+
+        authCommandService.resetPassword(request);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
 
 
 }
