@@ -64,7 +64,7 @@ public class RewardCommandController {
         .body(ApiResponse.success(null));
   }
 
-  @PostMapping("/{rewardId}/send")
+  @PostMapping("/{rewardId}/exchange")
   public ResponseEntity<ApiResponse<Void>> sendReward(@PathVariable Long rewardId) {
     rewardStockCommandService.sendReward(rewardId);
     return ResponseEntity.ok(ApiResponse.success(null));
