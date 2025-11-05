@@ -51,6 +51,13 @@ public class SecurityConfig {
             // 3. method, url 기준 인증/인가 설정
             .authorizeHttpRequests(auth -> {
 
+                /* Swagger 문서 공개 */
+                auth.requestMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
+                ).permitAll();
+
                 /* SSE 테스트 */
 
                 // [A] SSE 테스트를 위한 예외 허용 (테스트용)
