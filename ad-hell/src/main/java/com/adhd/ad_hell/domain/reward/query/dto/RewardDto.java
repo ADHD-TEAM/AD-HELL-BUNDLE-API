@@ -1,4 +1,4 @@
-package com.adhd.ad_hell.domain.reward.query.dto.response;
+package com.adhd.ad_hell.domain.reward.query.dto;
 
 import com.adhd.ad_hell.domain.reward.command.domain.aggregate.RewardStatus;
 import lombok.Getter;

@@ -2,6 +2,7 @@ package com.adhd.ad_hell.domain.reward.query.dto.response;
 
 import com.adhd.ad_hell.common.dto.CategoryInfoResponse;
 import com.adhd.ad_hell.domain.reward.command.domain.aggregate.RewardStatus;
+import com.adhd.ad_hell.domain.reward.query.dto.RewardDto;
 import lombok.Builder;
 import lombok.Getter;
 

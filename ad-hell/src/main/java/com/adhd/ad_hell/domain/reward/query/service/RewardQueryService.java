@@ -1,15 +1,14 @@
 package com.adhd.ad_hell.domain.reward.query.service;
 
+import com.adhd.ad_hell.common.dto.Pagination;
+import com.adhd.ad_hell.domain.reward.query.dto.request.RewardSearchRequest;
 import com.adhd.ad_hell.domain.reward.query.dto.response.RewardDetailResponse;
-import com.adhd.ad_hell.domain.reward.query.dto.response.RewardDto;
-import com.adhd.ad_hell.domain.reward.query.dto.response.RewardResponse;
+import com.adhd.ad_hell.domain.reward.query.dto.RewardDto;
+import com.adhd.ad_hell.domain.reward.query.dto.response.RewardListResponse;
 import com.adhd.ad_hell.domain.reward.query.mapper.RewardMapper;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,17 +29,20 @@ public class RewardQueryService {
   }
 
   @Transactional(readOnly = true)
-  public List<RewardResponse> getRewardList(String keyword) {
-    List<RewardDto> rewardDtos = rewardMapper.findRewards(keyword);
-    List<RewardResponse> responses = new ArrayList<>();
-    for (RewardDto dto : rewardDtos) {
-      RewardResponse response = RewardResponse.from(dto);
-      responses.add(response);
-    }
+  public RewardListResponse getRewardList(RewardSearchRequest request) {
+    List<RewardDto> rewardDtos = rewardMapper.findRewards(request);
+    long totalItems = rewardMapper.countRewards(request);
 
-    return responses;
-//    return rewardMapper.findRewards(keyword).stream()
-//                       .map(RewardResponse::from)
-//                       .toList();
+    int page = request.getPage();
+    int size = request.getSize();
+
+    return RewardListResponse.builder()
+                             .rewards(rewardDtos)
+                             .pagination(Pagination.builder()
+                                                   .currentPage(page)
+                                                   .totalPages((int) Math.ceil((double) rewardDtos.size() / size))
+                                                   .totalItems(totalItems)
+                                                   .build())
+                             .build();
   }
 }
