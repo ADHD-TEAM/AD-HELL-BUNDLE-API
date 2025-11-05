@@ -62,7 +62,12 @@ public enum ErrorCode {
     // 포인트 관련 에러코드
     POINT_HISTORY_NOT_FOUND("120001", "포인트 이력이 존재하지 않습니다.", HttpStatus.NOT_FOUND ),
     POINT_NOT_ENOUGH("120002", "포인트가 충분하지 않습니다.", HttpStatus.BAD_REQUEST ),
-    POINT_DECREASE_FAILED("120003", "포인트 감소 실패", HttpStatus.NOT_MODIFIED );
+    POINT_DECREASE_FAILED("120003", "포인트 감소 실패", HttpStatus.NOT_MODIFIED ),
+
+    // 신고 관련 에러코드
+    REPORT_NOT_FOUND("130001", "신고 목록이 존재하지 않습니다.", HttpStatus.NOT_FOUND ),
+
+    ACCESS_DENIED("990001", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN ),;
   private final String code;
   private final String message;
   private final HttpStatusCode httpStatusCode;
