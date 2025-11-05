@@ -6,4 +6,5 @@ import lombok.Getter;
 public class ExistVerificationCodeRequest {
     private String verificationCode;
     private String email;
+    private String loginId;
 }
