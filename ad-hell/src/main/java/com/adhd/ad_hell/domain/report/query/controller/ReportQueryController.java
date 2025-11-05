@@ -1,7 +1,9 @@
 package com.adhd.ad_hell.domain.report.query.controller;
 
 import com.adhd.ad_hell.common.dto.ApiResponse;
+import com.adhd.ad_hell.domain.report.query.dto.request.ReportSearchRequest;
 import com.adhd.ad_hell.domain.report.query.dto.response.ReportDetailResponse;
+import com.adhd.ad_hell.domain.report.query.dto.response.ReportListResponse;
 import com.adhd.ad_hell.domain.report.query.dto.response.ReportResponse;
 import com.adhd.ad_hell.domain.report.query.service.ReportQueryService;
 import java.util.List;
@@ -28,15 +30,19 @@ public class ReportQueryController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<ReportResponse>>> getReports() {
-    List<ReportResponse> list = reportQueryService.getReportList();
+  public ResponseEntity<ApiResponse<ReportListResponse>> getReports(
+      ReportSearchRequest request
+  ) {
+    ReportListResponse list = reportQueryService.getReportList(request);
     return ResponseEntity.ok(ApiResponse.success(list));
   }
 
   @GetMapping("/me")
-  public ResponseEntity<List<ReportResponse>> getMyReports() {
-    List<ReportResponse> reports = reportQueryService.getMyReports();
-    return ResponseEntity.ok(reports);
+  public ResponseEntity<ApiResponse<ReportListResponse>> getMyReports(
+      ReportSearchRequest request
+  ) {
+    ReportListResponse list = reportQueryService.getMyReports(request);
+    return ResponseEntity.ok(ApiResponse.success(list));
   }
 
   @GetMapping("/me/{reportId}")

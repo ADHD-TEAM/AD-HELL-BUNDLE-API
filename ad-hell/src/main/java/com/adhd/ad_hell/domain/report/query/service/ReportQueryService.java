@@ -1,7 +1,10 @@
 package com.adhd.ad_hell.domain.report.query.service;
 
+import com.adhd.ad_hell.common.dto.Pagination;
 import com.adhd.ad_hell.common.util.SecurityUtil;
+import com.adhd.ad_hell.domain.report.query.dto.request.ReportSearchRequest;
 import com.adhd.ad_hell.domain.report.query.dto.response.ReportDetailResponse;
+import com.adhd.ad_hell.domain.report.query.dto.response.ReportListResponse;
 import com.adhd.ad_hell.domain.report.query.dto.response.ReportResponse;
 import com.adhd.ad_hell.domain.report.query.mapper.ReportMapper;
 import com.adhd.ad_hell.exception.BusinessException;
@@ -28,14 +31,42 @@ public class ReportQueryService {
   }
 
   @Transactional(readOnly = true)
-  public List<ReportResponse> getReportList() {
-    return reportMapper.findReportList();
+  public ReportListResponse getReportList(ReportSearchRequest request) {
+    List<ReportResponse> reportResponses = reportMapper.findReportList(request);
+    long totalItems = reportMapper.countReports(request);
+
+    int page = request.getPage();
+    int size = request.getSize();
+
+    return ReportListResponse.builder()
+                             .reports(reportResponses)
+                             .pagination(Pagination.builder()
+                                                   .currentPage(page)
+                                                   .totalPages((int) Math.ceil((double) reportResponses.size() / size))
+                                                   .totalItems(totalItems)
+                                                   .build())
+                             .build();
   }
 
   @Transactional(readOnly = true)
-  public List<ReportResponse> getMyReports() {
+  public ReportListResponse getMyReports(ReportSearchRequest request) {
     Long userId = securityUtil.getLoginUserInfo().getUserId();
-    return reportMapper.findReportsByUserId(userId);
+    request.setUserId(userId);
+
+    List<ReportResponse> reportResponses = reportMapper.findReportsByUserId(request);
+    long totalItems = reportMapper.countMyReports(request);
+
+    int page = request.getPage();
+    int size = request.getSize();
+
+    return ReportListResponse.builder()
+                             .reports(reportResponses)
+                             .pagination(Pagination.builder()
+                                            .currentPage(page)
+                                            .totalPages((int) Math.ceil((double) reportResponses.size() / size))
+                                            .totalItems(totalItems)
+                                            .build())
+                             .build();
   }
 
   @Transactional(readOnly = true)
