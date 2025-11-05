@@ -38,5 +38,5 @@ public class ApiResponse<T> {
                 .success(true)
                 .data(data)
                 .build();
-  }
+}
 }

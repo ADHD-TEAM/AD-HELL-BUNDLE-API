@@ -17,7 +17,12 @@ public enum ErrorCode {
   INVALID_USERNAME_OR_PASSWORD("10003", "올바르지 않은 아이디 혹은 비밀번호입니다.", HttpStatus.UNAUTHORIZED ),
   USER_NOT_FOUND("10004", "사용자를 찾을 수 없습니다.", HttpStatus.UNAUTHORIZED),
   LOGIN_ID_ALREADY_EXISTS("10005","이미 사용중인 아이디입니다." ,  HttpStatus.ALREADY_REPORTED),
-  // 카테고리 관련 에러코드
+      VERIFI_CODE_DIFFERENT("10006","인증번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST ),
+  INVALID_VERIFICATION_CODE("10007", "유효하지 않는 인증번호입니다.", HttpStatus.BAD_REQUEST ),
+  INVALID_VERIFICATION_TOKEN("10008","유효하지 않는 토큰입니다..", HttpStatus.BAD_REQUEST ),
+
+
+    // 카테고리 관련 에러코드
   CATEGORY_NOT_FOUND("30001", "카테고리를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
 
   // 경품 관련 에러코드
@@ -33,6 +38,9 @@ public enum ErrorCode {
     // 문의 관련 에러코드
     INQUIRY_NOT_FOUND("90001", "문의를 찾지 못했습니다.", HttpStatus.NOT_FOUND),
 
+    // 즐겨찾기 관련 에러코드
+    AD_FAVORITE_ALREADY_EXISTS("100002", "이미 즐겨찾기한 광고입니다.", HttpStatus.CONFLICT),
+    AD_FAVORITE_NOT_FOUND("100003", "즐겨찾기 내역이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
 
 
     //광고 관련 에러코드
@@ -67,7 +75,9 @@ public enum ErrorCode {
     // 신고 관련 에러코드
     REPORT_NOT_FOUND("130001", "신고 목록이 존재하지 않습니다.", HttpStatus.NOT_FOUND ),
 
-    ACCESS_DENIED("990001", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN ),;
+    ACCESS_DENIED("990001", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN ),
+    // 댓글 관련 에러 코드
+    AD_COMMENT_NOT_FOUND("140000","댓글이 존재 하지않습니다", HttpStatus.NOT_FOUND);
   private final String code;
   private final String message;
   private final HttpStatusCode httpStatusCode;

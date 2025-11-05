@@ -4,68 +4,65 @@ import com.adhd.ad_hell.common.BaseTimeEntity;
 import com.adhd.ad_hell.domain.category.command.domain.aggregate.Category;
 import com.adhd.ad_hell.domain.user.command.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 
 @Entity
-@Builder
 @Table(name = "board")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class Board extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long id;
+
     @Column(name = "board_title", nullable = false)
     private String title;
+
+    @Lob
     @Column(name = "board_content", nullable = false)
     private String content;
-    @Column(name = "board_status", nullable = false)
+
+    @Builder.Default
+    @Column(name = "board_status", nullable = false, length = 1)
     private String status = "Y";
-    private String productImageUrl;
-    // User FK
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User writer;
 
-    // Category FK
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-
-    @Column(name = "image_url")
-    private String ImageUrl;
-
-    // 조회 수
+    @Builder.Default
     @Column(name = "view_count", nullable = false)
     private Long viewCount = 0L;
 
-    // 조회 수 증가 메서드
-    public void increaseViewCount() {
-        this.viewCount++;
-    }
 
-    // 이미지 URL 수정 (업로드 후 변경 시 사용)
-    public void changeBoardImageUrl(String imageUrl) {
-        this.ImageUrl = imageUrl;
+    // --- 비즈니스 ---
+    public void increaseViewCount() { this.viewCount = (viewCount == null ? 0L : viewCount) + 1; }
 
-    }
-
-    //게시글 수정 (Service에서 사용됨) *
     public void updateBoard(String title, String content, Category category, String status) {
-        this.title = title;
-        this.content = content;
-        this.category = category;
-        this.status = status;
-
-
+        if (title != null) this.title = title;
+        if (content != null) this.content = content;
+        if (category != null) this.category = category;
+        if (status != null) this.status = status;
     }
-}
 
+    // 서비스에서 Builder 안 쓰고 간단히 엔티티를 만들기 위한 정적 팩토리
+    public static Board create(User writer, Category category, String title, String content, String status) {
+        return Board.builder()
+                .writer(writer)
+                .category(category)
+                .title(title)
+                .content(content)
+                .status(status != null ? status : "Y")
+                .viewCount(0L)
+                .build();
+    }
+
+
+}

@@ -26,7 +26,6 @@ public class AdCommandController {
                 .body(Map.of("adId", adId));
     }
 
-    // ... existing code ..
     @PostMapping(value = "/delete", consumes = "application/json")
     public ResponseEntity<Map<String, Object>> deleteAd(@RequestBody AdCreateRequest req) {
         adCommandService.deleteAd(req);

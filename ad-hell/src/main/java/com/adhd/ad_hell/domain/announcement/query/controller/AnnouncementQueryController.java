@@ -2,6 +2,7 @@ package com.adhd.ad_hell.domain.announcement.query.controller;
 
 import com.adhd.ad_hell.domain.announcement.query.dto.request.AnnouncementSearchRequest;
 import com.adhd.ad_hell.domain.announcement.query.dto.response.AnnouncementDetailResponse;
+import com.adhd.ad_hell.domain.announcement.query.dto.response.AnnouncementListResponse;
 import com.adhd.ad_hell.domain.announcement.query.service.AnnouncementQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,36 +15,19 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AnnouncementQueryController {
 
-    // Service 의존성 주입 (조회 로직 담당)
     private final AnnouncementQueryService announcementQueryService;
 
-    // 공지사항 목록 조회
-
+    /** 공지사항 목록 (검색 + 페이징) */
     @GetMapping
-    public ResponseEntity<Map<String, Object>> findAll(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String status
-    ) {
-
-        // 요청 파라미터를 DTO(검색 조건 객체)로 변환
-        AnnouncementSearchRequest req = AnnouncementSearchRequest.builder()
-                .page(page)
-                .size(size)
-                .keyword(keyword)
-                .status(status)
-                .build();
-
-        // Http 200 OK로 응답
-        return ResponseEntity.ok(announcementQueryService.findAll(req));
+    public ResponseEntity<AnnouncementListResponse> getAnnouncements(AnnouncementSearchRequest request) {
+        // Spring이 GET 쿼리 파라미터를 DTO 필드명 기준으로 자동 매핑해줌
+        // 예: /api/announcements?page=1&size=20&keyword=test&status=Y
+        return ResponseEntity.ok(announcementQueryService.getAnnouncements(request));
     }
 
-    // 공지사항 목록 상세 조회
+    /** 공지사항 단건 상세 */
     @GetMapping("/{id}")
-    public ResponseEntity<AnnouncementDetailResponse> findById(@PathVariable Long id) {
-
-        // 존재하지 않을 경우 BusinessException 던짐
-        return ResponseEntity.ok(announcementQueryService.findById(id));
+    public ResponseEntity<AnnouncementDetailResponse> getAnnouncementDetail(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(announcementQueryService.getAnnouncementDetail(id));
     }
 }
