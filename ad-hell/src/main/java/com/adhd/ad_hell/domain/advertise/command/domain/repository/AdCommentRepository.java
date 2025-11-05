@@ -8,4 +8,5 @@ public interface AdCommentRepository {
     AdComment save(AdComment adComment);
     Optional<AdComment> findById(Long adComment);
     void deleteById(Long adComment);
+    Boolean existsById(Long adComment);
 }

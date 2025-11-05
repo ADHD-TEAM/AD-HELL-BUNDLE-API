@@ -21,7 +21,7 @@ public class AdQueryService {
 
     private final AdMapper adMapper;
 
-//    광고 상세 조회
+    // 광고 상세 조회
     @Transactional(readOnly = true)
     public AdDetailResponse getAd(Long adId) {
         AdDto ad = Optional.ofNullable(
