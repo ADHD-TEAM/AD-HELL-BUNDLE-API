@@ -28,7 +28,7 @@ public class Ad extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private AdStatus status = AdStatus.ACTIVATE;
+    private AdStatus status;
 
     private int like_count;
 
@@ -89,18 +89,17 @@ public class Ad extends BaseTimeEntity {
         this.view_count = 0;
     }
 
-    /* ====== DTO → Entity 변환 ====== */
-    public static Ad fromCreateDto(AdCreateRequest dto) {
+    public static Ad fromCreateDto(AdCreateRequest dto, Long userId) {
         return Ad.builder()
-                .userId(dto.getUserId())
-                .categoryId(dto.getCategoryId())
-                .title(dto.getTitle())
-                .status(dto.getStatus())
-                .like_count(dto.getLike_count())
-                .bookmark_count(dto.getBookmark_count())
-                .comment_count(dto.getComment_count())
-                .view_count(dto.getView_count())
-                .build();
+                 .userId(userId)
+                 .categoryId(dto.getCategoryId())
+                 .title(dto.getTitle())
+                 .status(AdStatus.ACTIVATE)
+                 .like_count(0)
+                 .bookmark_count(0)
+                 .comment_count(0)
+                 .view_count(0)
+                 .build();
     }
 
 
