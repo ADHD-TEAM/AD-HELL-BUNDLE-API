@@ -261,55 +261,9 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 ## 🧪 **테스트 보고서**
 
 <details> 
-<summary> 회원</summary>
+<summary>테스트 보고서</summary>
 
 </details>
-
-<details> 
-<summary> 신고</summary>
-
-</details>
-
-<details> 
-<summary> 게시판</summary>
-
-</details>
-
-<details> 
-<summary> 좋아요</summary>
-
-</details>
-
-<details> 
-<summary> 즐겨찾기</summary>
-
-</details>
-
-<details> 
-<summary> 카테고리</summary>
-
-</details>
-
-<details> 
-<summary> 알림</summary>
-
-</details>
-
-<details> 
-<summary> 광고</summary>
-
-</details>
-
-<details> 
-<summary> 포인트</summary>
-
-</details>
-
-<details> 
-<summary> 경품</summary>
-
-</details>
-
 
 ## 📢 트러블슈팅
 
