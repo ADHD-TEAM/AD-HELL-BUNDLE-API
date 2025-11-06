@@ -224,9 +224,9 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <details> 
 <summary> 요구사항 명세서 이미지</summary>
 <img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_1.png" />
-<img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_2.png" />
-<img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_3.png" />
-<img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_4.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_2.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_3.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_4.png" />
 
     
 </details>
@@ -235,14 +235,14 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary>DDD</summary>
-<img width="2144" height="2182" alt="DDD" src="https://github.com/ad-hell/product/ADHD_DDD.png" />
+<img width="2144" height="2182" alt="DDD" src="./ad-hell/product/ADHD_DDD.png" />
 </details>
 
 ### 📌**ERD**
 
 <details> 
 <summary>ERD</summary>
-<img width="3528" height="1601" alt="ERD" src="https://github.com/ad-hell/product/AD_HELL_ERD.png" />
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_ERD.png" />
 </details>
 
 ### 📌**REST API 설계 문서**
