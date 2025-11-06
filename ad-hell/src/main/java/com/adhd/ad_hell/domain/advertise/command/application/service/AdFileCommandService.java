@@ -1,5 +1,6 @@
 package com.adhd.ad_hell.domain.advertise.command.application.service;
 
+import com.adhd.ad_hell.common.storage.FileStorageResult;
 import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdFileCreateRequest;
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdFile;
 import com.adhd.ad_hell.domain.advertise.command.domain.repository.AdFileRepository;
@@ -52,13 +53,13 @@ public class AdFileCommandService {
                 // 원본명/확장자 필요시 추출
                 String title = adFileCreateRequest.getFileTitle();
 
-                String stored = fileStorage.store(f); // 저장된 랜덤명
-                storedNames.add(stored);
+                FileStorageResult stored = fileStorage.store(f); // 저장된 랜덤명
+                storedNames.add(stored.getStoredName());
 
-                AdFile adFile = AdFile.of(stored, title);
+//                AdFile adFile = AdFile.of(stored.getStoredName(), title);
                 // 필요 시 originalName/ext 필드 추가해 엔티티에 저장
-                ad.addFile(adFile);
-                entities.add(adFile);
+//                ad.addFile(adFile);
+//                entities.add(adFile);
             }
         }
 
@@ -83,10 +84,10 @@ public class AdFileCommandService {
 
         // 2) 기존 파일 엔티티 & 물리 파일명 확보 (커밋 후 삭제 대상)
         List<AdFile> oldEntities = adFileRepository.findByAd_AdId(req.getAdId());
-        List<String> oldFileNames = oldEntities.stream()
-                .map(AdFile::getFileTitle)
-                .filter(Objects::nonNull)
-                .toList();
+//        List<String> oldFileNames = oldEntities.stream()
+//                .map(AdFile::getFileTitle)
+//                .filter(Objects::nonNull)
+//                .toList();
 
         // 3) 새 파일 저장 (롤백 시 제거 대상 기록) + 전체 교체 전략
         List<String> savedNewFileNames = new ArrayList<>();
@@ -96,13 +97,13 @@ public class AdFileCommandService {
             for (MultipartFile part : newFiles) {
                 if (part == null || part.isEmpty()) continue;
 
-                String stored = fileStorage.store(part); // 물리 저장
-                savedNewFileNames.add(stored);
+//                String stored = fileStorage.store(part); // 물리 저장
+//                savedNewFileNames.add(stored);
 
                 // createAdFile과 동일하게 저장명/타이틀 사용
                 String title = req.getTitle(); // 필요시 별도 타이틀 소스 사용
-                AdFile adFile = AdFile.of(stored, title);
-                ad.addFile(adFile); // 양방향 연결
+//                AdFile adFile = AdFile.of(stored, title);
+//                ad.addFile(adFile); // 양방향 연결
             }
         }
 
@@ -117,7 +118,7 @@ public class AdFileCommandService {
 
         // 5) 트랜잭션 종료 훅(커밋/롤백)에서 물리 파일 정리 (create와 동일한 패턴)
         if (TransactionSynchronizationManager.isSynchronizationActive()) {
-            final List<String> finalsOld = List.copyOf(oldFileNames);
+//            final List<String> finalsOld = List.copyOf(oldFileNames);
             final List<String> finalsNew = List.copyOf(savedNewFileNames);
 
             TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
@@ -125,7 +126,7 @@ public class AdFileCommandService {
                 public void afterCompletion(int status) {
                     if (status == STATUS_COMMITTED) {
                         // 커밋되면 기존 파일 삭제
-                        for (String old : finalsOld) fileStorage.deleteQuietly(old);
+//                        for (String old : finalsOld) fileStorage.deleteQuietly(old);
                     } else {
                         // 롤백되면 새로 저장한 파일 삭제
                         for (String nv : finalsNew) fileStorage.deleteQuietly(nv);

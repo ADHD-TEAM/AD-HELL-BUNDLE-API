@@ -1,6 +1,5 @@
 package com.adhd.ad_hell.domain.board.command.application.service;
 
-import com.adhd.ad_hell.common.util.SecurityUtil;
 import com.adhd.ad_hell.domain.board.command.application.dto.response.BoardCommandResponse;
 import com.adhd.ad_hell.common.storage.FileStorage;
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdFile;
@@ -14,7 +13,6 @@ import com.adhd.ad_hell.domain.category.command.domain.aggregate.Category;
 import com.adhd.ad_hell.domain.category.command.domain.repository.CategoryRepository;
 import com.adhd.ad_hell.domain.user.command.entity.User;
 import com.adhd.ad_hell.domain.user.command.repository.UserCommandRepository;
-import com.adhd.ad_hell.domain.user.query.service.provider.UserProvider;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -34,18 +32,12 @@ public class BoardCommandService {
     private final UserCommandRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final FileStorage fileStorage;
-    private final SecurityUtil securityUtil;
-    private final UserProvider userProvider;
 
     // 게시글 등록
     public BoardCommandResponse create(BoardCreateRequest req, MultipartFile image) {
-
-        Long userId = securityUtil.getLoginUserInfo().getUserId();
-
-        User writer = userProvider.getUserById(userId);
         //  FK 검증
-//        User writer = userRepository.findById(req.getWriterId())
-//                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+        User writer = userRepository.findById(req.getWriterId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         Category category = categoryRepository.findById(req.getCategoryId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_FOUND));
@@ -64,12 +56,12 @@ public class BoardCommandService {
 
         //  이미지가 있을 경우 파일 저장
         if (image != null && !image.isEmpty()) {
-            String savedName = fileStorage.store(image);
+            FileStorageResult savedName = fileStorage.store(image);
 
             AdFile fileMeta = AdFile.builder()
-                    .fileTitle(image.getOriginalFilename())
+                    .fileName(image.getOriginalFilename())
                     .fileType(mapType(image.getContentType()))
-                    .filePath(savedName)
+                    .filePath(savedName.getUrl())
                     .build();
 
             adFileRepository.save(fileMeta);
@@ -106,17 +98,17 @@ public class BoardCommandService {
 
         //  새 이미지 업로드
         if (newImage != null && !newImage.isEmpty()) {
-            String savedName = fileStorage.store(newImage);
+            FileStorageResult savedName = fileStorage.store(newImage);
             TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
                 @Override public void afterCompletion(int status) {
-                    if (status == STATUS_ROLLED_BACK) fileStorage.deleteQuietly(savedName);
+                    if (status == STATUS_ROLLED_BACK) fileStorage.deleteQuietly(savedName.getStoredName());
                 }
             });
 
             AdFile fileMeta = AdFile.builder()
-                    .fileTitle(newImage.getOriginalFilename() != null ? newImage.getOriginalFilename() : savedName)
+                    .fileName(newImage.getOriginalFilename() != null ? newImage.getOriginalFilename() : savedName.getStoredName())
                     .fileType(mapType(newImage.getContentType()))
-                    .filePath(savedName)
+                    .filePath(savedName.getUrl())
                     .build();
 
             fileMeta.setBoard(board);
