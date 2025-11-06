@@ -1,4 +1,4 @@
-package com.adhd.ad_hell.domain.ad_comment.command.application.dto.response;
+package com.adhd.ad_hell.domain.ad_comment.command.application.service;
 
 import com.adhd.ad_hell.domain.ad_comment.command.application.dto.request.AdCommentCreateRequest;
 import com.adhd.ad_hell.domain.ad_comment.command.application.dto.request.AdCommentUpdateRequest;

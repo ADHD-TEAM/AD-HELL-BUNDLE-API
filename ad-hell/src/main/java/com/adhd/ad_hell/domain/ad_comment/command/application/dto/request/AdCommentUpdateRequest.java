@@ -6,7 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class AdCommentUpdateRequest {
-    private final Long adId;
-    private final Long userId;
     private final String content;
 }

@@ -17,14 +17,13 @@ public class AdRankingCommandService {
 
     @Transactional
     public Long createAdRanking(AdRankingCreateRequest request){
-        Integer totalScore = adRepository.findTotalScoreById(request.getAdId());
-        float score = totalScore != null ? totalScore.floatValue() : 0F;
+//        Integer totalScore = adRepository.findTotalScoreById(request.getAdId());
+//        float score = totalScore != null ? totalScore.floatValue() : 0F;
 
         AdRank adRank = AdRank.builder()
                 .categoryId(request.getCategoryId())
                 .adId(request.getAdId())
-                .score(score)
-                .rank(request.getRank())
+                .score(request.getScore())
                 .build();
 
         AdRank saved = adRankingRepository.save(adRank);

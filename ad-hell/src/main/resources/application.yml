@@ -19,7 +19,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop         # create, create-drop, update, validate, none ? ??
+      ddl-auto: create        # create, create-drop, update, validate, none ? ??
     properties:
       hibernate:
         format_sql: true

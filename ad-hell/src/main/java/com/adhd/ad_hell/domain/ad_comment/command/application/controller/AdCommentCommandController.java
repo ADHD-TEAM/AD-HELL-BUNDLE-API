@@ -4,7 +4,7 @@ import com.adhd.ad_hell.domain.ad_comment.command.application.dto.request.AdComm
 import com.adhd.ad_hell.domain.ad_comment.command.application.dto.request.AdCommentUpdateRequest;
 
 import com.adhd.ad_hell.common.dto.ApiResponse;
-import com.adhd.ad_hell.domain.ad_comment.command.application.dto.response.AdCommentCommandService;
+import com.adhd.ad_hell.domain.ad_comment.command.application.service.AdCommentCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
