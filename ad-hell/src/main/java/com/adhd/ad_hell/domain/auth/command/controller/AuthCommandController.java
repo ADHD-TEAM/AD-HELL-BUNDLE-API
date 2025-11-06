@@ -1,6 +1,5 @@
 package com.adhd.ad_hell.domain.auth.command.controller;
 
-import com.adhd.ad_hell.common.ApiEndpoint;
 import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.domain.auth.command.dto.request.*;
 import com.adhd.ad_hell.domain.auth.command.dto.response.ExistVerificationCodeResponse;
