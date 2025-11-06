@@ -234,14 +234,14 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary>DDD</summary>
-<img width="2144" height="2182" alt="DDD" src="./ad-hell/product/ADHD_DDD.png" />
+<img width="2144" height="2182" alt="DDD" src="./ad-hell/product/ADHELL_DDD.png" />
 </details>
 
 ### 📌**ERD**
 
 <details> 
 <summary>ERD</summary>
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_ERD.png" />
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD HELL_ERD.png" />
 </details>
 
 ### 📌**REST API 설계 문서**
