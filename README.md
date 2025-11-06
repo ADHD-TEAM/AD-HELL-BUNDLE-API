@@ -248,7 +248,35 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary>REST API 설계 문서</summary>
-<img width="3528" height="1601" alt="ERD" src="" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_1.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_2.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_3.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_4.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_5.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_6.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_7.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_8.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_9.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_10.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_11.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_12.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_13.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_14.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_15.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_16.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_17.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_18.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_19.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_20.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_21.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_22.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_23.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_24.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_25.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_26.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_27.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_28.png" />
+<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_29.png" />
 </details>
 
 [//]: # ( ## 📌**MSA 아키텍쳐 구조도**)
