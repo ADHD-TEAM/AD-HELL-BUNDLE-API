@@ -223,55 +223,40 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary> 요구사항 명세서 이미지</summary>
-<img width="2000" height="1413" alt="요구사항 명세서" src="" />
-<img width="2000" height="1413" alt="요구사항 명세서" src="" />
-<img width="2000" height="1413" alt="요구사항 명세서" src="" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_1.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_2.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_3.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_4.png" />
+    
 </details>
 
 ### 📌**DDD**
 
 <details> 
 <summary>DDD</summary>
-<img width="2144" height="2182" alt="UML" src="" />
+<img width="2144" height="2182" alt="DDD" src="https://github.com/ad-hell/product/ADHD_DDD.png" />
 </details>
 
 ### 📌**ERD**
 
 <details> 
-<summary> ERD 이미지</summary>
-<img width="3528" height="1601" alt="ERD" src="" />
+<summary>ERD</summary>
+<img width="3528" height="1601" alt="ERD" src="https://github.com/ad-hell/product/AD_HELL_ERD.png" />
 </details>
 
 ### 📌**REST API 설계 문서**
 
 <details> 
-<summary> ERD 이미지</summary>
+<summary>REST API 설계 문서</summary>
 <img width="3528" height="1601" alt="ERD" src="" />
 </details>
 
-### 📌**MSA 아키텍쳐 구조도**
+[//]: # ( ## 📌**MSA 아키텍쳐 구조도**)
 
-<details> 
-<summary> ERD 이미지</summary>
-<img width="3528" height="1601" alt="ERD" src="" />
-</details>
-
-### 📌**MSA 아키텍쳐 구조도**
-
-- EUREKA SERVER & CLIENT & API GATEWAY 구조
-
-<details> 
-<summary> ERD 이미지</summary>
-<img width="3528" height="1601" alt="ERD" src="" />
-</details>
-
-### 📌**MSA 아키텍쳐 구조도**
-
-<details> 
-<summary> ERD 이미지</summary>
-<img width="3528" height="1601" alt="ERD" src="" />
-</details>
-
+[//]: # ( <details> )
+[//]: # ( <summary> ERD 이미지</summary>)
+[//]: # ( <img width="3528" height="1601" alt="ERD" src="" />)
+[//]: # ( </details>)
 
 ## 🧪 **테스트 보고서**
 
