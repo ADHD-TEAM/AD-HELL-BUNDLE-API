@@ -7,7 +7,6 @@ import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdCreat
 import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdUpdateRequest;
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.Ad;
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdFile;
-import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdStatus;
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.FileType;
 import com.adhd.ad_hell.domain.advertise.command.domain.repository.AdRepository;
 import com.adhd.ad_hell.exception.BusinessException;

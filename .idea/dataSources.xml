@@ -13,11 +13,9 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="advertise_system@localhost" uuid="2f138801-4c2b-4057-bb28-c7c77f37e531">
+    <data-source source="LOCAL" name="advertise_system@localhost" uuid="0691bd1b-41c0-41bc-bde1-8c0a790c519e">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/ad-hell/src/main/resources/application.yml</remarks>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mariadb://localhost:3306/advertise_system</jdbc-url>
       <jdbc-additional-properties>
