@@ -57,12 +57,12 @@ public class BoardCommandService {
 
         //  이미지가 있을 경우 파일 저장
         if (image != null && !image.isEmpty()) {
-            FileStorageResult savedName = fileStorage.store(image);
+            FileStorageResult file = fileStorage.store(image);
 
             AdFile fileMeta = AdFile.builder()
-                    .fileName(image.getOriginalFilename())
+                    .originFileName(image.getOriginalFilename())
+                    .storedName(file.getStoredName())
                     .fileType(mapType(image.getContentType()))
-                    .filePath(savedName.getUrl())
                     .build();
 
             adFileRepository.save(fileMeta);
@@ -107,9 +107,8 @@ public class BoardCommandService {
             });
 
             AdFile fileMeta = AdFile.builder()
-                    .fileName(newImage.getOriginalFilename() != null ? newImage.getOriginalFilename() : savedName.getStoredName())
+                    .storedName(newImage.getOriginalFilename() != null ? newImage.getOriginalFilename() : savedName.getStoredName())
                     .fileType(mapType(newImage.getContentType()))
-                    .filePath(savedName.getUrl())
                     .build();
 
             fileMeta.setBoard(board);
@@ -138,7 +137,7 @@ public class BoardCommandService {
         adFileRepository.findByBoardId(id).forEach(file ->
                 TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
                     @Override public void afterCommit() {
-                        fileStorage.deleteQuietly(file.getFilePath());
+                        fileStorage.deleteQuietly(file.getStoredName());
                     }
                 })
         );

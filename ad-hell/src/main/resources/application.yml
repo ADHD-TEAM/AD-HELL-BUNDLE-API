@@ -73,9 +73,5 @@ mybatis:
 server:
   port: 8088                      # ?? ??
 
-image:
-  image-dir: "C:/Users/Playdata/ad-hell/uploads"
-
-ad:
-  # 정적 매핑이 /uploads/** 라면 이렇게 베이스 URL을 잡아두면 편합니다.
-  adfile-url: "http://localhost:${server.port}/uploads"
+file:
+  file-dir: "C:/Users/Playdata/ad-hell/uploads"

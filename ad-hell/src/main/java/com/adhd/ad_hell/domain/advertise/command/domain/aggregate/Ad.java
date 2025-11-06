@@ -8,12 +8,14 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="ad")
+@SQLDelete(sql = "UPDATE ad SET status = 'DEACTIVATED' where ad_id = ?")
 public class Ad extends BaseTimeEntity {
 
     @Id
@@ -74,7 +76,6 @@ public class Ad extends BaseTimeEntity {
         this.view_count = view_count;
     }
 
-    /* ====== 빌더 ====== */
     @Builder
     private Ad(Long userId, Long categoryId, String title,
                AdStatus status,int like_count,int bookmark_count,
@@ -102,6 +103,12 @@ public class Ad extends BaseTimeEntity {
                  .build();
     }
 
-
-
+    public void updateAdInfo(String title, Long categoryId) {
+        if (title != null && !title.isBlank()) {
+            this.title = title;
+        }
+        if (categoryId != null) {
+            this.categoryId = categoryId;
+        }
+    }
 }

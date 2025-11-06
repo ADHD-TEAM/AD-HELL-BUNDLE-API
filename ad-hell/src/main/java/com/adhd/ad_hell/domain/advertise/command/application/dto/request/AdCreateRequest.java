@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdCreateRequest {
-    private Long userId;
     private Long categoryId;
     private String title;
 }
