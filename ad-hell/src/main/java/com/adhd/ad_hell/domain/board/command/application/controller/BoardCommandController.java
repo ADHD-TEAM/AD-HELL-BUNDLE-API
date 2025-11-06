@@ -27,19 +27,19 @@ public class BoardCommandController {
     }
 
     /** 게시글 수정 */
-    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    @PutMapping(value = "/{board_id}", consumes = "multipart/form-data")
     public ResponseEntity<ApiResponse<BoardCommandResponse>> update(
-            @PathVariable Long id,
+            @PathVariable Long board_id,
             @ModelAttribute BoardUpdateRequest request,
             @RequestPart(value = "image", required = false) MultipartFile image
     ) {
-        return ResponseEntity.ok(ApiResponse.success(service.update(id, request, image)));
+        return ResponseEntity.ok(ApiResponse.success(service.update(board_id, request, image)));
     }
 
     /** 게시글 삭제 */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
-        service.delete(id);
+    @DeleteMapping("/{board_id}")
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long board_id) {
+        service.delete(board_id);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

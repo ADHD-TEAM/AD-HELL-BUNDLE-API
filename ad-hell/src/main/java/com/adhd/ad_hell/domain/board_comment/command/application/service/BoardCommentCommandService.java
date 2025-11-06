@@ -1,12 +1,15 @@
 package com.adhd.ad_hell.domain.board_comment.command.application.service;
 
+import com.adhd.ad_hell.common.util.SecurityUtil;
 import com.adhd.ad_hell.domain.board.command.domain.repository.BoardRepository;
 import com.adhd.ad_hell.domain.board_comment.command.application.dto.request.BoardCommentCreateRequest;
 import com.adhd.ad_hell.domain.board_comment.command.application.dto.request.BoardCommentUpdateRequest;
 import com.adhd.ad_hell.domain.board_comment.command.application.dto.response.BoardCommentCommandResponse;
 import com.adhd.ad_hell.domain.board_comment.command.domain.aggregate.BoardComment;
 import com.adhd.ad_hell.domain.board_comment.command.domain.repository.BoardCommentRepository;
+import com.adhd.ad_hell.domain.user.command.entity.User;
 import com.adhd.ad_hell.domain.user.command.repository.UserCommandRepository;
+import com.adhd.ad_hell.domain.user.query.service.provider.UserProvider;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +24,18 @@ public class BoardCommentCommandService {
     private final BoardCommentRepository boardCommentRepository;
     private final UserCommandRepository userRepository;
     private final BoardRepository boardRepository;
+    private final SecurityUtil securityUtil;
+    private final UserProvider userProvider;
 
     /** 댓글 등록 */
     @Transactional
     public BoardCommentCommandResponse createBoardComment(BoardCommentCreateRequest req) {
 
-        var user = userRepository.findById(req.getWriterId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+//        var user = userRepository.findById(req.getWriterId())
+//                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        Long userId = securityUtil.getLoginUserInfo().getUserId();
+        User user = userProvider.getUserById(userId);
 
         var board = boardRepository.findById(req.getBoardId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_FOUND));
