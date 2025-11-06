@@ -223,10 +223,12 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary> 요구사항 명세서 이미지</summary>
-<img width="2000" height="1413" alt="요구사항 명세서" src="./product/ADHD_SRS_1.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_1.png" />
 <img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_2.png" />
 <img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_3.png" />
 <img width="2000" height="1413" alt="요구사항 명세서" src="https://github.com/ad-hell/product/ADHD_SRS_4.png" />
+
+    
 </details>
 
 ### 📌**DDD**
