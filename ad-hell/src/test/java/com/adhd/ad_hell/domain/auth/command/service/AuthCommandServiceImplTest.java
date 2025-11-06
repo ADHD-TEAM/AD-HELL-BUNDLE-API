@@ -236,7 +236,7 @@ class AuthCommandServiceImplTest {
                 .build();
 
         User user = new User();
-        user.setPassword("oldPassword");
+       // user.setPassword("oldPassword");
 
         when(userCommandRepository.findByUserId(userId)).thenReturn(Optional.of(user));
         when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPassword);
