@@ -17,7 +17,7 @@ public class AdCommentCommandService {
 
     /* 광고 댓글 등록 */
     @Transactional
-    public Long createAdComment(AdCommentCreateRequest req) {
+    public void createAdComment(AdCommentCreateRequest req) {
         AdComment newComment = AdComment.builder()
                 .userId(req.getUserId())
                 .adId(req.getAdId())
@@ -25,7 +25,6 @@ public class AdCommentCommandService {
                 .build();
 
         AdComment saved = adCommentRepository.save(newComment);
-        return saved.getAdCommentId();
     }
 
 
