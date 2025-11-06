@@ -30,19 +30,19 @@
 </tr>
 <tr>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_2" />
+    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_2.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_4" />
+    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_4.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_5" />
+    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_5.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_6" />
+    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_6.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_3" />
+    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_3.jpg" />
 </td>
 </tr>
 </table>
