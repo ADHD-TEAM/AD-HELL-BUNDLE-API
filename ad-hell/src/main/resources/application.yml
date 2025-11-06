@@ -75,3 +75,4 @@ server:
 
 file:
   file-dir: "C:/Users/Playdata/ad-hell/uploads"
+  base-url: "http://localhost:8080/api/files/"
