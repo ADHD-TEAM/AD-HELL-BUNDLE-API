@@ -18,7 +18,6 @@ public class BoardCreateRequest {
     @NotBlank
     private final String content;
 
-    @NotNull
     private final Long writerId;
 
     @NotNull

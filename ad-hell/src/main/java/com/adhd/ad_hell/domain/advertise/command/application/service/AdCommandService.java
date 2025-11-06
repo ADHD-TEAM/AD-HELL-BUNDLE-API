@@ -8,6 +8,7 @@ import com.adhd.ad_hell.domain.advertise.command.application.dto.request.AdUpdat
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.Ad;
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdFile;
 import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.AdStatus;
+import com.adhd.ad_hell.domain.advertise.command.domain.aggregate.FileType;
 import com.adhd.ad_hell.domain.advertise.command.domain.repository.AdRepository;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
@@ -43,7 +44,7 @@ public class AdCommandService {
                 FileStorageResult result = fileStorage.store(file);
 
                 storedNames.add(result.getStoredName());
-                AdFile adFile = AdFile.of(result.getStoredName(), file.getOriginalFilename(), result.getUrl());
+                AdFile adFile = AdFile.of(result.getStoredName(), file.getOriginalFilename(), FileType.VIDEO);
                 ad.addFile(adFile);
             }
         }
@@ -57,28 +58,24 @@ public class AdCommandService {
             }
         });
 
-        if (true) throw new RuntimeException("🔥 강제 롤백 테스트 중입니다.");
-
         return ad.getAdId();
     }
 
-//    @Transactional
-//    public void deleteAd(AdCreateRequest req) {
-//        adRepository.deleteById(req.getAdId());
-//    }
-
-    /** 광고 수정 (메타데이터) */
     @Transactional
-    public void updateAd(AdUpdateRequest req) {
-        Ad ad = adRepository.findById(req.getAdId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND));
+    public void updateAd(Long adId, AdUpdateRequest req) {
+        Ad ad = adRepository.findById(adId)
+                            .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND));
 
-        ad.updateAd(
-                req.getTitle(),
-                req.getLike_count(),
-                req.getBookmark_count(),
-                req.getComment_count(),
-                req.getView_count()
-        );
+        ad.updateAdInfo(req.getTitle(), req.getCategoryId());
+    }
+
+    @Transactional
+    public void deleteAd(Long adId) {
+        Ad ad = adRepository.findById(adId)
+                            .orElseThrow(() -> new BusinessException(ErrorCode.AD_NOT_FOUND));
+
+        adRepository.deleteById(adId);
+
+        ad.getFiles().forEach(file -> fileStorage.deleteQuietly(file.getStoredName()));
     }
 }

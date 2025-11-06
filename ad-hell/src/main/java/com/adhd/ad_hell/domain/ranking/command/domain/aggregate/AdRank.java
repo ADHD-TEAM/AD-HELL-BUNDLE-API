@@ -3,12 +3,14 @@ package com.adhd.ad_hell.domain.ranking.command.domain.aggregate;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -21,7 +23,6 @@ public class AdRank {
     private Long categoryId;
     private Long adId;
     private float score;
-    private int rank;
     @CreatedDate
     @Column(name = "ranked_time", nullable = false)
     private LocalDateTime rankedTime;

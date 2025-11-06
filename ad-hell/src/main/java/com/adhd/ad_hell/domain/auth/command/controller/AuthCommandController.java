@@ -1,6 +1,5 @@
 package com.adhd.ad_hell.domain.auth.command.controller;
 
-import com.adhd.ad_hell.common.ApiEndpoint;
 import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.domain.auth.command.dto.request.*;
 import com.adhd.ad_hell.domain.auth.command.dto.response.ExistVerificationCodeResponse;
@@ -47,6 +46,7 @@ public class AuthCommandController {
      * @param userSignUpRequest
      * @return
      */
+
     @PostMapping("/signUp")
     @Operation(
             summary = "회원가입",
@@ -74,6 +74,7 @@ public class AuthCommandController {
      * @param request
      * @return
      */
+
     @PostMapping("/login")
     @Operation(
             summary = "로그인",

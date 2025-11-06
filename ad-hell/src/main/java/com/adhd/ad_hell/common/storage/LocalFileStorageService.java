@@ -25,17 +25,11 @@ public class LocalFileStorageService implements FileStorage {
         "hwp", "txt", "csv", "rtf", "odt", "md"
     );
 
+    /** 실제 업로드 경로 */
     private final Path uploadDir;
 
-    /** 외부 접근용 Base URL (예: http://localhost:8080/uploads/) */
-    private final String baseUrl;
-
-    public LocalFileStorageService(
-        @Value("${image.image-dir}") String uploadDir,
-        @Value("${image.base-url:/uploads/}") String baseUrl
-    ) {
+    public LocalFileStorageService(@Value("${file.file-dir}") String uploadDir) {
         this.uploadDir = Paths.get(uploadDir).normalize().toAbsolutePath();
-        this.baseUrl = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
 
         try {
             Files.createDirectories(this.uploadDir);
@@ -45,6 +39,10 @@ public class LocalFileStorageService implements FileStorage {
         }
     }
 
+    /**
+     * 파일 저장
+     * @return FileStorageResult (저장된 이름 + 절대경로)
+     */
     @Override
     public FileStorageResult store(MultipartFile file) {
         if (file == null || file.isEmpty())
@@ -65,25 +63,22 @@ public class LocalFileStorageService implements FileStorage {
             throw new BusinessException(ErrorCode.FILE_EXTENSION_NOT_ALLOWED);
         }
 
-        // 3️⃣ 파일명 랜덤화
-        final String fileName = UUID.randomUUID() + (ext.isEmpty() ? "" : "." + ext);
+        final String storedName = UUID.randomUUID() + (ext.isEmpty() ? "" : "." + ext);
+        final Path target = safeResolve(storedName);
 
-        // 4️⃣ 안전한 경로 생성
-        final Path target = safeResolve(fileName);
-
-        // 5️⃣ 실제 저장
         try (InputStream in = file.getInputStream()) {
             Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
-            log.error("파일 저장 실패 [{}]: {}", fileName, ex.getMessage(), ex);
+            log.error("파일 저장 실패 [{}]: {}", storedName, ex.getMessage(), ex);
             throw new BusinessException(ErrorCode.FILE_SAVE_IO_ERROR);
         }
 
-        // ✅ 저장된 파일명 + 접근 가능한 URL 반환
-        String url = baseUrl + fileName;
-        return new FileStorageResult(fileName, url);
+        return new FileStorageResult(storedName, target.toString());
     }
 
+    /**
+     * 파일 삭제
+     */
     @Override
     public void delete(String fileName) {
         final Path path = safeResolve(fileName);
@@ -97,13 +92,21 @@ public class LocalFileStorageService implements FileStorage {
         }
     }
 
+    /**
+     * 조용히 삭제 (예외 무시)
+     */
     @Override
     public void deleteQuietly(String fileName) {
         try {
             delete(fileName);
-        } catch (Exception ignore) { }
+        } catch (Exception ignore) {
+            log.debug("파일 삭제 무시됨: {}", fileName);
+        }
     }
 
+    /**
+     * 안전한 경로 확인
+     */
     private Path safeResolve(String fileName) {
         Path p = this.uploadDir.resolve(fileName).normalize().toAbsolutePath();
         if (!p.startsWith(this.uploadDir)) {
