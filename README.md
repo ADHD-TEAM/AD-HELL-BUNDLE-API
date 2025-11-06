@@ -4,7 +4,6 @@
 # 📺**ADHD:광고당했대**
 ### "광고를 본다는 건 더 이상 시간 낭비가 아니다."
 
-<img width="600" height="600" alt="Image" src="" />
 </div>
 <br>
 
