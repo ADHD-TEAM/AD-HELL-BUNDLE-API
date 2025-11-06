@@ -26,7 +26,6 @@ public class InquiryCommandService {
 
     private final InquiryRepository inquiryRepository;
     private final CategoryRepository categoryRepository;
-    private final UserCommandRepository userCommandRepository;
     private final SecurityUtil securityUtil;
     private final UserProvider userProvider;
 
