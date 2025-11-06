@@ -39,6 +39,7 @@ public class AuthCommandController {
      * @param userSignUpRequest
      * @return
      */
+
     @PostMapping("/signUp")
     public ResponseEntity<ApiResponse<Void>> signUp(
             @Validated @RequestBody UserSignUpRequest userSignUpRequest
@@ -56,6 +57,7 @@ public class AuthCommandController {
      * @param request
      * @return
      */
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<TokenResponse>> login(
            @Valid @RequestBody LoginRequest request
