@@ -103,7 +103,7 @@ public class UserCommandController {
      * @param userDetails
      * @return
      */
-    @PatchMapping("/withdraw")
+    @DeleteMapping("/withdraw")
     public ResponseEntity<ApiResponse<Void>> withdrawByUserInfo(
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {

@@ -17,6 +17,7 @@ public enum ApiEndpoint {
     USER_ME(HttpMethod.GET,"/api/users/**", Role.USER),
     USER_MODIFY(HttpMethod.PUT,"/api/users/**", Role.USER),
     USER_PATCH(HttpMethod.PATCH,"/api/users/**", Role.USER),
+    USER_DELETE(HttpMethod.DELETE,"/api/users/**", Role.USER),
 
     // ADMIN 관련
     ADMIN_USER_LIST(HttpMethod.POST,"/api/admins/**", Role.ADMIN),
