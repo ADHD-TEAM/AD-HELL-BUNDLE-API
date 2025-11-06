@@ -64,7 +64,6 @@
 #### 💬Communication
 <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"> <img src="https://img.shields.io/badge/Google_Sheets-34A853?style=for-the-badge&logo=google-sheets&logoColor=white" />
 
----
 
 ## 📑 **프로젝트 기획**
 
@@ -274,7 +273,6 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <img width="3528" height="1601" alt="ERD" src="" />
 </details>
 
----
 
 ## 🧪 **테스트 보고서**
 
@@ -328,13 +326,10 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 </details>
 
----
 
 ## 📢 트러블슈팅
 
 
-
----
 ## 👨‍👩‍👧‍👦 팀원 회고
 <table style="width: 100%; text-align: center;">
 <tr>
