@@ -524,12 +524,12 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 </div>
 </details>
 
-<details> 
-<summary>김성</summary>
-<div>
+[//]: # (<details> )
+[//]: # (<summary>김성</summary>)
+[//]: # (<div>)
     
-</div>
-</details>
+[//]: # (</div>)
+[//]: # (</details>)
 
 <br>
 
