@@ -294,6 +294,40 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 </details>
 
+
+<details> 
+<summary>POST MAN</summary>
+<div>
+
+**광고등록**
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_1.png" />
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_2.png" />
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_3.png" />
+
+**광고수정**
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_5.png" />
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_4.png" />
+
+**광고조회**
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_6.png" />
+
+<br>
+
+**알림테스트**
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_NOTI_1.png" />
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_NOTI_2.png" />
+
+<br>
+
+
+
+
+
+    
+</div>
+</details>
+
+
 <br>
 
 ## 📢 트러블슈팅
@@ -555,7 +589,10 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
     <div>김성태</div>
 </td>
 <td style="background-color:#e9ecef;">
-    <div>내용</div>
+    <div>DDD와 CQRS 구조를 실제 서비스에 적용하며 **도메인 경계 설정과 책임 분리의 중요성**을 체감했습니다.
+또한 **JUnit + Mockito 기반 단위 테스트 자동화**를 통해 테스트 커버리지 확보의 필요성을 배웠습니다.
+무엇보다 작동하는 코드 보다 **유지보수 가능한 구조가 더 큰 가치**임을 깨달았고, **협업과 코드 리뷰 과정**을 통해 명확한 네이밍과 **일관된 코드 스타일의 중요성**을 깊이 이해했습니다.
+    </div>
 </td>
 </tr>
 
