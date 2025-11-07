@@ -5,6 +5,9 @@ import com.adhd.ad_hell.domain.ad_comment.command.application.dto.request.AdComm
 
 import com.adhd.ad_hell.common.dto.ApiResponse;
 import com.adhd.ad_hell.domain.ad_comment.command.application.service.AdCommentCommandService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +18,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comments")
+@Tag(name = "AdCommentQuery", description = "광고 댓글 조회 API")
 public class AdCommentCommandController {
 
-    private final AdCommentCommandService adCommentCommandService;
 
+
+    private final AdCommentCommandService adCommentCommandService;
+    @Operation(summary = "댓글 등록")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
+    })
     /* 광고 댓글 등록 */
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createAdComment(
@@ -30,6 +40,11 @@ public class AdCommentCommandController {
                 .body(ApiResponse.success(null));
     }
 
+    @Operation(summary = "댓글 수정")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
+    })
     /* 광고 댓글 수정 */
     @PutMapping("/{adCommentId}")
     public ResponseEntity<ApiResponse<Void>> updateAdComment(
@@ -39,6 +54,12 @@ public class AdCommentCommandController {
         adCommentCommandService.updateAdComment(adCommentId, req);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
+
+    @Operation(summary = "댓글 수정")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
+    })
 
     /* 광고 댓글 삭제 */
     @DeleteMapping("/{adCommentId}")
