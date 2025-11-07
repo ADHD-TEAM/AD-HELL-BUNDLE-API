@@ -30,11 +30,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;    // 토큰 생성,검증 등
-    private final CustomUserDetailsService userDetailsService;    // 로그인시 사용자 정보를 담는 곳
-    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint; //인증 실패 핸들러
-    private final RestAccessDeniedHandler restAccessDeniedHandler;      // 인가 실패 핸들러
-
+    private final JwtTokenProvider jwtTokenProvider;                    // 토큰 생성/검증
+    private final CustomUserDetailsService userDetailsService;          // 사용자 정보 로드
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint; // 인증 실패 핸들러
+    private final RestAccessDeniedHandler restAccessDeniedHandler;           // 인가 실패 핸들러
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,80 +41,90 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            // 1. csrf 처리 : jwt 비활성화
-        http.csrf(AbstractHttpConfigurer::disable)
-            // 2. session 처리 ( jwt : STATELESS 설정)
-            .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            // 3. method, url 기준 인증/인가 설정
-            .authorizeHttpRequests(auth -> {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-                /* Swagger 문서 공개 */
-                auth.requestMatchers(
-                        "/v3/api-docs/**",
-                        "/swagger-ui/**",
-                        "/swagger-ui.html"
-                ).permitAll();
+        http
+                // 1. CSRF 비활성화 (JWT 사용)
+                .csrf(AbstractHttpConfigurer::disable)
 
-                /* SSE 테스트 */
+                // 2. 세션을 사용하지 않는 Stateless 설정
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
 
-                // [A] SSE 테스트를 위한 예외 허용 (테스트용)
-                // 정적 리소스 & 테스트 페이지
-                auth.requestMatchers(
-                        "/",              // 루트
-                        "/index.html",
-                        "/sse-test.html", // 우리가 만들 테스트 페이지
-                        "/static/**",
-                        "/css/**",
-                        "/js/**",
-                        "/images/**",
-                        "/favicon.ico"
-                ).permitAll();
+                // 3. URL / Method 별 인가 규칙
+                .authorizeHttpRequests(auth -> {
 
-                // SSE 구독 엔드포인트도 일단 모두 허용 (테스트용)
-                auth.requestMatchers(
-                        HttpMethod.GET,
-                        "/api/users/*/notifications/stream"
-                ).permitAll();
+                    /* Swagger 문서 공개 */
+                    auth.requestMatchers(
+                            "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html"
+                    ).permitAll();
 
-                /* SSE 테스트 */
+                    /* 정적 리소스 & SSE 테스트 페이지 */
+                    auth.requestMatchers(
+                            "/",              // 루트
+                            "/index.html",
+                            "/sse-test.html", // SSE 테스트용 HTML
+                            "/static/**",
+                            "/css/**",
+                            "/js/**",
+                            "/images/**",
+                            "/favicon.ico"
+                    ).permitAll();
 
-                for(ApiEndpoint endpoint : ApiEndpoint.values()) {
-                    if (endpoint.getRole() == null) {
-                        // 회원가입, 로그인, 로그아웃
-                        auth.requestMatchers(endpoint.getEndpointStatus(), endpoint.getPath()).permitAll();
-                    } else {
-                        if (endpoint.getRole() == Role.USER) {
-                            // user : user/ admin
+                    /* 🔓 개발용: SSE 스트림 엔드포인트 토큰 없이 허용 */
+                    auth.requestMatchers(
+                            HttpMethod.GET,
+                            "/api/users/*/notifications/stream"
+                    ).permitAll();
+
+                    /* 내부 시스템 간 호출은 열어둠 */
+                    auth.requestMatchers("/internal/notifications/**").permitAll();
+
+                    /* 사용자 알림 관련 API 는 인증 필수 */
+                    auth.requestMatchers("/api/users/*/notifications/**").authenticated();
+
+                    /* 관리자용 API */
+                    auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
+
+                    /* 공통 ApiEndpoint 기반 인가 처리 */
+                    for (ApiEndpoint endpoint : ApiEndpoint.values()) {
+                        if (endpoint.getRole() == null) {
+                            // 예: 회원가입, 로그인 등 공개 엔드포인트
+                            auth.requestMatchers(endpoint.getEndpointStatus(), endpoint.getPath())
+                                    .permitAll();
+                        } else if (endpoint.getRole() == Role.USER) {
+                            // USER 권한(또는 ADMIN) 필요
                             auth.requestMatchers(endpoint.getEndpointStatus(), endpoint.getPath())
                                     .hasAnyRole(Role.USER.name(), Role.ADMIN.name());
                         } else if (endpoint.getRole() == Role.ADMIN) {
-                            // admin
+                            // ADMIN 전용
                             auth.requestMatchers(endpoint.getEndpointStatus(), endpoint.getPath())
-                                    .hasAnyRole(Role.ADMIN.name());
-                                    //.permitAll();
+                                    .hasRole(Role.ADMIN.name());
                         }
                     }
-                }
-                auth.anyRequest().authenticated();
-            })
-                // 4. 인증 필터 추가 (JWT)
-            .addFilterBefore(jwtAuthentiationFilter(), UsernamePasswordAuthenticationFilter.class)
-            // 인증/인가 실패 처리
-            .exceptionHandling(exception ->
-                    // 인증 실패 핸들러
-                    exception.authenticationEntryPoint(restAuthenticationEntryPoint)
-                    // 인가 실패 핸들러
-                            .accessDeniedHandler(restAccessDeniedHandler)
-                    );
-                // 프론트와 연결
+
+                    /* 위에서 명시하지 않은 모든 요청은 인증 필요 */
+                    auth.anyRequest().authenticated();
+                })
+
+                // 4. JWT 인증 필터 추가
+                .addFilterBefore(jwtAuthentiationFilter(), UsernamePasswordAuthenticationFilter.class)
+
+                // 5. 인증 / 인가 실패 처리
+                .exceptionHandling(exception ->
+                        exception
+                                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                                .accessDeniedHandler(restAccessDeniedHandler)
+                );
+
         return http.build();
     }
 
-
     @Bean
     public JwtAuthentiationFilter jwtAuthentiationFilter() {
-        return  new JwtAuthentiationFilter(jwtTokenProvider, userDetailsService);
+        return new JwtAuthentiationFilter(jwtTokenProvider, userDetailsService);
     }
 }

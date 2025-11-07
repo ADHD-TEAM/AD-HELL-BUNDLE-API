@@ -1,6 +1,7 @@
 package com.adhd.ad_hell.domain.notification.query.controller;
 
 import com.adhd.ad_hell.common.dto.ApiResponse;
+import com.adhd.ad_hell.common.dto.CustomUserDetails;
 import com.adhd.ad_hell.domain.notification.query.dto.response.NotificationPageResponse;
 import com.adhd.ad_hell.domain.notification.query.dto.response.NotificationTemplatePageResponse;
 import com.adhd.ad_hell.domain.notification.query.service.NotificationQueryService;
@@ -12,8 +13,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.AccessDeniedException;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,8 +43,18 @@ public class NotificationQueryController {
     public ResponseEntity<ApiResponse<NotificationPageResponse>> getUserNotifications(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(required = false) Integer size
+            @RequestParam(required = false) Integer size,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
+        if (customUserDetails == null) {
+            throw new AccessDeniedException("인증 정보가 없습니다.");
+        }
+
+        Long authUserId = customUserDetails.getUserId();
+        if (!userId.equals(authUserId)) {
+            throw new AccessDeniedException("다른 사용자의 알림은 조회할 수 없습니다.");
+        }
+
         var res = queryService.getUserNotifications(userId, page, size);
         return ResponseEntity.ok(ApiResponse.success(res));
     }
@@ -57,7 +71,19 @@ public class NotificationQueryController {
             )
     })
     @GetMapping("/api/users/{userId}/notifications/unread-count")
-    public ResponseEntity<ApiResponse<Long>> getUnreadCount(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse<Long>> getUnreadCount(
+            @PathVariable Long userId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        if (customUserDetails == null) {
+            throw new AccessDeniedException("인증 정보가 없습니다.");
+        }
+
+        Long authUserId = customUserDetails.getUserId();
+        if (!userId.equals(authUserId)) {
+            throw new AccessDeniedException("다른 사용자의 알림은 조회할 수 없습니다.");
+        }
+
         long cnt = queryService.getUnreadCount(userId);
         return ResponseEntity.ok(ApiResponse.success(cnt));
     }
@@ -96,6 +122,7 @@ public class NotificationQueryController {
                     description = "조회 성공"
             )
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/admin/notifications/templates")
     public ResponseEntity<ApiResponse<NotificationTemplatePageResponse>> getTemplates(
             @RequestParam(required = false) String keyword,
