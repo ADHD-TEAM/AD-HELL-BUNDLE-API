@@ -27,4 +27,11 @@ public class AdComment extends BaseTimeEntity {
         this.content = content;
     }
 
+    @Builder
+    private AdComment(Long userId, Long adId, String content) {
+        // 여기서 필드 매핑이 뒤바뀌지 않도록 정확히 할당
+        this.userId = userId;
+        this.adId = adId;
+        this.content = content;
+    }
 }

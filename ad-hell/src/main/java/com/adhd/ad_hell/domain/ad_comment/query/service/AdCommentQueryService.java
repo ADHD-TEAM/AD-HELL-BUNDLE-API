@@ -8,6 +8,10 @@ import com.adhd.ad_hell.domain.ad_comment.query.dto.response.AdCommentListRespon
 import com.adhd.ad_hell.domain.ad_comment.query.mapper.AdCommentMapper;
 import com.adhd.ad_hell.exception.BusinessException;
 import com.adhd.ad_hell.exception.ErrorCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
