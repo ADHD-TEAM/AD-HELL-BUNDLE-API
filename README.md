@@ -278,12 +278,12 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_21.png" />
 </details>
 
-[//]: # ( ## 📌**MSA 아키텍쳐 구조도**)
+## 📌**MSA 아키텍쳐 구조도**)
 
-[//]: # ( <details> )
-[//]: # ( <summary> ERD 이미지</summary>)
-[//]: # ( <img width="3528" height="1601" alt="ERD" src="" />)
-[//]: # ( </details>)
+<details>
+<summary>MSA 아키텍쳐 구조도</summary>
+<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_ARCHIECTURE.png" />
+</details>
 
 <br>
 
