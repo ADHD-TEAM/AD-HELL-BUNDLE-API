@@ -17,6 +17,7 @@
 [📢 트러블슈팅](#-트러블슈팅) <br>
 [ 👨‍👩‍👧‍👦 팀원 회고](#-팀원-회고) <br>
 
+<br>
 
 ## 👤 **팀원 소개**
 
@@ -47,6 +48,8 @@
 </tr>
 </table>
 
+<br>
+
 ## 🛠️ **기술 스택**
 
 #### 📂Database
@@ -63,6 +66,7 @@
 #### 💬Communication
 <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"> <img src="https://img.shields.io/badge/Google_Sheets-34A853?style=for-the-badge&logo=google-sheets&logoColor=white" />
 
+<br>
 
 ## 📑 **프로젝트 기획**
 
@@ -115,6 +119,7 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 ✅ 글로벌 확장: 국내 광고 중심에서 해외 기업 광고까지 확대  <br>
 ✅ 보상 확장: 다양한 리워드, 제휴 서비스 연계, 이벤트/캠페인 진행   <br>
 
+<br>
 
 ### 주요 기능 
 <table style="width: 100%; text-align: center;">
@@ -217,6 +222,8 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 </tr>
 </table>
 
+<br>
+
 ## 🔗 문서 링크
 
 ### 📌**요구사항 명세서**
@@ -278,12 +285,16 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 [//]: # ( <img width="3528" height="1601" alt="ERD" src="" />)
 [//]: # ( </details>)
 
+<br>
+
 ## 🧪 **테스트 보고서**
 
 <details> 
 <summary>테스트 보고서</summary>
 
 </details>
+
+<br>
 
 ## 📢 트러블슈팅
 <details> 
@@ -519,6 +530,8 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
     
 </div>
 </details>
+
+<br>
 
 ## 👨‍👩‍👧‍👦 팀원 회고
 <table style="width: 100%; text-align: center;">
