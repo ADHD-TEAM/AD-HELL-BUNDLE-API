@@ -291,51 +291,8 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary>테스트 보고서</summary>
-
+  [📊 Google 스프레드시트 열기](https://docs.google.com/spreadsheets/d/1_YZchyyYPFVrS7Zd13DZTT8_Us4kjZ-372bRQcfIkbg/edit?gid=0#gid=0)
 </details>
-
-
-<details> 
-<summary>POST MAN</summary>
-<div>
-
-### 광고
-
-**광고등록**
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_1.png" />
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_2.png" />
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_3.png" />
-
-**광고수정**
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_5.png" />
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_4.png" />
-
-**광고조회**
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_AD_6.png" />
-
-<br>
-
-### 알림
-
-**알림테스트**
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_NOTI_1.png" />
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_POST_MAN_NOTI_2.png" />
-
-<br>
-
-### 회원
-
-**회원가입**
-
-**로그인**
-
-**이메일로 본인인증**
-
-**아이디 비밀번호 찾기**
-    
-</div>
-</details>
-
 
 <br>
 
