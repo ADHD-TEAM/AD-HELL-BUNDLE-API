@@ -299,7 +299,7 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <td align="center">
     <div>이민욱</div>
 </td>
-<td align="center">
+<td>
     <div>내용</div>
 </td>
 </tr>
@@ -308,7 +308,7 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <td align="center" style="background-color:#e9ecef;">
     <div>김성태</div>
 </td>
-<td align="center"  style="background-color:#e9ecef;">
+<td style="background-color:#e9ecef;">
     <div>내용</div>
 </td>
 </tr>
@@ -317,7 +317,7 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <td align="center">
     <div>배창민</div>
 </td>
-<td align="center">
+<td>
     <div>내용</div>
 </td>
 </tr>
@@ -326,7 +326,7 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <td align="center"  style="background-color:#e9ecef;">
     <div>강성현</div>
 </td>
-<td align="center"  style="background-color:#e9ecef;">
+<td style="background-color:#e9ecef;">
     <div>내용</div>
 </td>
 </tr>
@@ -335,8 +335,14 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 <td align="center">
     <div> 정헤인</div>
 </td>
-<td align="center">
-    <div>내용</div>
+<td>
+    <div>이번 백엔드 프로젝트를 통해 Redis, 배치, 스케줄링, 시큐리티 등 처음 접하는 기술들을 직접 다뤄보며 많은 것을 배우고 성장할 수 있었습니다. 특히 JPA를 처음 사용하면서 데이터베이스를 객체 중심으로 다루는 방식을 익히게 되었고, 그 과정에서 한층 더 깊이 있는 개발 사고를 기를 수 있었습니다.
+
+시큐리티 수업에서는 Redis를 다루지 않았기 때문에 처음에는 막막하고 어려울 것 같았지만, 팀원들의 도움과 협업 덕분에 생각보다 수월하게 적응할 수 있었습니다. 반면 JPA는 완전히 이해하지 못한 상태에서 프로젝트를 진행하다 보니 다소 혼란스러운 부분도 있었고, 이를 계기로 더 체계적인 학습의 필요성을 느끼게 되었습니다.
+
+또한 수업에서 배웠던 JWT 토큰 개념을 실제 프로젝트에 적용하면서, 처음에는 막연했던 보안 로직의 흐름이 점차 명확하게 보이기 시작했습니다. 직접 구현해보며 “이런 방식으로 백엔드의 인증 과정이 이어지는구나”를 몸소 체감할 수 있었던 점이 인상 깊었습니다.
+
+이번 프로젝트는 단순한 기능 구현을 넘어, 새로운 기술을 배우고 팀워크의 중요성을 다시금 깨닫게 해준 소중한 경험이었습니다. 앞으로는 이번 경험을 바탕으로 부족했던 부분을 보완하고, 더 견고하고 완성도 높은 코드를 작성하는 개발자로 성장하고 싶습니다.</div>
 </td>
 </tr>
 </table>
