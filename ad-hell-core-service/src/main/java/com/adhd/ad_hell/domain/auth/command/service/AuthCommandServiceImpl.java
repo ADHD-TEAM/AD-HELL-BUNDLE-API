@@ -17,7 +17,6 @@ import com.adhd.ad_hell.exception.ErrorCode;
 import com.adhd.ad_hell.jwt.JwtTokenProvider;
 import com.adhd.ad_hell.mail.MailService;
 import com.adhd.ad_hell.mail.MailType;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,21 +56,8 @@ public class AuthCommandServiceImpl implements AuthCommandService {
 
         // 로그인 성공시 token 발금
         log.debug("[AuthCommandServiceImpl/login]로그인 token 발급");
-//        String accessToken = jwtTokenProvider.createAccessToken(user.getLoginId(),user.getRoleType());
-//        String refreshToken = jwtTokenProvider.createRefreshToken(user.getLoginId(),user.getRoleType());
-
-        // 사용지 확인용 UserId 발급 추가
-        String accessToken = jwtTokenProvider.createAccessTokenWithUser(
-                user.getLoginId(),
-                user.getUserId(),
-                user.getRoleType()
-        );
-
-        String refreshToken = jwtTokenProvider.createRefreshTokenWithUser(
-                user.getLoginId(),
-                user.getUserId(),
-                user.getRoleType()
-        );
+        String accessToken = jwtTokenProvider.createAccessToken(user.getLoginId(),user.getRoleType());
+        String refreshToken = jwtTokenProvider.createRefreshToken(user.getLoginId(),user.getRoleType());
 
         log.info("[AuthCommandServiceImpl/login] accessToken : {}", accessToken);
         log.info("[AuthCommandServiceImpl/login] refreshToken : {}", refreshToken);
