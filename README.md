@@ -31,19 +31,19 @@
 </tr>
 <tr>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_2.jpg" />
+    <img width="250" height="100" alt="Image" src="./product/AD_HELL_PROFILE_2.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_4.jpg" />
+    <img width="250" height="100" alt="Image" src="./product/AD_HELL_PROFILE_4.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_5.jpg" />
+    <img width="250" height="100" alt="Image" src="./product/AD_HELL_PROFILE_5.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_6.jpg" />
+    <img width="250" height="100" alt="Image" src="./product/AD_HELL_PROFILE_6.jpg" />
 </td>
 <td align="center">
-    <img width="250" height="100" alt="Image" src="./ad-hell/product/AD_HELL_PROFILE_3.jpg" />
+    <img width="250" height="100" alt="Image" src="./product/AD_HELL_PROFILE_3.jpg" />
 </td>
 </tr>
 </table>
@@ -230,9 +230,9 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary> 요구사항 명세서 이미지</summary>
-<img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_1.png" />
-<img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_2.png" />
-<img width="2000" height="1413" alt="요구사항 명세서" src="./ad-hell/product/ADHD_SRS_4.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="./product/ADHD_SRS_1.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="./product/ADHD_SRS_2.png" />
+<img width="2000" height="1413" alt="요구사항 명세서" src="./product/ADHD_SRS_4.png" />
 
     
 </details>
@@ -241,48 +241,48 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary>DDD</summary>
-<img width="3528" height="2182" alt="DDD" src="./ad-hell/product/ADHELL_DDD.jpg" />
+<img width="3528" height="2182" alt="DDD" src="./product/ADHELL_DDD.jpg" />
 </details>
 
 ### 📌**ERD**
 
 <details> 
 <summary>ERD</summary>
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD HELL_ERD.png" />
+<img width="3528" height="1601" alt="ERD" src="./product/AD HELL_ERD.png" />
 </details>
 
 ### 📌**REST API 설계 문서**
 
 <details> 
 <summary>REST API 설계 문서</summary>
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_1.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_2.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_3.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_4.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_5.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_6.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_7.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_8.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_9.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_10.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_11.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_12.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_13.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_14.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_15.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_16.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_17.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_18.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_19.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_20.png" />
-<img width="3528" alt="ERD" src="./ad-hell/product/AD_HELL_API_21.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_1.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_2.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_3.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_4.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_5.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_6.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_7.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_8.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_9.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_10.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_11.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_12.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_13.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_14.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_15.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_16.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_17.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_18.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_19.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_20.png" />
+<img width="3528" alt="ERD" src="./product/AD_HELL_API_21.png" />
 </details>
 
 ### 📌**MSA 아키텍쳐 구조도**
 
 <details>
 <summary>MSA 아키텍쳐 구조도</summary>
-<img width="3528" height="1601" alt="ERD" src="./ad-hell/product/AD_HELL_ARCHIECTURE.png" />
+<img width="3528" height="1601" alt="ERD" src="./product/AD_HELL_ARCHIECTURE.png" />
 </details>
 
 <br>
