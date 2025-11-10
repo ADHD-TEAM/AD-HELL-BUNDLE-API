@@ -291,7 +291,9 @@ ADHD: 광고당했다 (AD HELL)은 기업에서 제공한 광고 영상만을 �
 
 <details> 
 <summary>테스트 보고서</summary>
+    
   [📊 Google 스프레드시트 열기](https://docs.google.com/spreadsheets/d/1_YZchyyYPFVrS7Zd13DZTT8_Us4kjZ-372bRQcfIkbg/edit?gid=0#gid=0)
+  
 </details>
 
 <br>
